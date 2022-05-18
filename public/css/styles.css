@@ -1,0 +1,243 @@
+:root {
+    --bs-font-sans-serif: 'Poppins', sans-serif;;
+    --unnamed-color-242424: #242424;
+    --bs-body-color:#242424;
+  }
+body {
+    background-color: white !important;
+}
+#appFront{
+    background: linear-gradient(155deg, white 50%, #FD6B82 50%);
+}
+#appFrontBtm{
+    background-image: url(/images/frontbtmpic.svg);
+    background-repeat: no-repeat;
+    background-size: 220px;
+    position: absolute;
+    z-index: 9999;
+    height: 275px;
+    width: 220px;
+    bottom: 0;
+    left: 59%;
+}
+.btnMainScreen{
+    font-size: 20px;
+    background: #58CFEF 0% 0% no-repeat padding-box;
+    padding: .5rem 3rem !important;
+    width: fit-content;
+    color: white;
+}
+.btnMainScreen:hover{
+    color: white;
+}
+.btnTeacher{
+    background: #5F369E 0% 0% no-repeat padding-box;
+}
+.btnAdmin{
+    background: #FFA754 0% 0% no-repeat padding-box;
+}
+.welcomeBody {
+    min-height: 100vh;
+}
+.welcomeCont, .container.innerData {
+    max-width: 100% !important;
+}
+.logoimg img {
+    height: 30px;
+}
+.welcomeCont .col-md-4 {
+    border-right: 3px solid var(--unnamed-color-242424);
+    align-items: center;
+}
+.welcomeCont .col-md-4:last-child {
+    border-left: 3px solid var(--unnamed-color-242424);
+    border-right: none;
+}
+.welcomeCont .col-md-4.noBrd {
+    border-right: none;
+}
+.welcomeCont .headSec {
+    margin-bottom: 9rem !important;
+    text-align: center;
+}
+h1{
+    margin: 0px !important;
+    margin-bottom: 2rem !important;
+    font-size: 1.5rem !important;
+    color: var(--unnamed-color-242424);
+    text-align: center;
+    font-weight: bold;
+}
+a{
+    text-decoration: none;
+    color: var(--unnamed-color-242424);
+}
+a:hover{
+    color: var(--unnamed-color-242424);
+}
+.welcomeCont .headSec h1 {
+    background: linear-gradient(180deg, white 50%, #FD6B82 50%);
+    padding-bottom: .6rem !important;
+    margin-bottom: .7rem !important;
+    font-size: 2.75rem !important;
+    font-weight: bold;
+}
+.welcomeCont .headSec h2 {
+    font-size: 1.75rem !important;
+}
+.welcomeCont .vh-80{
+    height: 67vh !important;
+}
+.frontData .vh-80{
+    height: 80vh !important;
+}
+.frontData .card{
+    box-shadow: 3px 3px 44px #00000029 !important;
+    padding: 4rem 3rem 1rem 3rem !important;
+    width: 55% !important;
+    border: none;
+}
+.frontDataSec .card{
+    padding: 4rem 3rem !important;
+}
+.brdrBtm{
+    border: 0px !important;
+    border-bottom: 1px solid black !important;
+    padding-left: 0px !important;
+    background-color: white;
+    border-radius: 0%;
+    color: black;
+}
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: black;
+    opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: black;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+    color: black;
+}
+.spanBtm{
+    font-size: 12px;
+    color: #888888;
+}
+.btnResetPass{
+    text-decoration: none;
+    font-size: 12px;
+    color: #888888;
+    float: right;
+}
+.btnResetPass:hover{
+    color: #888888;
+}
+.btnSubmit{
+    background-color: #28DF99 !important;
+    width: 100%;
+}
+.signUp{
+    text-align: center;
+    font-size: 13px;
+}
+.signUp a{
+    display: inline-block;
+    color: #28DF99;
+}
+.logoInner{
+    text-align: center;
+    display: block;
+}
+.txtCenter{
+    text-align: center;
+}
+.btmCnt{
+    position:absolute;
+    left: 30%;
+    bottom: 50px;
+}
+.proImg{
+    width: 50px;
+}
+.profilePnl, .profilePnl a{
+    color: #ccc;
+}
+.profilePnl .usrName{
+    font-weight: bold;
+    color: black;
+}
+.navLaftCnt{
+    margin-top: 6rem;
+    display: grid;
+}
+.navLaft{
+    display: block;
+}
+.btnGreen{
+    background-color: #28DF99 !important;
+    border-color: #28DF99;
+}
+.btnGreen:hover{
+    border-color: #28DF99;
+}
+.txtLeft{
+    text-align: left;
+}
+.bgWhite{
+    background-color: white;
+}
+h2{
+    color: var(--unnamed-color-242424);
+    font-weight: 600;
+    font-size: 22px;
+}
+h3{
+    color: var(--unnamed-color-242424);
+    font-weight: 600;
+    font-size: 17px;
+}
+.innerNumsDiv{
+    border: 1px solid #F5F5F5;
+    border-radius: 17px;
+    padding: 1rem;
+}
+.numsData{
+    color: var(--unnamed-color-242424);
+    margin-top: 2rem;
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 1;
+}
+.bgGreen{
+    background: rgba(88, 207, 239, 0.21) ;
+    margin-right: 1rem;
+}
+.bgPink{
+    background: rgba(255, 167, 84, 0.21);
+}
+.bgGreenDark{
+    background: rgba(40, 223, 153, 0.21) ;
+    margin-right: 1rem;
+}
+.bgYellow{
+    background: rgba(255, 236, 2, 0.21);
+}
+.btnGray{
+    border: 1px solid #F5F5F5;
+    background: #F3F3F3;
+}
+.btnGray .fa{
+    color: #000000;
+}
+.apexcharts-legend{
+    display: block !important;
+}
+.apexcharts-legend-series{
+    margin: 5px !important;
+}
+.apexcharts-legend-text{
+    color: var(--unnamed-color-242424) !important;
+    font: var(--bs-font-sans-serif) !important;
+    font-size: 14px !important;
+}
