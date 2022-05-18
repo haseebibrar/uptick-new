@@ -101,7 +101,7 @@ class AdminController extends Controller
         //dd($myID);
         $rec = Teacher::find($myID);
         if(!empty($rec->image))
-            unlink("images/users/".$user->image); 
+            unlink("images/users/".$rec->image); 
         //unlink("images/users/".$rec->image);
         Teacher::where("id", $rec->id)->delete();
         return redirect()->route('admin.teachers')->with('success','Record Deleted Successfully.');
@@ -219,7 +219,7 @@ class AdminController extends Controller
         //dd($myID);
         $rec = User::find($myID);
         if(!empty($rec->image))
-            unlink("images/users/".$user->image); 
+            unlink("images/users/".$rec->image); 
         User::where("id", $rec->id)->delete();
         if(Auth::user()->is_super > 0)
             return redirect()->route('admin.student')->with('success','Record Deleted Successfully.');
