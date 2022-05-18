@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\Company;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use DB;
@@ -19,7 +20,8 @@ class AdminController extends Controller
             return view('admin');
         else{
             $myCompID   = Auth::user()->company_id;
-            $students   = User::where('company_id', '=', $myCompID)->get();
+            $students   = User::where('company_id', '=', $myCompID)->leftJoin('departments', 'users.dept_id', '=', 'departments.id')->select('users.*','departments.name as deptname')->ORDERBY('id', 'DESC')->get();
+            //$students   = User::where('company_id', '=', $myCompID)->get();
             return view('admin.hr', compact('students'));
         }
     }
@@ -107,13 +109,16 @@ class AdminController extends Controller
     ///////-------Students Section
     public function getStudents($myID = '')
     {
+        //dd($myID);
         if(Auth::user()->is_super > 0){
 		    $students   = User::all();
             $myCompID   = 0;
         }else{
             $myCompID   = Auth::user()->company_id;
-            $students   = User::where('company_id', '=', $myCompID)->get();
+            $students   = User::where('company_id', '=', $myCompID)->leftJoin('departments', 'users.dept_id', '=', 'departments.id')->select('users.*','departments.name as deptname')->ORDERBY('id', 'DESC')->get();
+            //$students   = User::where('company_id', '=', $myCompID)->get();
         }
+        //dd($students);
         return view('admin.student', compact('students', 'myCompID'));
     }
 
@@ -124,7 +129,8 @@ class AdminController extends Controller
                 $myCompID   = 0;
             else
                 $myCompID   = Auth::user()->company_id;
-            return view('admin.addstudent', compact('myCompID'));
+            $departments  = Department::all();
+            return view('admin.addstudent', compact('myCompID', 'departments'));
         }else{
             $request->validate([
                 'name'      => 'required',
@@ -150,6 +156,10 @@ class AdminController extends Controller
                 'password'  => Hash::make($input['password']),
                 'image'     => $myImage,
                 'phone'     => $input['phone'],
+                'roll_num'  => $input['roll_num'],
+                'title'     => $input['title'],
+                //'dept_id'   => 0,
+                'dept_id'   => $input['dept_id'],
             ]);
             if(Auth::user()->is_super > 0)
                 return redirect()->route('admin.student')->with('success','Student Added Successfully.');
@@ -165,7 +175,8 @@ class AdminController extends Controller
         else
             $myCompID   = Auth::user()->company_id;
         $students  = User::findorFail($myID);
-        return view('admin.editstudent', compact('students', 'myCompID'));
+        $departments  = Department::all();
+        return view('admin.editstudent', compact('students', 'myCompID', 'departments'));
     }
 
     public function updateStudents(Request $request)
@@ -185,8 +196,12 @@ class AdminController extends Controller
         $student->email       = $request->email;
         if(isset($request->phone))
             $student->phone       = $request->phone;
-        if(isset($request->expertise))
-            $student->expertise   = $request->expertise;
+        if(isset($request->roll_num))
+            $student->roll_num   = $request->roll_num;
+        if(isset($request->title))
+            $student->title   = $request->title;
+        if(isset($request->dept_id))
+            $student->dept_id   = $request->dept_id;
         if(isset($request->image))
             $student->image   = $request->image;
         $student->save();
@@ -335,5 +350,52 @@ class AdminController extends Controller
         Admin::where("id", $myID)->delete();
         return redirect()->route('admin.users')->with('success','Record Deleted Successfully.');
     }
-    ///////-------Company Section
+    ///////-------Admin User Section
+
+    ///////-------Department Section
+    public function getDepartment()
+    {
+		$departments  = Department::all();
+        return view('admin.department.index', compact('departments'));
+    }
+
+    public function addDepartment(Request $request)
+    {
+        if(count($request->all()) === 0){
+            return view('admin.department.adddepartment');
+        }else{
+            $request->validate([
+                'name'      => 'required',
+            ]);
+            $input = $request->all();
+            Department::create([
+                'name'      => $input['name'],
+            ]);
+            return redirect()->route('admin.departments')->with('success','Department Added Successfully.');
+        }
+    }
+    
+    public function editDepartment($myID)
+    {
+        $departments  = Department::findorFail($myID);
+        return view('admin.department.editdepartment', compact('departments'));
+        
+    }
+
+    public function updateDepartment(Request $request)
+    {
+        //dd($request->all());
+        $company        = Department::findorFail($request->id);
+        $company->name  = $request->name;
+        if(isset($request->phone))
+            $company->phone = $request->phone;
+        $company->save();
+        return redirect()->route('admin.departments')->with('success','Record Updated Successfully.');
+    }
+
+    public function delDepartment($myID){
+        Department::where("id", $myID)->delete();
+        return redirect()->route('admin.departments')->with('success','Record Deleted Successfully.');
+    }
+    ///////-------Department Section
 }

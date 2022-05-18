@@ -53,7 +53,7 @@
                                 @endphp
                                 @if(Auth::user()->is_super < 1)
                                     <div class="txtCenter navLaftCnt mb-4">
-                                       
+                                       <a class="navLaft mb-2" href="/admin/departments"><img src="{{ asset('images/people.svg') }}" alt="Departments" title="Departments" /><br />Departments</a>
                                     </div>
                                     <div class="btmCnt mt-auto">
                                         <div class="logoutDiv txtCenter mb-4">

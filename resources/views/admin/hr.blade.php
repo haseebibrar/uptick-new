@@ -44,9 +44,10 @@
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Student</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Phone</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Progress</th>
+                            <th scope="col">Cancellation</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -60,8 +61,9 @@
                             <tr>
                                 <td class="font-weight-bold"></td>
                                 <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!} {{$student->name}}</td>
-                                <td>{{$student->email}}</td>
-                                <td>{{$student->phone}}</td>
+                                <td>{{ $student->deptname }}</td>
+                                <td> 0 </td>
+                                <td>{{ rand(1, 10) }}</td>
                                 <td class="text-nowrap">
                                     <a href="/admin/students/edit/{{$student->id}}" class="btn mr-3 btnGray"><i class="fa fa-edit"></i></a>
                                     <a href="javascript:void(0)" data-id="{{$student->id}}" class="btn btnDel btnGray"><i class="fa fa-trash"></i></a>

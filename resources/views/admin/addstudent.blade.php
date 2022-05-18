@@ -38,6 +38,29 @@
                 </div>
             </div>
             <div class="row mb-4">
+                <div class="col-md-6"><label for="name">ID</label></div>
+                <div class="col-md-6">
+                    <input type="tel" name="roll_num" class="form-control" value="{{ old('roll_num') }}">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6"><label for="name">Title</label></div>
+                <div class="col-md-6">
+                    <input type="tel" name="title" class="form-control" value="{{ old('title') }}">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6"><label for="expertise">Department</label></div>
+                <div class="col-md-6">
+                    <select name="dept_id" class="form-control">
+                        <option value="0">Please Select</option>
+                        @foreach($departments as $department)
+                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-4">
                 <div class="col-md-6"><label for="image">Image</label></div>
                 <div class="col-md-6">
                     <input type="file" name="image" class="form-control" value="{{ old('image') }}">
