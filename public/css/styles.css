@@ -241,3 +241,31 @@ h3{
     font: var(--bs-font-sans-serif) !important;
     font-size: 14px !important;
 }
+.progress{
+    height: 0.5rem;
+}
+.progress .progress-bar{
+    background-color: #FFEC02 !important;
+}
+.circleAct{
+    background: #3DC17D;
+    border-radius: 50px;
+    margin: 0 auto;
+    height: 14px;
+    width: 14px;
+}
+.btnSearchBox{
+    padding: 0.2rem 0.75rem !important;
+    font-size: 12px;
+}
+.btnGrayBg{
+    background-color: #F5F5F5;
+    border: 1px solid #F5F5F5;
+    margin:0 1rem;
+}
+div.table-responsive>div.dataTables_wrapper>div.row:first-child>div[class^=col-]:first-child{
+    display: none;
+}
+div.table-responsive>div.dataTables_wrapper>div.row:first-child>div[class^=col-]:last-child{
+    width: 100%;
+}
