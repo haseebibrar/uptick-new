@@ -30,7 +30,7 @@
                         @endphp
                         <tr>
                             <td class="font-weight-bold"></td>
-                            <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!} {{$student->name}}</td>
+                            <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!} {{$student->name}}</td>
                             <td>Marketing</td>
                             <td> 0 </td>
                             <td>{{ rand(1, 10) }}</td>

@@ -14,8 +14,12 @@ use DB;
 class StudentController extends Controller
 {
     public function index(){
-        //$students   = User::where('company_id', '=', $myCompID)->get();
-        return view('student.index');
+        $teachers  = Teacher::all();
+        return view('student.index', compact('teachers'));
+    }
+
+    public function pastLessosns(){
+        return view('student.pastfuture');
     }
 
     public function calendarIndex(){

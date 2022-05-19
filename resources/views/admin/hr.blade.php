@@ -36,17 +36,17 @@
             </div>
         </div>
 
-        <div class="btmSection mt-4 px-4 py-4 bgWhite">
+        <div class="btmSection studentStats mt-4 px-4 py-4 bgWhite">
             <h2 class="mb-4">Student Statistics</h2>
             <div class="table-responsive mt-4">
                 <table class="table" id="myDataTable">
                     <thead>
                         <tr>
-                            <th data-orderable="false" scope="col">Activity</th>
+                            <th data-orderable="false" scope="col" class="txtCenter">Activity</th>
                             <th scope="col">Students</th>
                             <th scope="col">Department</th>
                             <th scope="col">Progress</th>
-                            <th scope="col">Cancellation</th>
+                            <th scope="col" class="txtCenter">Cancellation</th>
                             <th data-orderable="false" scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -58,10 +58,8 @@
                                     $myImage = asset('images/users/'.$student->image);
                             @endphp
                             <tr>
-                                <td>
-                                    <div class="circleAct"></div>
-                                </td>
-                                <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!} {{$student->name}}</td>
+                                <td><div class="circleAct"></div></td>
+                                <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!} {{$student->name}}<br />{{$student->title}}</td>
                                 <td>{{ $student->deptname }}</td>
                                 <td>
                                     <div class="txtCenter">3/6</div>

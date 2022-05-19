@@ -11,18 +11,87 @@
     <div class="col-md-4">
         <div class="topSection px-4 py-4 bgWhite">
             <h3 class="mb-4">Set a lesson focus area</h3>
+            <div class="form-check mb-1">
+                <input type="checkbox" class="form-check-input" id="Vocabulary">
+                <label class="form-check-label" for="Vocabulary">Vocabulary and Fluency</label>
+            </div>
+            <div class="form-check mb-1">
+                <input type="checkbox" class="form-check-input" id="Grammar">
+                <label class="form-check-label" for="Grammar">Grammar</label>
+            </div>
+            <div class="form-check mb-1">
+                <input type="checkbox" class="form-check-input" id="Interview">
+                <label class="form-check-label" for="Interview">Interview Prep</label>
+            </div>
+            <div class="form-check mb-1">
+                <input type="checkbox" class="form-check-input" id="Presentation">
+                <label class="form-check-label" for="Presentation">Presentation Prep</label>
+            </div>
+            <div class="form-check mb-1">
+                <input type="checkbox" class="form-check-input" id="Debate">
+                <label class="form-check-label" for="Debate">Debate</label>
+            </div>
+            <div class="form-check mb-1">
+                <input type="checkbox" class="form-check-input" id="Current">
+                <label class="form-check-label" for="Current">Current Affairs</label>
+            </div>
+            <div class="form-check mb-1">
+                <input type="checkbox" class="form-check-input" id="Professional">
+                <label class="form-check-label" for="Professional">Professional Writing</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="Freestyle">
+                <label class="form-check-label" for="Freestyle">Freestyle</label>
+            </div>
         </div>
-        <div class="btmSection mt-4 px-4 py-4 bgWhite">
+        <div class="btmSection tblTeacherPnl mt-4 px-4 py-4 bgWhite">
             <h3 class="mb-4">Teachers available at selected time</h3>
+            <div class="table-responsive mt-4">
+                <table class="table" id="myDataTable">
+                    <thead>
+                        <tr><th></th><th></th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach($teachers as $teacher)
+                            @php
+                                $myImage = '';
+                                if(!empty($teacher->image))
+                                    $myImage = asset('images/users/'.$teacher->image);
+                            @endphp
+                            <tr>
+                                <td class="align-middle">{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$teacher->name.'" title="'.$teacher->name.'" />') !!} {{$teacher->name}}</td>
+                                <td class="align-middle">{{$teacher->expertise}} Marketing</td>
+                                <td class="text-nowrap align-middle"><a href="#" class="btn btnSchedule">Schedule</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection
 
 @section('scripts')
+<script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
 <script>
 $(document).ready(function () {
+    $('#myDataTable').DataTable({
+        pageLength: 20,
+        lengthMenu: [
+            [20, 50, 100, 500],
+            [20, 50, 100, 500]
+        ],
+        info: false,
+        lengthChange: false,
+        paging: false,
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search"
+        }
+    });
     var SITEURL = "{{url('/')}}";
     $.ajaxSetup({
         headers: {

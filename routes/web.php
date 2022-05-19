@@ -33,6 +33,7 @@ Route::post('/register/teacher', [RegisterController::class,'createTeacher']);
 Route::group(['middleware' => 'auth'], function () {
     // Route::view('/home', 'home');
     Route::get('/home', [StudentController::class, 'index']);
+    Route::get('/past-future-lesson', [StudentController::class, 'pastLessosns']);
     //fullcalender
     Route::get('/fullcalendareventmaster', [StudentController::class, 'calendarIndex']);
     Route::post('/fullcalendareventmaster/create', [StudentController::class, 'create']);

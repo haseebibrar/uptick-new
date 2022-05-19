@@ -30,7 +30,7 @@
                         @endphp
                         <tr>
                             <td class="font-weight-bold"></td>
-                            <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle mr-4" style="height:50px;" src="'.$myImage.'" alt="'.$user->name.'" title="'.$user->name.'" />') !!} {{$user->name}}</td>
+                            <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle  imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$user->name.'" title="'.$user->name.'" />') !!} {{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->phone}}</td>
                             <td>{{$user->companyname}}</td>

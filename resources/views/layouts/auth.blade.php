@@ -100,8 +100,8 @@
                                     $myGuard = 'web';
                                 @endphp
                                 <div class="txtCenter navLaftCnt mb-4">
-                                    <a class="navLaft mb-4" href="/admin/companies"><img src="{{ asset('images/schedule-lesson.svg') }}" alt="Schedule a lesson" title="Schedule a lesson" /><br />Schedule a<br />lesson</a>
-                                    <a class="navLaft mb-4" href="/admin/users"><img src="{{ asset('images/checklist.svg') }}" alt="Past and future lessons" title="Past and future lessons" /><br />Past and future<br />lessons</a>
+                                    <a class="navLaft mb-4" href="/home"><img src="{{ asset('images/schedule-lesson.svg') }}" alt="Schedule a lesson" title="Schedule a lesson" /><br />Schedule a<br />lesson</a>
+                                    <a class="navLaft mb-4" href="/past-future-lesson"><img src="{{ asset('images/checklist.svg') }}" alt="Past and future lessons" title="Past and future lessons" /><br />Past and future<br />lessons</a>
                                     <div class="logoutDiv txtCenter mb-4">
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
