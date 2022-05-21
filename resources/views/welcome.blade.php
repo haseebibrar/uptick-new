@@ -19,18 +19,16 @@
         <div class="container welcomeCont">
             <div class="row justify-content-center">
                 <a class="navbar-brand logoimg" href="{{ url('/') }}"><img src="{{ asset('images/logo.png') }}" alt="Uptick Logo" title="Uptick Logo" /></a>
-                <div class="col-md-4 min-vh-100 text-center m-0 d-flex flex-column justify-content-center">
-                    <a href="{{ route('login') }}" class="btn btnMainScreen btnStudent">I'm a Student</a>
-                </div>
-                <div class="col-md-4 noBrd vh-80 text-center m-0 d-flex flex-column justify-content-center">
+                <div class="col-md-12 noBrd">
                     <div class="headSec">
                         <h1>Welcome to Uptick!</h1>
                         <h2>Let's find the right fit for you</h2>
                     </div>
-                    <a href="/login/teacher" class="btn btnMainScreen btnTeacher">I'm a teacher</a>
-                </div>
-                <div class="col-md-4 min-vh-100 text-center m-0 d-flex flex-column justify-content-center">
-                    <a href="/login/admin" class="btn btnMainScreen btnAdmin">I'm an admin</a>
+                    <div class="btmSecMain">
+                        <a href="{{ route('login') }}" class="btn btnMainScreen btnStudent">I'm a student</a>
+                        <a href="/login/teacher" class="btn btnMainScreen btnTeacher">I'm a teacher</a>
+                        <a href="/login/admin" class="btn btnMainScreen btnAdmin">I'm an admin</a>
+                    </div>
                 </div>
             </div>
         </div>

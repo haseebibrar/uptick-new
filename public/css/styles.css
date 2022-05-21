@@ -21,10 +21,11 @@ body {
     left: 59%;
 }
 .btnMainScreen{
-    font-size: 20px;
+    font-size: 17px;
     background: #58CFEF 0% 0% no-repeat padding-box;
     padding: .5rem 3rem !important;
     width: fit-content;
+    font-weight: 200;
     color: white;
 }
 .btnMainScreen:hover{
@@ -46,18 +47,16 @@ body {
     height: 30px;
 }
 .welcomeCont .col-md-4 {
-    border-right: 3px solid var(--unnamed-color-242424);
     align-items: center;
 }
 .welcomeCont .col-md-4:last-child {
-    border-left: 3px solid var(--unnamed-color-242424);
     border-right: none;
 }
 .welcomeCont .col-md-4.noBrd {
     border-right: none;
 }
 .welcomeCont .headSec {
-    margin-bottom: 9rem !important;
+    margin: 9rem 0rem !important;
     text-align: center;
 }
 h1{
@@ -79,14 +78,25 @@ a:hover{
     background: linear-gradient(180deg, white 50%, #FD6B82 50%);
     padding-bottom: .6rem !important;
     margin-bottom: .7rem !important;
-    font-size: 2.75rem !important;
-    font-weight: bold;
+    font-size: 3rem !important;
+    display: inline-block;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    font-weight: 500;
 }
 .welcomeCont .headSec h2 {
-    font-size: 1.75rem !important;
+    font-size: 2rem !important;
+    font-weight: 500;
 }
-.welcomeCont .vh-80{
-    height: 67vh !important;
+.welcomeCont .btmSecMain{
+    max-width: 855px;
+    margin: 0 auto;
+}
+.welcomeCont .btmSecMain a{
+    margin-right: 5rem;
+}
+.welcomeCont .btmSecMain a:last-child{
+    margin-right: 0rem;
 }
 .frontData .vh-80{
     height: 80vh !important;
@@ -349,11 +359,14 @@ h5{
     border: 1px solid #F5F5F5;
     padding: 5px 10px;
 }
-.timeLeft{
+.the-final-countdown{
     padding: .3rem 1rem;
     background: #58CFEF;
     margin-right: .3rem;
     color: white;
+}
+.the-final-countdown p{
+    margin: 0px !important;
 }
 .enterLesson{
     padding: .3rem 1rem;
@@ -389,3 +402,26 @@ h5{
     padding: 0.2rem 2rem;
     font-size: 14px;
 }
+.tblLessonPnl, .tblLessonPnlRight{
+    overflow-y: scroll;
+    max-height: 700px;
+}
+/* width */
+::-webkit-scrollbar {;
+    width: 3px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #fff; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #FFA754; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #FFA754; 
+  }

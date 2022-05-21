@@ -106,7 +106,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="topSection px-4 py-4 bgWhite">
+        <div class="topSection tblLessonPnlRight px-4 py-4 bgWhite">
             <h2 class="mb-4">Upcoming Lessons (4)</h2>
             <div class="mt-4 upcomingLessons">
                 <div class="row">
@@ -144,7 +144,7 @@
                             </div>
                         </div>
                         <div class="btnsBtmSec pull-right" style="display:flex">
-                            <a class="timeLeft" href="">1:05 Left</a>
+                            <div class="the-final-countdown"><p></p></div>
                             <a class="enterLesson" href="">Enter Lesson</a>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                             </div>
                         </div>
                         <div class="btnsBtmSec pull-right" style="display:flex">
-                            <a class="timeLeft" href="">1:05 Left</a>
+                            <div class="the-final-countdown"><p></p></div>
                             <a class="enterLesson" href="">Enter Lesson</a>
                         </div>
                     </div>
@@ -248,5 +248,18 @@ $(document).ready(function () {
         $("#video").attr('src', ''); 
     });
 });
+setInterval(function time(){
+    var d = new Date();
+    var hours = 24 - d.getHours();
+    var min = 60 - d.getMinutes();
+    if((min + '').length == 1){
+        min = '0' + min;
+    }
+    var sec = 60 - d.getSeconds();
+    if((sec + '').length == 1){
+        sec = '0' + sec;
+    }
+  jQuery('.the-final-countdown p').html(min+':'+sec+' Left')
+}, 1000);
 </script>
 @endsection
