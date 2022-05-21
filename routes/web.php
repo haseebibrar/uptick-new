@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::view('/home', 'home');
     Route::get('/home', [StudentController::class, 'index']);
     Route::get('/past-future-lesson', [StudentController::class, 'pastLessosns']);
+    Route::get('/homework', [StudentController::class, 'studentHomework']);
     //fullcalender
     Route::get('/fullcalendareventmaster', [StudentController::class, 'calendarIndex']);
     Route::post('/fullcalendareventmaster/create', [StudentController::class, 'create']);
@@ -62,18 +63,26 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::any('/admin/companies/delete/{id}', [AdminController::class, 'delCompany']);
     Route::get('/admin/companies/edit/{id}', [AdminController::class, 'editCompany']);
     Route::post('/admin/companies/update', [AdminController::class, 'updateCompany']);
-
     Route::get('/admin/departments', [AdminController::class, 'getDepartment'])->name('admin.departments');
     Route::any('/admin/departments/add', [AdminController::class, 'addDepartment']);
     Route::any('/admin/departments/delete/{id}', [AdminController::class, 'delDepartment']);
     Route::get('/admin/departments/edit/{id}', [AdminController::class, 'editDepartment']);
     Route::post('/admin/departments/update', [AdminController::class, 'updateDepartment']);
-
     Route::get('/admin/users', [AdminController::class, 'getUser'])->name('admin.users');
     Route::any('/admin/users/add', [AdminController::class, 'addUser']);
     Route::any('/admin/users/delete/{id}', [AdminController::class, 'delUser']);
     Route::get('/admin/users/edit/{id}', [AdminController::class, 'editUser']);
     Route::post('/admin/users/update', [AdminController::class, 'updateUser']);
+    Route::get('/admin/focusarea', [AdminController::class, 'getFocusarea'])->name('admin.focusareas');
+    Route::any('/admin/focusarea/add', [AdminController::class, 'addFocusarea']);
+    Route::any('/admin/focusarea/delete/{id}', [AdminController::class, 'delFocusarea']);
+    Route::get('/admin/focusarea/edit/{id}', [AdminController::class, 'editFocusarea']);
+    Route::post('/admin/focusarea/update', [AdminController::class, 'updateFocusarea']);
+    Route::get('/admin/lessonsubject', [AdminController::class, 'getLessonsubject'])->name('admin.lessonsubjects');
+    Route::any('/admin/lessonsubject/add', [AdminController::class, 'addLessonsubject']);
+    Route::any('/admin/lessonsubject/delete/{id}', [AdminController::class, 'delLessonsubject']);
+    Route::get('/admin/lessonsubject/edit/{id}', [AdminController::class, 'editLessonsubject']);
+    Route::post('/admin/lessonsubject/update', [AdminController::class, 'updateLessonsubject']);
 });
 
 Route::get('logout', [LoginController::class,'logout']);

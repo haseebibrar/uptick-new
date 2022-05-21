@@ -202,6 +202,11 @@ h4{
     font-weight: 400;
     font-size: 15px;
 }
+h5{
+    color: var(--unnamed-color-242424);
+    font-weight: 400;
+    font-size: 13px;
+}
 .innerNumsDiv{
     border: 1px solid #F5F5F5;
     border-radius: 17px;
@@ -354,4 +359,33 @@ h4{
     padding: .3rem 1rem;
     background: #8F9198;
     color: white;
+}
+.modal-dialog {
+    max-width: 1000px;
+    max-height: fit-content;
+    margin: 30px auto;
+}
+.modal-body {
+    position:relative;
+    padding:0px;
+}
+.close {
+    position:absolute;
+    right:-30px;
+    top:0;
+    z-index:999;
+    font-size:2rem;
+    font-weight: normal;
+    color:#fff;
+    opacity:1;
+    background: transparent;
+    border: none;
+}
+.embed-responsive iframe{
+    width: 1000px;
+    height: 650px;
+}
+.btnStndrd{
+    padding: 0.2rem 2rem;
+    font-size: 14px;
 }

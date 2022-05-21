@@ -8,6 +8,8 @@ use App\Models\Company;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Department;
+use App\Models\FocusArea;
+use App\Models\LessonSubject;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use DB;
@@ -401,4 +403,96 @@ class AdminController extends Controller
         return redirect()->route('admin.departments')->with('success','Record Deleted Successfully.');
     }
     ///////-------Department Section
+
+    ///////-------Focus Area Section
+    public function getFocusarea()
+    {
+		$focusareas  = FocusArea::all();
+        return view('admin.focusarea.index', compact('focusareas'));
+    }
+
+    public function addFocusarea(Request $request)
+    {
+        if(count($request->all()) === 0){
+            return view('admin.focusarea.addfocusarea');
+        }else{
+            $request->validate([
+                'name'      => 'required',
+            ]);
+            $input = $request->all();
+            FocusArea::create([
+                'name'      => $input['name'],
+            ]);
+            return redirect()->route('admin.focusareas')->with('success','Focus Area Added Successfully.');
+        }
+    }
+    
+    public function editFocusarea($myID)
+    {
+        $focusareas  = FocusArea::findorFail($myID);
+        return view('admin.focusarea.editfocusarea', compact('focusareas'));
+    }
+
+    public function updateFocusarea(Request $request)
+    {
+        //dd($request->all());
+        $focusarea        = FocusArea::findorFail($request->id);
+        $focusarea->name  = $request->name;
+        $focusarea->save();
+        return redirect()->route('admin.focusareas')->with('success','Record Updated Successfully.');
+    }
+
+    public function delFocusarea($myID){
+        FocusArea::where("id", $myID)->delete();
+        return redirect()->route('admin.focusareas')->with('success','Record Deleted Successfully.');
+    }
+    ///////-------Focus Area Section
+
+    ///////-------Lesson Subject Section
+    public function getLessonsubject()
+    {
+		$lessonsubjects  = LessonSubject::all();
+        return view('admin.lessonsubject.index', compact('lessonsubjects'));
+    }
+
+    public function addLessonsubject(Request $request)
+    {
+        if(count($request->all()) === 0){
+            $focusareas  = FocusArea::all();
+            return view('admin.lessonsubject.addlessonsubject', compact('focusareas'));
+        }else{
+            $request->validate([
+                'name'        => 'required',
+            ]);
+            $input = $request->all();
+            LessonSubject::create([
+                'focusarea_id'=> $input['focusarea_id'],
+                'name'        => $input['name'],
+            ]);
+            return redirect()->route('admin.lessonsubjects')->with('success','Focus Area Added Successfully.');
+        }
+    }
+    
+    public function editLessonsubject($myID)
+    {
+        $lessonsubjects = LessonSubject::findorFail($myID);
+        $focusareas     = FocusArea::all();
+        return view('admin.lessonsubject.editlessonsubject', compact('lessonsubjects', 'focusareas'));
+    }
+
+    public function updateLessonsubject(Request $request)
+    {
+        //dd($request->all());
+        $lesson                = LessonSubject::findorFail($request->id);
+        $lesson->name          = $request->name;
+        $lesson->focusarea_id  = $request->focusarea_id;
+        $lesson->save();
+        return redirect()->route('admin.lessonsubjects')->with('success','Record Updated Successfully.');
+    }
+
+    public function delLessonsubject($myID){
+        LessonSubject::where("id", $myID)->delete();
+        return redirect()->route('admin.lessonsubjects')->with('success','Record Deleted Successfully.');
+    }
+    ///////-------Lesson Subject Section
 }

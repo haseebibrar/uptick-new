@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\FocusArea;
 use App\Models\Teacher;
-use App\Models\User;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Redirect,Response;
@@ -14,12 +15,17 @@ use DB;
 class StudentController extends Controller
 {
     public function index(){
-        $teachers  = Teacher::all();
-        return view('student.index', compact('teachers'));
+        $teachers   = Teacher::all();
+        $focusareas = FocusArea::all();
+        return view('student.index', compact('teachers', 'focusareas'));
     }
 
     public function pastLessosns(){
         return view('student.pastfuture');
+    }
+
+    public function studentHomework(){
+        return view('student.homework');
     }
 
     public function calendarIndex(){

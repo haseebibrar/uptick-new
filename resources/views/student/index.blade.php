@@ -11,38 +11,12 @@
     <div class="col-md-4">
         <div class="topSection px-4 py-4 bgWhite">
             <h3 class="mb-4">Set a lesson focus area</h3>
-            <div class="form-check mb-1">
-                <input type="checkbox" class="form-check-input" id="Vocabulary">
-                <label class="form-check-label" for="Vocabulary">Vocabulary and Fluency</label>
-            </div>
-            <div class="form-check mb-1">
-                <input type="checkbox" class="form-check-input" id="Grammar">
-                <label class="form-check-label" for="Grammar">Grammar</label>
-            </div>
-            <div class="form-check mb-1">
-                <input type="checkbox" class="form-check-input" id="Interview">
-                <label class="form-check-label" for="Interview">Interview Prep</label>
-            </div>
-            <div class="form-check mb-1">
-                <input type="checkbox" class="form-check-input" id="Presentation">
-                <label class="form-check-label" for="Presentation">Presentation Prep</label>
-            </div>
-            <div class="form-check mb-1">
-                <input type="checkbox" class="form-check-input" id="Debate">
-                <label class="form-check-label" for="Debate">Debate</label>
-            </div>
-            <div class="form-check mb-1">
-                <input type="checkbox" class="form-check-input" id="Current">
-                <label class="form-check-label" for="Current">Current Affairs</label>
-            </div>
-            <div class="form-check mb-1">
-                <input type="checkbox" class="form-check-input" id="Professional">
-                <label class="form-check-label" for="Professional">Professional Writing</label>
-            </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="Freestyle">
-                <label class="form-check-label" for="Freestyle">Freestyle</label>
-            </div>
+            @foreach($focusareas as $focusarea)
+                <div class="form-check mb-1">
+                    <input type="checkbox" class="form-check-input" id="focus-{{$focusarea->id}}">
+                    <label class="form-check-label" for="focus-{{$focusarea->id}}">{{$focusarea->name}}</label>
+                </div>
+            @endforeach
         </div>
         <div class="btmSection tblTeacherPnl mt-4 px-4 py-4 bgWhite">
             <h3 class="mb-4">Teachers available at selected time</h3>
