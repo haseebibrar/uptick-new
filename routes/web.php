@@ -33,6 +33,8 @@ Route::post('/register/teacher', [RegisterController::class,'createTeacher']);
 Route::group(['middleware' => 'auth'], function () {
     // Route::view('/home', 'home');
     Route::get('/home', [StudentController::class, 'index']);
+    Route::get('/editprofile/{id}', [AdminController::class, 'editProfile']);
+    Route::post('/updateprofile', [AdminController::class, 'updateProfile']);
     Route::get('/past-future-lesson', [StudentController::class, 'pastLessosns']);
     Route::get('/homework', [StudentController::class, 'studentHomework']);
     //fullcalender
@@ -44,10 +46,14 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:teacher'], function () {
     Route::view('/teacher', 'teacher');
+    Route::get('/edittprofile/{id}', [AdminController::class, 'editProfile']);
+    Route::post('/updatetprofile', [AdminController::class, 'updateProfile']);
 });
 
 Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/admin', [AdminController::class, 'index']);
+    Route::get('/editaprofile/{id}', [AdminController::class, 'editProfile']);
+    Route::post('/updateaprofile', [AdminController::class, 'updateProfile']);
     Route::get('/admin/teachers', [AdminController::class, 'getTeachers'])->name('admin.teachers');
     Route::any('/admin/teachers/add', [AdminController::class, 'addTeachers']);
     Route::any('/admin/teachers/delete/{id}', [AdminController::class, 'delTeachers']);

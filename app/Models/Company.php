@@ -12,6 +12,6 @@ class Company extends Authenticatable
     protected $guard = 'admin';
 
     protected $fillable = [
-        'name', 'phone',
+        'name', 'phone', 'bank_hours', 'allocated_date'
     ];
 }

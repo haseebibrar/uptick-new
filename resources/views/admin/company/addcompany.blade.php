@@ -22,6 +22,10 @@
                 </div>
             </div>
             <div class="row mb-4">
+                <div class="col-md-6"><label for="name">Allocate Hours</label></div>
+                <div class="col-md-6"><input type="number" name="bank_hours" class="form-control" value="{{ old('bank_hours') }}"></div>
+            </div>
+            <div class="row mb-4">
                 <div class="col-md-6"><label for="name">Phone</label></div>
                 <div class="col-md-6">
                     <input type="tel" name="phone" class="form-control" value="{{ old('phone') }}">

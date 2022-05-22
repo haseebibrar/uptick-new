@@ -28,6 +28,45 @@ class AdminController extends Controller
         }
     }
 
+    public function editProfile($id)
+    {
+        //dd(Auth::user());
+        $users = Auth::user();
+        return view('auth.editprofile', compact('users'));
+    }
+
+    public function updateProfile(Request $request){
+        if(Auth::guard('admin')->check()){
+            $redirectUrl = '/admin';
+            $profile  = Admin::findorFail($request->id);
+        }elseif(Auth::guard('teacher')->check()){
+            $redirectUrl = '/teacher';
+            $profile  = Teacher::findorFail($request->id);
+        }else{
+            $redirectUrl = '/home';
+            $profile  = User::findorFail($request->id);
+        }
+        
+        if ($image = $request->file('image')) {
+            $destinationPath = 'images/users/';
+            if(!empty($teacher->image))
+                unlink($destinationPath.$teacher->image);
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $request->image = "$profileImage";
+        }
+        $profile->name        = $request->name;
+        $profile->email       = $request->email;
+        if(isset($request->phone))
+            $profile->phone       = $request->phone;
+        if(isset($request->image))
+            $profile->image   = $request->image;
+        if(isset($request->password))
+            $profile->password   = Hash::make($request->password);
+        $profile->save();
+        return redirect($redirectUrl)->with('success','Profile Updated Successfully.');
+    }
+
     ///////-------Teachers Section
     public function getTeachers()
     {
@@ -250,6 +289,7 @@ class AdminController extends Controller
             Company::create([
                 'name'      => $input['name'],
                 'phone'     => $input['phone'],
+                'bank_hours'=> $input['bank_hours'],
             ]);
             return redirect()->route('admin.companies')->with('success','Company Added Successfully.');
         }
@@ -269,6 +309,8 @@ class AdminController extends Controller
         $company->name  = $request->name;
         if(isset($request->phone))
             $company->phone = $request->phone;
+        if(isset($request->bank_hours))
+            $company->bank_hours = $request->bank_hours;
         $company->save();
         return redirect()->route('admin.companies')->with('success','Record Updated Successfully.');
     }

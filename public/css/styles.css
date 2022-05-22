@@ -409,6 +409,19 @@ h5{
 .noMargin{
     margin: 0px !important;
 }
+.form-control{
+    padding: 0.2rem 0.75rem;
+    border-radius: 0px;
+    border: 0px !important;
+}
+.schedLesson{
+    background: url(/images/schedule_icon.svg) no-repeat top center;
+    padding-top: 29px;
+    
+}
+.schedLesson:hover, .schedLesson.active{
+    background-image: url(/images/schedule-lesson.svg);
+}
 /* width */
 ::-webkit-scrollbar {
     width: 3px;

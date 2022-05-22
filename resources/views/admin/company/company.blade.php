@@ -16,6 +16,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Phone</th>
+                        <th scope="col">Allocated Hours</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -25,6 +26,7 @@
                             <td class="font-weight-bold"></td>
                             <td>{{$company->name}}</td>
                             <td>{{$company->phone}}</td>
+                            <td>{{$company->bank_hours}}</td>
                             <td class="text-nowrap">
                                 <a href="/admin/companies/edit/{{$company->id}}" class="btn btn-info mr-3"><i class="fa fa-edit"></i> Edit</a>
                                 <a href="javascript:void(0)" data-id="{{$company->id}}" class="btn btnDel btn-danger"><i class="fa fa-trash"></i> Delete</a>

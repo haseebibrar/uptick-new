@@ -23,8 +23,6 @@
         @php
             $myCurrentURL   = explode('/', Request::url());
             $myLogoURL      = $myCurrentURL[3];
-            //echo 'Test: '.$myLogoURL;
-            //dd(Auth::guard());
             if(empty(Auth::user()->image)){
                 $myImage = asset('images/placeholderimage.png');
             }else{
@@ -35,6 +33,12 @@
             }else{
                 $myExpertise = '';
             }
+            if(Auth::guard('admin')->check())
+                $editProL= 'editaprofile';
+            elseif(Auth::guard('teacher')->check())
+                $editProL= 'edittprofile';
+            else
+                $editProL= 'editprofile';
         @endphp
         <div id="appInner">
             <main class="px-2 py-2" style="background-color: #F8F8F8;">
@@ -45,7 +49,7 @@
                                 <img class="mx-auto d-block rounded-circle proImg" src="<?php echo $myImage; ?>" alt="{{ Auth::user()->name }} Image" title="{{ Auth::user()->name }} Image" />
                                 <p class="usrName mb-0">{{ Auth::user()->name }}</p>
                                 <p class="expertSec">{{ $myExpertise }}</p>
-                                <a class="profileLink" href="{{ url('/'.$myLogoURL) }}">My Profile</a>
+                                <a class="profileLink" href="{{ url('/'.$editProL.'/'.Auth::user()->id) }}">My Profile</a>
                             </div>
                             @if(Auth::guard('admin')->check())
                                 @php
@@ -102,8 +106,8 @@
                                     $myGuard = 'web';
                                 @endphp
                                 <div class="txtCenter navLaftCnt mb-4">
-                                    <a class="navLaft mb-4" href="/home"><img src="{{ asset('images/schedule-lesson.svg') }}" alt="Schedule a lesson" title="Schedule a lesson" /><br />Schedule a<br />lesson</a>
-                                    <a class="navLaft mb-4" href="/past-future-lesson"><img src="{{ asset('images/checklist.svg') }}" alt="Past and future lessons" title="Past and future lessons" /><br />Past and future<br />lessons</a>
+                                    <a class="navLaft mb-4 schedLesson{{ (request()->is('home')) ? ' active' : '' }}" href="/home">Schedule a<br />lesson</a>
+                                    <a class="navLaft mb-4{{ (request()->is('past-future-lesson')) ? ' active' : '' }}" href="/past-future-lesson"><img src="{{ asset('images/checklist.svg') }}" alt="Past and future lessons" title="Past and future lessons" /><br />Past and future<br />lessons</a>
                                     <div class="logoutDiv txtCenter mb-4">
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
