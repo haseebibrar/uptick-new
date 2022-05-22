@@ -59,7 +59,7 @@
                             @endphp
                             <tr>
                                 <td><div class="circleAct"></div></td>
-                                <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!}<div class="tdRight">{{$student->name}}<br /><p class="noMargin txtSmall">{{$student->title}}</p></div></td>
+                                <td style="display:flex;">{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!}<div class="tdRight">{{$student->name}}<br /><p class="noMargin txtSmall">{{$student->title}}</p></div></td>
                                 <td class="align-middle">{{ $student->deptname }}</td>
                                 <td>
                                     <div class="txtCenter">3/6</div>
