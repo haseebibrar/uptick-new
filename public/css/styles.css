@@ -1,5 +1,5 @@
 :root {
-    --bs-font-sans-serif: 'Poppins', sans-serif;;
+    --bs-font-sans-serif: 'Poppins';
     --unnamed-color-242424: #242424;
     --bs-body-color:#242424;
   }
@@ -330,7 +330,7 @@ h5{
     color: #58CFEF !important;
 }
 .tblLessonPnl .table td{
-    padding: 1rem 0.5rem;
+    padding: 11px 0.5rem;
 }
 .txtRight{
     text-align: right;
@@ -406,8 +406,11 @@ h5{
     overflow-y: scroll;
     max-height: 700px;
 }
+.noMargin{
+    margin: 0px !important;
+}
 /* width */
-::-webkit-scrollbar {;
+::-webkit-scrollbar {
     width: 3px;
   }
   

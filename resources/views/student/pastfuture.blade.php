@@ -114,7 +114,7 @@
                         <h4>Wed, May 04, 9:00-11:30AM</h4>
                     </div>
                     <div class="col-md-6 txtRight">
-                        <a class="editLess" href="#"><i class="fa fa-edit"></i>Edit Lesson</a>
+                        <a class="editLess" href="#"><i class="fa fa-pencil"></i> Edit Lesson</a>
                     </div>
                 </div>
                 <div class="mt-1 px-2 py-2 btmSecLesson">
@@ -157,7 +157,7 @@
                         <h4>Wed, May 04, 9:00-11:30AM</h4>
                     </div>
                     <div class="col-md-6 txtRight">
-                        <a class="editLess" href="#"><i class="fa fa-edit"></i>Edit Lesson</a>
+                        <a class="editLess" href="#"><i class="fa fa-pencil"></i> Edit Lesson</a>
                     </div>
                 </div>
                 <div class="mt-1 px-2 py-2 btmSecLesson">

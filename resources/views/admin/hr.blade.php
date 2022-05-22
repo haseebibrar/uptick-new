@@ -59,17 +59,17 @@
                             @endphp
                             <tr>
                                 <td><div class="circleAct"></div></td>
-                                <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!} {{$student->name}}<br />{{$student->title}}</td>
-                                <td>{{ $student->deptname }}</td>
+                                <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!}<div class="tdRight">{{$student->name}}<br /><p class="noMargin txtSmall">{{$student->title}}</p></div></td>
+                                <td class="align-middle">{{ $student->deptname }}</td>
                                 <td>
                                     <div class="txtCenter">3/6</div>
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </td>
-                                <td>{{ rand(1, 10) }}</td>
+                                <td class="txtCenter">{{ rand(1, 10) }}</td>
                                 <td class="text-nowrap">
-                                    <a href="/admin/students/edit/{{$student->id}}" class="btn mr-3 btnGray"><i class="fa fa-edit"></i></a>
+                                    <a href="/admin/students/edit/{{$student->id}}" class="btn mr-3 btnGray"><i class="fa fa-pencil"></i></a>
                                     <a href="javascript:void(0)" data-id="{{$student->id}}" class="btn btnDel btnGray"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
