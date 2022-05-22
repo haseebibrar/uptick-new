@@ -21,7 +21,7 @@
             if($myImage <> ""){
                 echo '<div class="row mb-4">
                         <div class="col-md-12 mx-auto mt-5">
-                            <img class="d-block mx-auto" style="width:200px;" src="'.$myImage.'" alt="'.$students->name.'" title="'.$students->name.'" />
+                            <img class="d-block mx-auto rounded-circle" style="width:200px;" src="'.$myImage.'" alt="'.$students->name.'" title="'.$students->name.'" />
                         </div>
                     </div>';
             }
