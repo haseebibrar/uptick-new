@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="row mb-4">
-                    <div class="col-md-6"><label for="expertise">Company</label></div>
+                    <div class="col-md-6"><label for="expertise">Department</label></div>
                     <div class="col-md-6">
                         <select name="dept_id" class="form-control">
                             <option value="0">Please Select</option>
@@ -71,6 +71,10 @@
                             @endforeach
                         </select>
                     </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6"><label for="name">Allocate Hours</label></div>
+                    <div class="col-md-6"><input type="number" name="allocated_hour" class="form-control" value="{{ $department->allocated_hour }}"></div>
                 </div>
                 <div class="row mb-4">
                     <div class="col-md-6"><label for="image">Image</label></div>

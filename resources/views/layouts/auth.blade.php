@@ -15,7 +15,7 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" type='text/css'>
         <link href="{{ asset('css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type='text/css'>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+        @stack('css')
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" type='text/css'>
         <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>
     </head>

@@ -422,22 +422,36 @@ h5{
 .schedLesson:hover, .schedLesson.active{
     background-image: url(/images/schedule-lesson.svg);
 }
+.fc-timegrid-slots table tr{
+    height: 65px;
+}
+.fc-v-event{
+    background-color: #58CFEF !important;
+    border: 1px solid #58CFEF !important;
+    border-radius: 0px !important;
+    font-size: 12px !important;
+}
+.modalEvents .modal-content{
+    box-shadow: 3px 3px 44px #00000029 !important;
+    border-color: white !important;
+    max-width: 500px !important;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 3px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
+}
+
+/* Track */
+::-webkit-scrollbar-track {
     background: #fff; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
     background: #FFA754; 
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
     background: #FFA754; 
-  }
+}

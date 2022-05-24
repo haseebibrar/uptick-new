@@ -28,21 +28,27 @@ class StudentController extends Controller
         return view('student.homework');
     }
 
-    public function calendarIndex(){
-        //dd('test');
-        if(request()->ajax()) 
+    public function calendarIndex(Request $request){
+        // dd($request->start);
+        if($request->start) 
         {
+            //dd('testing');
             $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
             $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
             $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
-            return Response::json($data);
+            //return '1';
+            return response()->json($data);
         }
-        return view('fullcalender');
+        //$teachers   = '';
+        //$focusareas = '';
+        // $teachers   = Teacher::all();
+        // $focusareas = FocusArea::all();
+        // return view('student.index', compact('teachers', 'focusareas'));
     }
 
     public function create(Request $request)
     {
-        //dd($request);
+        dd($request->all());
         $insertArr = [ 'title' => $request->title,
                        'start' => $request->start,
                        'end' => $request->end

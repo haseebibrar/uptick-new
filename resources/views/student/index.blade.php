@@ -1,10 +1,18 @@
 @extends('layouts.auth')
-
+@push('css')
+    <link href="{{ asset('lib/main.css') }}" rel="stylesheet" type='text/css'>
+    <style>
+        #calendar {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="col-md-6">
         <div class="topSection px-4 py-4 bgWhite">
             <h2 class="mb-4">Schedule a lesson</h2>
-            <div class="response"></div>
+            <div id='loading'>loading...</div>
             <div id='calendar'></div>
         </div>
     </div>
@@ -44,13 +52,49 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Event Open -->
+    <div class="modal" id="myModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modalEvents modal-dialog-centered" role="document">
+        <div class="modal-content px-4 py-4">
+          <div class="row">
+            <div style="text-align: right;">
+              <a href="javascript:void(0)"><i class="fa fa-pencil"></i></a>
+              <a class="dltEvent" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+              <a class="closeModal" href="javascript:void(0)"><i class="fa fa-close"></i></a>
+            </div>
+            <div style="font-size: 15px;">Vocabulary and Fluency</div>
+            <div class="align-middle" style="font-size: 13px;"><img height="11" src="{{ asset('images/clock.svg') }}" alt="Clock" title="Clock" /> Monday, May 02, 9:00 - 10:00am</div>
+            <div style="font-size: 13px;"><img height="11" src="{{ asset('images/user.svg') }}" alt="User" title="User" /> Max Smith</div>
+            <div style="font-size: 13px;"><img height="11" src="{{ asset('images/bell.svg') }}" alt="Bell" title="Bell" /> 10 minutes before</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- Modal Event Open -->
+
+    <!-- Modal Event Open -->
+    <div class="modal" id="myModalDel" tabindex="-1" role="dialog">
+      <div class="modal-dialog modalEvents modal-dialog-centered" role="document">
+        <div class="modal-content px-4 py-4">
+            <div style="font-size: 15px; text-align:center;" class="mb-4">Are you sure you want to delete this lesson?</div>
+            <div style="display:flex; text-align:center; margin: 0 auto;">
+              <a href="javascript:void(0)" class="btnStndrd btnGreen closeModal" style="margin-right: 10px;">No</a>
+              <a href="javascript:void(0)" class="btnStndrd btnGray">Yes</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- Modal Event Open -->
 @endsection
 
 @section('scripts')
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+<script src="{{ asset('lib/main.js') }}"></script>
 <script>
 $(document).ready(function () {
     $('#myDataTable').DataTable({
@@ -65,104 +109,74 @@ $(document).ready(function () {
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Search"
-        }
+        },
     });
-    var SITEURL = "{{url('/')}}";
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
+    $(document).off('click', '.closeModal').on('click', '.closeModal', function(){
+      $('#myModal, #myModalDel').modal('hide');
     });
-    var calendar = $('#calendar').fullCalendar({
-        header: {
-            center: 'agendaDay,agendaWeek' // buttons for switching between views
-        },
-        defaultView     : 'agendaDay',
-        allDaySlot      : false,
-        /*views: {
-            agendaDay: {
-                type        : 'agenda',
-                allDaySlot  : false,
-                minTime     : '08:00:00',
-                maxTime     : '20:00:00',
-            }
-        },*/
-        editable        : true,
-        events          : SITEURL + "/fullcalendareventmaster",
-        displayEventTime: true,
-        eventRender     : function (event, element, view) {
-            //alert('test');
-            //console.log(event);
-            if (event.allDay === 'true') {
-                event.allDay = true;
-            } else {
-                event.allDay = false;
-            }
-        },
-        selectable      : true,
-        selectHelper    : true,
-        select          : function (start, end, allDay) {
-            var title = prompt('Event Title:');
-            if (title) {
-                //alert(start);
-                var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
-                var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
-
-                $.ajax({
-                    url: SITEURL + "/fullcalendareventmaster/create",
-                    data: 'title=' + title + '&start=' + start + '&end=' + end,
-                    type: "POST",
-                    success: function (data) {
-                        displayMessage("Added Successfully");
-                    }
-                });
-                calendar.fullCalendar('renderEvent',
-                    {
-                        title: title,
-                        start: start,
-                        end: end,
-                        //allDay: allDay
-                    },
-                    //true
-                );
-            }
-            calendar.fullCalendar('unselect');
-        },
-            
-        eventDrop: function (event, delta) {
-            var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-            var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-            $.ajax({
-                url: SITEURL + '/fullcalendareventmaster/update',
-                data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
-                type: "POST",
-                success: function (response) {
-                    displayMessage("Updated Successfully");
-                }
-            });
-        },
-        eventClick: function (event) {
-            var deleteMsg = confirm("Do you really want to delete?");
-            if (deleteMsg) {
-                $.ajax({
-                    type: "POST",
-                    url: SITEURL + '/fullcalendareventmaster/delete',
-                    data: "&id=" + event.id,
-                    success: function (response) {
-                        if(parseInt(response) > 0) {
-                            $('#calendar').fullCalendar('removeEvents', event.id);
-                            displayMessage("Deleted Successfully");
-                        }
-                    }
-                });
-            }
-        }
+    $(document).off('click', '.dltEvent').on('click', '.dltEvent', function(){
+      $('#myModal').modal('hide');
+      $('#myModalDel').modal('show');
     });
 });
- 
-  function displayMessage(message) {
-    $(".response").html(""+message+"");
-    setInterval(function() { $(".success").fadeOut(); }, 1000);
-  }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    var calendarEl = document.getElementById('calendar');
+    var SITEURL = "{{url('/')}}";
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      themeSystem       : 'standard',
+      height            : 'auto',
+      allDaySlot        : false,
+      expandRows        : true,
+      slotMinTime       : '08:00',
+      slotMaxTime       : '20:00',
+      slotDuration      : '01:00',
+      headerToolbar     : {
+        left    : 'prev,next today',
+        center  : 'title',
+        right   : 'timeGridWeek,timeGridDay'
+      },
+      initialView       : 'timeGridDay',
+      navLinks          : true, // can click day/week names to navigate views
+      editable          : false,
+      selectable        : true,
+      nowIndicator      : true,
+      dayMaxEvents      : true, // allow "more" link when too many events
+      events: {
+        url: SITEURL + "/fullcalendareventmaster",
+        failure: function() {
+          document.getElementById('script-warning').style.display = 'none'
+        }
+      },
+      loading: function(bool) {
+        document.getElementById('loading').style.display =bool ? 'block' : 'none';
+      },
+      select: function(arg) {
+        $.ajax({
+            url: SITEURL + "/fullcalendareventmaster/create",
+            data: 'start=' + arg.start + '&end=' + arg.end,
+            type: "POST",
+            success: function (data) {
+                displayMessage("Added Successfully");
+            }
+        });
+        calendar.unselect()
+      },
+      eventClick: function(arg) {
+        $('#myModal').modal('show');
+        $('.modal-backdrop').hide();
+        //if (confirm('Are you sure you want to delete this event?')) {
+        //  arg.event.remove()
+        //}
+      },
+    });
+    calendar.render();
+  });
 </script>
 @endsection

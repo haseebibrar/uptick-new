@@ -201,8 +201,8 @@ class AdminController extends Controller
                 'phone'     => $input['phone'],
                 'roll_num'  => $input['roll_num'],
                 'title'     => $input['title'],
-                //'dept_id'   => 0,
                 'dept_id'   => $input['dept_id'],
+                'allocated_hour'=> $input['allocated_hour'],
             ]);
             if(Auth::user()->is_super > 0)
                 return redirect()->route('admin.student')->with('success','Student Added Successfully.');
@@ -245,6 +245,8 @@ class AdminController extends Controller
             $student->title   = $request->title;
         if(isset($request->dept_id))
             $student->dept_id   = $request->dept_id;
+        if(isset($request->allocated_hour))
+            $student->allocated_hour   = $request->allocated_hour;
         if(isset($request->image))
             $student->image   = $request->image;
         $student->save();

@@ -62,6 +62,10 @@
                     </div>
                 </div>
                 <div class="row mb-4">
+                    <div class="col-md-6"><label for="name">Allocate Hours</label></div>
+                    <div class="col-md-6"><input type="number" name="allocated_hour" class="form-control" value="{{ old('allocated_hour') }}"></div>
+                </div>
+                <div class="row mb-4">
                     <div class="col-md-6"><label for="image">Image</label></div>
                     <div class="col-md-6">
                         <input type="file" name="image" class="form-control" value="{{ old('image') }}">
