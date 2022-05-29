@@ -58,7 +58,7 @@ class LoginController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-
+            //dd(Auth::guard());
             return redirect()->intended('/admin');
         }
         return back()->withInput($request->only('email', 'remember'));
@@ -77,7 +77,7 @@ class LoginController extends Controller
         ]);
 
         if (Auth::guard('teacher')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-
+            //dd(Auth::guard());
             return redirect()->intended('/teacher');
         }
         return back()->withInput($request->only('email', 'remember'));
@@ -87,7 +87,7 @@ class LoginController extends Controller
     {
         //dd();
         //Auth::guard();
-        $this->guard($request->myguard)->logout();
+        $this->guard('teacher')->logout();
         $request->session()->invalidate();
         return $this->loggedOut($request) ?: redirect('/');
     }

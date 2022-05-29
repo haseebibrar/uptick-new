@@ -18,4 +18,9 @@ class Teacher extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function timetable()
+    {
+        return $this->hasMany(TeacherTimeTable::class, 'teacher_id')->orderBy('id');
+    }
 }

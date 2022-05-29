@@ -16,7 +16,8 @@ use DB;
 
 class AdminController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         //dd();
         if(Auth::user()->is_super > 0)
             return view('admin');
@@ -35,7 +36,8 @@ class AdminController extends Controller
         return view('auth.editprofile', compact('users'));
     }
 
-    public function updateProfile(Request $request){
+    public function updateProfile(Request $request)
+    {
         if(Auth::guard('admin')->check()){
             $redirectUrl = '/admin';
             $profile  = Admin::findorFail($request->id);

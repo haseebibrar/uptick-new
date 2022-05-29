@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeworkController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AdminController;
 
@@ -39,15 +41,24 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/homework', [StudentController::class, 'studentHomework']);
     //fullcalender
     Route::get('/fullcalendareventmaster', [StudentController::class, 'calendarIndex']);
+    Route::post('/eventdelete', [StudentController::class, 'eventDelete']);
     Route::post('/fullcalendareventmaster/create', [StudentController::class, 'create']);
     Route::post('/fullcalendareventmaster/update', [StudentController::class, 'update']);
     Route::post('/fullcalendareventmaster/delete', [StudentController::class, 'destroy']);
 });
 
 Route::group(['middleware' => 'auth:teacher'], function () {
-    Route::view('/teacher', 'teacher');
+    Route::get('/teacher', [TeacherController::class, 'index'])->name('teachers');;
     Route::get('/edittprofile/{id}', [AdminController::class, 'editProfile']);
     Route::post('/updatetprofile', [AdminController::class, 'updateProfile']);
+    Route::post('/teacher/updatetime', [TeacherController::class, 'updateTime']);
+    Route::get('/teacher/open-lesson', [TeacherController::class, 'openLessosns']);
+
+    Route::get('/fullcalendareventmaster', [StudentController::class, 'calendarIndex']);
+    Route::post('/eventdelete', [StudentController::class, 'eventDelete']);
+    Route::post('/fullcalendareventmaster/create', [StudentController::class, 'create']);
+    Route::post('/fullcalendareventmaster/update', [StudentController::class, 'update']);
+    Route::post('/fullcalendareventmaster/delete', [StudentController::class, 'destroy']);
 });
 
 Route::group(['middleware' => 'auth:admin'], function () {
@@ -89,6 +100,11 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::any('/admin/lessonsubject/delete/{id}', [AdminController::class, 'delLessonsubject']);
     Route::get('/admin/lessonsubject/edit/{id}', [AdminController::class, 'editLessonsubject']);
     Route::post('/admin/lessonsubject/update', [AdminController::class, 'updateLessonsubject']);
+    Route::get('/admin/homework', [AdminController::class, 'getLessonsubject'])->name('admin.homeworks');
+    Route::any('/admin/homework/add', [HomeworkController::class, 'addHomework'])->name('admin.addhomeworks');
+    Route::any('/admin/homework/delete/{id}', [HomeworkController::class, 'delHomework']);
+    Route::get('/admin/homework/edit/{id}', [HomeworkController::class, 'editHomework']);
+    Route::post('/admin/homework/update', [HomeworkController::class, 'updateHomework']);
 });
 
 Route::get('logout', [LoginController::class,'logout']);

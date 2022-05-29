@@ -59,8 +59,8 @@
         <div class="modal-content px-4 py-4">
           <div class="row">
             <div style="text-align: right;">
-              <a href="javascript:void(0)"><i class="fa fa-pencil"></i></a>
-              <a class="dltEvent" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+              <a class="editEvent" data-id="" href="javascript:void(0)"><i class="fa fa-pencil"></i></a>
+              <a class="dltEvent" data-id="" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
               <a class="closeModal" href="javascript:void(0)"><i class="fa fa-close"></i></a>
             </div>
             <div style="font-size: 15px;">Vocabulary and Fluency</div>
@@ -75,13 +75,13 @@
     <!-- Modal Event Open -->
 
     <!-- Modal Event Open -->
-    <div class="modal" id="myModalDel" tabindex="-1" role="dialog">
+    <div class="modal" id="myModalSmall" tabindex="-1" role="dialog">
       <div class="modal-dialog modalEvents modal-dialog-centered" role="document">
         <div class="modal-content px-4 py-4">
             <div style="font-size: 15px; text-align:center;" class="mb-4">Are you sure you want to delete this lesson?</div>
             <div style="display:flex; text-align:center; margin: 0 auto;">
               <a href="javascript:void(0)" class="btnStndrd btnGreen closeModal" style="margin-right: 10px;">No</a>
-              <a href="javascript:void(0)" class="btnStndrd btnGray">Yes</a>
+              <a href="javascript:void(0)" data-id="" class="btnDelEvent btnStndrd btnGray">Yes</a>
             </div>
           </div>
 
@@ -112,11 +112,27 @@ $(document).ready(function () {
         },
     });
     $(document).off('click', '.closeModal').on('click', '.closeModal', function(){
-      $('#myModal, #myModalDel').modal('hide');
+      $('#myModal, #myModalSmall').modal('hide');
     });
     $(document).off('click', '.dltEvent').on('click', '.dltEvent', function(){
       $('#myModal').modal('hide');
-      $('#myModalDel').modal('show');
+      $('#myModalSmall').modal('show');
+      var myEventID = $(this).attr('data-id');
+      $('.btnDelEvent').attr('data-id', myEventID);
+    });
+
+    $(document).off('click', '.btnDelEvent').on('click', '.btnDelEvent', function(){
+      $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Processing...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
+      //var _token = {{ csrf_token() }};
+      var myEventID = $(this).attr('data-id');
+      $.ajax({
+          url: "{{url('/')}}/eventdelete",
+          type:'POST',
+          data: {_token:"{{ csrf_token() }}", myEventID:myEventID},
+          success: function(data) {
+            $('#myModalSmall .modal-content').html(data);
+          }
+      });
     });
 });
 
@@ -142,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
         center  : 'title',
         right   : 'timeGridWeek,timeGridDay'
       },
-      initialView       : 'timeGridDay',
+      initialView       : 'timeGridWeek',
       navLinks          : true, // can click day/week names to navigate views
       editable          : false,
       selectable        : true,
@@ -170,7 +186,11 @@ document.addEventListener('DOMContentLoaded', function() {
       },
       eventClick: function(arg) {
         $('#myModal').modal('show');
+        var myEventID = arg.event.id;
+        $('.editEvent, .dltEvent').attr('data-id', myEventID);
         $('.modal-backdrop').hide();
+        //console.log(arg);
+        console.log(arg.event.id);
         //if (confirm('Are you sure you want to delete this event?')) {
         //  arg.event.remove()
         //}

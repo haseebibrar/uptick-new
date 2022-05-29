@@ -16,6 +16,11 @@ class LessonSubject extends Authenticatable
         'focusarea_id',
     ];
 
+    public function homeworks()
+    {
+        return $this->hasOne(HomeWork::class, 'lesson_id');
+    }
+    
     public function focusarea()
     {
         return $this->belongsTo(FocusArea::class);

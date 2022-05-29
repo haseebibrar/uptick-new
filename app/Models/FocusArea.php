@@ -18,4 +18,9 @@ class FocusArea extends Authenticatable
     {
         return $this->hasMany(LessonSubject::class);
     }
+
+    public function homeworks()
+    {
+        return $this->hasMany(HomeWork::class);
+    }
 }

@@ -359,13 +359,29 @@ h5{
     border: 1px solid #F5F5F5;
     padding: 5px 10px;
 }
+.btnsBtmSec{
+    display: -webkit-inline-box;
+}
 .the-final-countdown{
-    padding: .3rem 1rem;
+    border-radius: 5px !important;
     background: #58CFEF;
-    margin-right: .3rem;
+    padding: .2rem .7rem;
+    margin-right: 1rem;
+    position:relative;
     color: white;
 }
+.the-final-countdown:after {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    left: 100%;
+    top: 5px;
+    border: 7px solid transparent;
+    border-left: 6px solid #58CFEF
+}
 .the-final-countdown p{
+    font-size: 11px !important;
     margin: 0px !important;
 }
 .enterLesson{
@@ -417,7 +433,10 @@ h5{
 .schedLesson{
     background: url(/images/schedule_icon.svg) no-repeat top center;
     padding-top: 29px;
-    
+}
+.openLesson{
+    background: url(/images/checklist.svg) no-repeat top center;
+    padding-top: 29px;
 }
 .schedLesson:hover, .schedLesson.active{
     background-image: url(/images/schedule-lesson.svg);
@@ -431,10 +450,21 @@ h5{
     border-radius: 0px !important;
     font-size: 12px !important;
 }
+#calendarteacher .fc-v-event {
+    background-color: #5F369E !important;
+    border: 1px solid #5F369E !important;
+}
 .modalEvents .modal-content{
     box-shadow: 3px 3px 44px #00000029 !important;
     border-color: white !important;
     max-width: 500px !important;
+}
+.innerSec{
+    margin: 0 auto;
+}
+.btnSaveTime{
+    color: black;
+    width: 100%;
 }
 /* width */
 ::-webkit-scrollbar {

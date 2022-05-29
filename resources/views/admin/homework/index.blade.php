@@ -16,30 +16,15 @@
                         <th scope="col">ID</th>
                         <th scope="col">Focus Area</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Homework</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($lessonsubjects as $lessonsubject)
-                        @php
-                            $editBtn = '';
-                            if(isset($lessonsubject->homeworks))
-                                $editBtn = '<a href="/admin/homework/edit/'.$lessonsubject->homeworks->id.'" class="btn btn-info mr-3"><i class="fa fa-edit"></i> Edit Homework</a>';
-                        @endphp
                        <tr>
                             <td class="font-weight-bold align-middle"></td>
                             <td class="align-middle">{{$lessonsubject->focusarea->name}}</td>
                             <td class="align-middle">{{$lessonsubject->name}}</td>
-                            <td class="text-nowrap">
-                                <a href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('add-lesson').submit();">Add Homework</a>
-                                <form id="add-lesson" action="{{ route('admin.addhomeworks') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" value="{{$lessonsubject->focusarea->id}}" name="focus_id">
-                                    <input type="hidden" value="{{$lessonsubject->id}}" name="lesson_id">
-                                </form>
-                                {!! $editBtn !!}
-                            </td>
                             <td class="text-nowrap">
                                 <a href="/admin/lessonsubject/edit/{{$lessonsubject->id}}" class="btn btn-info mr-3"><i class="fa fa-edit"></i> Edit</a>
                                 <a href="javascript:void(0)" data-id="{{$lessonsubject->id}}" class="btn btnDel btn-danger"><i class="fa fa-trash"></i> Delete</a>

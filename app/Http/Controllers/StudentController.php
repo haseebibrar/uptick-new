@@ -33,10 +33,10 @@ class StudentController extends Controller
         if($request->start) 
         {
             //dd('testing');
-            $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
-            $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
-            $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
-            //return '1';
+            $start  = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
+            $end    = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
+            $data   = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
+            //return $data;
             return response()->json($data);
         }
         //$teachers   = '';
@@ -66,10 +66,10 @@ class StudentController extends Controller
         return Response::json($event);
     }
  
-    public function destroy(Request $request)
+    public function eventDelete(Request $request)
     {
+        // dd($request->all());
         $event = Event::where('id',$request->id)->delete();
-   
         return Response::json($event);
     }
 }
