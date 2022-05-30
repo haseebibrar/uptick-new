@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/updateprofile', [AdminController::class, 'updateProfile']);
     Route::get('/past-future-lesson', [StudentController::class, 'pastLessosns']);
     Route::get('/homework', [StudentController::class, 'studentHomework']);
+    Route::post('/geteachers', [StudentController::class, 'getTeachers']);
+    Route::post('/openbookpoup', [StudentController::class, 'getTeachersDetail']);
     //fullcalender
     Route::get('/fullcalendareventmaster', [StudentController::class, 'calendarIndex']);
     Route::post('/eventdelete', [StudentController::class, 'eventDelete']);
@@ -52,7 +54,13 @@ Route::group(['middleware' => 'auth:teacher'], function () {
     Route::get('/edittprofile/{id}', [AdminController::class, 'editProfile']);
     Route::post('/updatetprofile', [AdminController::class, 'updateProfile']);
     Route::post('/teacher/updatetime', [TeacherController::class, 'updateTime']);
-    Route::get('/teacher/open-lesson', [TeacherController::class, 'openLessosns']);
+    Route::get('/teacher/open-lesson', [TeacherController::class, 'openLessons']);
+    Route::get('/teacher/lessons-materials', [TeacherController::class, 'lessonsMaterial'])->name('teacher.focusareas');
+    Route::any('/teacher/lessons-material/add', [TeacherController::class, 'addLessonMaterial']);
+    Route::post('/teacher/lessons-material/get-lessons', [TeacherController::class, 'getLessons']);
+    Route::any('/teacher/lessons-material/delete/{id}', [TeacherController::class, 'delFocusarea']);
+    Route::get('/teacher/lessons-material/edit/{id}', [TeacherController::class, 'editFocusarea']);
+    Route::post('/teacher/lessons-material/update', [TeacherController::class, 'updateFocusarea']);
 
     Route::get('/fullcalendareventmaster', [StudentController::class, 'calendarIndex']);
     Route::post('/eventdelete', [StudentController::class, 'eventDelete']);

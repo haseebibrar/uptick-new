@@ -7,6 +7,8 @@ use App\Models\FocusArea;
 use App\Models\Teacher;
 use App\Models\Event;
 use App\Models\TeacherTimeTable;
+use App\Models\FocusAreaTeacher;
+use App\Models\LessonSubject;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Redirect,Response;
@@ -67,14 +69,14 @@ class TeacherController extends Controller
                 // dd($tueData);
             }
         }
-        
         return view('teacher.index', compact('teacherID', 'myTime', 'sunData', 'monData', 'tueData', 'wedData', 'thuData', 'friData', 'satData'));
     }
 
-    public function get_times ($default = '', $interval = '+60 minutes') {
+    public function get_times ($default = '', $interval = '+60 minutes')
+    {
         $output = '';
-        $current= strtotime('08:00');
-        $end    = strtotime('20:00');
+        $current= strtotime('07:00');
+        $end    = strtotime('23:00');
         while ($current <= $end) {
             $time = date('H:i', $current);
             $sel = ($time == $default) ? ' selected' : '';
@@ -120,8 +122,70 @@ class TeacherController extends Controller
         }
     }
 
-    public function openLessosns(){
-        
+    public function openLessons(){
+
+    }
+
+    public function lessonsMaterial(){
+        $teacherID  = Auth::user()->id;
+        $focusareas = FocusAreaTeacher::where('teacher_id', '=', $teacherID)
+                        ->join('focus_areas', 'focus_areas.id', '=', 'focus_area_teachers.focusarea_id')
+                        ->join('lesson_subjects', 'lesson_subjects.id', '=', 'focus_area_teachers.lesson_id')
+                        ->get(['focus_area_teachers.*', 'focus_areas.name as focusarea', 'lesson_subjects.name as lesson']);
+        return view('teacher.focusareas.index', compact('focusareas')); 
+    }
+
+    public function addLessonMaterial(Request $request)
+    {
+        if(count($request->all()) === 0){
+            $focusareas = FocusArea::all();
+            return view('teacher.focusareas.addfocusarea', compact('focusareas'));
+        }else{
+            // dd($request->all());
+            $teacherID  = Auth::user()->id;
+            $input = $request->all();
+            FocusAreaTeacher::create([
+                'focusarea_id'  => $input['focusarea_id'],
+                'lesson_id'     => $input['lesson_id'],
+                'teacher_id'    => $teacherID,
+                'embeded_url'   => $input['embeded_url'],
+            ]);
+            return redirect()->route('teacher.focusareas')->with('success','Lesson Material Added Successfully.');
+        }
+    }
+
+    public function editFocusarea($myID)
+    {
+        $focusareateacher   = FocusAreaTeacher::findorFail($myID);
+        $focusareas         = FocusArea::where('id', '=', $focusareateacher->focusarea_id)->first();
+        $lessons            = LessonSubject::where('focusarea_id', '=', $focusareateacher->focusarea_id)->get();
+        return view('teacher.focusareas.editfocusarea', compact('focusareateacher', 'focusareas', 'lessons'));
+    }
+
+    public function updateFocusarea(Request $request)
+    {
+        // dd($request->all());
+        $focusarea                  = FocusAreaTeacher::findorFail($request->id);
+        $focusarea->focusarea_id    = $request->focusarea_id;
+        $focusarea->lesson_id       = $request->lesson_id;
+        $focusarea->embeded_url     = $request->embeded_url;
+        $focusarea->save();
+        return redirect()->route('teacher.focusareas')->with('success','Record Updated Successfully.');
+    }
+
+    public function delFocusarea($myID){
+        FocusAreaTeacher::where("id", $myID)->delete();
+        return redirect()->route('teacher.focusareas')->with('success','Record Deleted Successfully.');
+    }
+
+    public function getLessons(Request $request){
+        //dd($request->all());
+        $focusareas = LessonSubject::where('focusarea_id', '=', $request->myFocusID)->get();
+        $output = '';
+        foreach ($focusareas as $focusarea) {
+            $output .= '<option value="'.$focusarea['id'].'">'.$focusarea['name'].'</option>';
+        }
+        return $output;
     }
 
     public function calendarIndex(Request $request){

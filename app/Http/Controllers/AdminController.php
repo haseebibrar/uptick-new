@@ -515,7 +515,7 @@ class AdminController extends Controller
                 'focusarea_id'=> $input['focusarea_id'],
                 'name'        => $input['name'],
             ]);
-            return redirect()->route('admin.lessonsubjects')->with('success','Focus Area Added Successfully.');
+            return redirect()->route('admin.lessonsubjects')->with('success','Lesson Added Successfully.');
         }
     }
     

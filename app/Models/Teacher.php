@@ -23,4 +23,9 @@ class Teacher extends Authenticatable
     {
         return $this->hasMany(TeacherTimeTable::class, 'teacher_id')->orderBy('id');
     }
+
+    public function teachers()
+    {
+        return $this->hasMany(FocusAreaTeacher::class, 'teacher_id');
+    }
 }

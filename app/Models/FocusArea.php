@@ -23,4 +23,9 @@ class FocusArea extends Authenticatable
     {
         return $this->hasMany(HomeWork::class);
     }
+
+    public function teachersfocusarea()
+    {
+        return $this->hasMany(FocusAreaTeacher::class, 'focusarea_id');
+    }
 }

@@ -21,19 +21,20 @@
             <h3 class="mb-4">Set a lesson focus area</h3>
             @foreach($focusareas as $focusarea)
                 <div class="form-check mb-1">
-                    <input type="checkbox" class="form-check-input" id="focus-{{$focusarea->id}}">
+                    <input type="radio" name="focusarea" value="{{$focusarea->id}}" class="form-check-input focusCheck" id="focus-{{$focusarea->id}}">
                     <label class="form-check-label" for="focus-{{$focusarea->id}}">{{$focusarea->name}}</label>
                 </div>
             @endforeach
         </div>
         <div class="btmSection tblTeacherPnl mt-4 px-4 py-4 bgWhite">
-            <h3 class="mb-4">Teachers available at selected time</h3>
+            <div class="disabledDiv"></div>
+            <h3 class="mb-4">Available Teachers</h3>
             <div class="table-responsive mt-4">
                 <table class="table" id="myDataTable">
                     <thead>
                         <tr><th></th><th></th><th></th><th></th></tr>
                     </thead>
-                    <tbody>
+                    <tbody class="teacherData">
                         @foreach($teachers as $teacher)
                             @php
                                 $myImage = '';
@@ -41,7 +42,7 @@
                                     $myImage = asset('images/users/'.$teacher->image);
                             @endphp
                             <tr>
-                                <td class="align-middle">{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$teacher->name.'" title="'.$teacher->name.'" />') !!}</td>
+                                <td class="align-middle">{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="max-width:50px; max-height:50px;" src="'.$myImage.'" alt="'.$teacher->name.'" title="'.$teacher->name.'" />') !!}</td>
                                 <td class="align-middle">{{$teacher->name}}</td>
                                 <td class="align-middle">{{$teacher->expertise}} Marketing</td>
                                 <td class="text-nowrap align-middle"><a href="#" class="btn btnSchedule">Schedule</a></td>
@@ -75,7 +76,7 @@
     <!-- Modal Event Open -->
 
     <!-- Modal Event Open -->
-    <div class="modal" id="myModalSmall" tabindex="-1" role="dialog">
+    <div class="modal" id="myModalSmall" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
       <div class="modal-dialog modalEvents modal-dialog-centered" role="document">
         <div class="modal-content px-4 py-4">
             <div style="font-size: 15px; text-align:center;" class="mb-4">Are you sure you want to delete this lesson?</div>
@@ -97,6 +98,10 @@
 <script src="{{ asset('lib/main.js') }}"></script>
 <script>
 $(document).ready(function () {
+    $('#myModalSmall').modal({
+      backdrop: 'static', 
+      keyboard: false
+    });
     $('#myDataTable').DataTable({
         pageLength: 20,
         lengthMenu: [
@@ -120,7 +125,6 @@ $(document).ready(function () {
       var myEventID = $(this).attr('data-id');
       $('.btnDelEvent').attr('data-id', myEventID);
     });
-
     $(document).off('click', '.btnDelEvent').on('click', '.btnDelEvent', function(){
       $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Processing...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
       //var _token = {{ csrf_token() }};
@@ -131,6 +135,41 @@ $(document).ready(function () {
           data: {_token:"{{ csrf_token() }}", myEventID:myEventID},
           success: function(data) {
             $('#myModalSmall .modal-content').html(data);
+          }
+      });
+    });
+    
+    $(document).off('change', '.focusCheck').on('change', '.focusCheck', function(){
+      //alert();
+      var myFocusID = $(this).val();
+      $('.teacherData').html('<td colspan="3" class="text-center">Loading Teachers...</td>');
+      //return false;
+      $.ajax({
+          url: "{{url('/')}}/geteachers",
+          type:'POST',
+          data: {_token:"{{ csrf_token() }}", myFocusID:myFocusID},
+          success: function(data) {
+            $('.disabledDiv').remove();
+            $('.teacherData').html(data);
+          }
+      });
+    });
+    
+    $(document).off('click', '.btnSchedule').on('click', '.btnSchedule', function(){
+      $(this).removeClass('active');
+      $(this).addClass('active');
+      var myTeacherID = $(this).attr('data-id');
+      var myFocusID   = $(this).attr('data-focus');
+      $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Processing...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
+      $('#myModalSmall').modal('show');
+      //return false;
+      //alert(myTeacherID);
+      $.ajax({
+          url: "{{url('/')}}/openbookpoup",
+          type:'POST',
+          data: {_token:"{{ csrf_token() }}", myTeacherID:myTeacherID, myFocusID:myFocusID},
+          success: function(data) {
+            //$('#myModalSmall .modal-content').html(data);
           }
       });
     });
@@ -167,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
       events: {
         url: SITEURL + "/fullcalendareventmaster",
         failure: function() {
-          document.getElementById('script-warning').style.display = 'none'
+          //document.getElementById('script-warning').style.display = 'none'
         }
       },
       loading: function(bool) {

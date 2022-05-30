@@ -7,6 +7,8 @@ use App\Models\FocusArea;
 use App\Models\Teacher;
 use App\Models\Event;
 use App\Models\User;
+use App\Models\FocusAreaTeacher;
+use App\Models\TeacherTimeTable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Redirect,Response;
@@ -18,6 +20,44 @@ class StudentController extends Controller
         $teachers   = Teacher::all();
         $focusareas = FocusArea::all();
         return view('student.index', compact('teachers', 'focusareas'));
+    }
+
+    public function getTeachers(Request $request){
+        $myData     = '';
+        $teachers   = FocusAreaTeacher::where('focusarea_id', '=', $request->myFocusID)->get();
+        if($teachers->isNotEmpty()){
+            //dd($teachers);
+            foreach($teachers as $teacher){
+                //dd($teacher->teacher);
+                $myImage    = '';
+                if(!empty($teacher->teacher->image))
+                    $myImage = asset('images/users/'.$teacher->teacher->image);
+                
+                $myData .= '<tr>
+                                <td class="align-middle">'.($myImage === "" ? "" : '<img class="rounded-circle imgmr-1" style="max-width:50px; max-height:50px;" src="'.$myImage.'" alt="'.$teacher->teacher->name.'" title="'.$teacher->teacher->name.'" />').'</td>
+                                <td class="align-middle">'.$teacher->teacher->name.'</td>
+                                <td class="align-middle">'.$teacher->teacher->expertise.'</td>
+                                <td class="text-nowrap align-middle"><a href="javascript:void(0)" data-focus="'.$request->myFocusID.'" data-id="'.$teacher->teacher->id.'" class="btn btnSchedule">Schedule</a></td>
+                            </tr>';
+            }
+        }else{
+            $myData = '<td colspan="3" class="text-center">No Teachers Available!</td>';
+        }
+        return $myData;
+        //dd($teachers);
+    }
+
+    public function getTeachersDetail(Request $request){
+        $myTeacherID    = $request->myTeacherID;
+        $myFocusID      = $request->myFocusID;
+        $teachers       = DB::table('focus_area_teachers')->where('focus_area_teachers.focusarea_id', '=', $myFocusID)->where('focus_area_teachers.teacher_id', '=', $myTeacherID)
+                            ->join('focus_areas', 'focus_areas.id', '=', 'focus_area_teachers.focusarea_id')
+                            ->join('lesson_subjects', 'lesson_subjects.id', '=', 'focus_area_teachers.lesson_id')
+                            ->first(['focus_area_teachers.*', 'focus_areas.name as focusarea', 'lesson_subjects.name as lesson']);
+        //where('focusarea_id', '=', $myFocusID)->where('teacher_id', '=', $myTeacherID)->first();
+        $timetable      = TeacherTimeTable::where('teacher_id', '=', $myTeacherID)->get();
+        //dd($teachers->teacher->timetable);
+        dd($timetable);
     }
 
     public function pastLessosns(){

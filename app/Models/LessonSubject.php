@@ -25,4 +25,9 @@ class LessonSubject extends Authenticatable
     {
         return $this->belongsTo(FocusArea::class);
     }
+
+    public function focusareateacher()
+    {
+        return $this->hasMany(FocusAreaTeacher::class, 'lesson_id');
+    }
 }
