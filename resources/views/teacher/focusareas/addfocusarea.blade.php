@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary btnGreen">Save</button>
-                <a class="btn btn-light" href="/teacher/lessons-material/">Cancel</a>
+                <a class="btn btn-light" href="/teacher/lessons-materials/">Cancel</a>
             </form>
         </div>
     </div>
