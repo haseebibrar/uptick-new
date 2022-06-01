@@ -495,8 +495,8 @@
       height            : 'auto',
       allDaySlot        : false,
       expandRows        : true,
-      slotMinTime       : '08:00',
-      slotMaxTime       : '20:00',
+      slotMinTime       : '07:00',
+      slotMaxTime       : '23:00',
       slotDuration      : '01:00',
       headerToolbar     : {
         left    : 'prev,next today',

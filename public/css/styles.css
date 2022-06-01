@@ -301,10 +301,10 @@ h5{
 .btnSchedule:hover, .btnSchedule.active{
     background-color: #28DF99;
 }
-.tblTeacherPnl{
+.tblTeacherPnl, .topSectionPnl{
     position: relative;
 }
-.disabledDiv{
+.disabledDiv, .disabledDivFocus{
     background-color: rgba(255, 255, 255, 0.5);
     position: absolute;
     bottom: 0;
@@ -474,6 +474,9 @@ h5{
     box-shadow: 3px 3px 44px #00000029 !important;
     border-color: white !important;
     max-width: 500px !important;
+}
+#myModal .modalEvents .modal-content{
+    max-width: 700px !important;
 }
 .innerSec{
     margin: 0 auto;

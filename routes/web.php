@@ -42,9 +42,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/geteachers', [StudentController::class, 'getTeachers']);
     Route::post('/openbookpoup', [StudentController::class, 'getTeachersDetail']);
     //fullcalender
-    Route::get('/fullcalendareventmaster', [StudentController::class, 'calendarIndex']);
-    Route::post('/eventdelete', [StudentController::class, 'eventDelete']);
-    Route::post('/fullcalendareventmaster/create', [StudentController::class, 'create']);
+    Route::any('/get-data', [StudentController::class, 'getClickData']);
+    Route::get('/getevents', [StudentController::class, 'getCalEvents']);
+    Route::post('/event-delete', [StudentController::class, 'eventDelete']);
+    Route::post('/save-event', [StudentController::class, 'saveEvent']);
     Route::post('/fullcalendareventmaster/update', [StudentController::class, 'update']);
     Route::post('/fullcalendareventmaster/delete', [StudentController::class, 'destroy']);
 });
@@ -62,11 +63,11 @@ Route::group(['middleware' => 'auth:teacher'], function () {
     Route::get('/teacher/lessons-material/edit/{id}', [TeacherController::class, 'editFocusarea']);
     Route::post('/teacher/lessons-material/update', [TeacherController::class, 'updateFocusarea']);
 
-    Route::get('/fullcalendareventmaster', [StudentController::class, 'calendarIndex']);
+    Route::get('/fullcalendarmaster', [StudentController::class, 'calendarIndex']);
     Route::post('/eventdelete', [StudentController::class, 'eventDelete']);
-    Route::post('/fullcalendareventmaster/create', [StudentController::class, 'create']);
-    Route::post('/fullcalendareventmaster/update', [StudentController::class, 'update']);
-    Route::post('/fullcalendareventmaster/delete', [StudentController::class, 'destroy']);
+    Route::post('/fullcalendarmaster/create', [StudentController::class, 'create']);
+    Route::post('/fullcalendarmaster/update', [StudentController::class, 'update']);
+    Route::post('/fullcalendarmaster/delete', [StudentController::class, 'destroy']);
 });
 
 Route::group(['middleware' => 'auth:admin'], function () {

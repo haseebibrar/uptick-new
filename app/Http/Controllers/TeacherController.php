@@ -17,6 +17,7 @@ use DB;
 class TeacherController extends Controller
 {
     public function index(){
+        // dd(Auth::guard());
         //dd('Test');
         $teacherID  = Auth::user()->id;
         $myTime     = $this->get_times();
