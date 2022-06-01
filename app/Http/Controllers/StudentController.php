@@ -29,8 +29,9 @@ class StudentController extends Controller
         $myData     = '';
         $myDay      = strtolower($request->myDay);
         $myTime     = date('h:i a', strtotime($request->myTime));
-        $teachers   = FocusAreaTeacher::where('focusarea_id', '=', $request->myFocusID)->get();
-        //dd($request->all());
+        // $teachers   = FocusAreaTeacher::where('focusarea_id', '=', $request->myFocusID)->get();
+        $teachers   = Teacher::all();
+        // dd($request->all());
         // dd($myTime);
         // date('H:i', $current);
         if($teachers->isNotEmpty()){
@@ -39,7 +40,7 @@ class StudentController extends Controller
             foreach($teachers as $teacher){
                 $foundDay = 'no';
                 // dd($teacher->teacher->timetable);
-                $timetable = $teacher->teacher->timetable;
+                $timetable = $teacher->timetable;
                 foreach($timetable as $myday){
                     if($myday['availableday'] === $myDay){
                         $time  = json_decode($myday['availabletime'], true);
@@ -59,14 +60,14 @@ class StudentController extends Controller
                 if($foundDay === "yes"){
                     $myImage    = '';
                     $foundData  = 'yes';
-                    if(!empty($teacher->teacher->image))
-                        $myImage = asset('images/users/'.$teacher->teacher->image);
+                    if(!empty($teacher->image))
+                        $myImage = asset('images/users/'.$teacher->image);
                     
                     $myData .= '<tr>
-                                <td class="align-middle">'.($myImage === "" ? "" : '<img class="rounded-circle imgmr-1" style="max-width:50px; max-height:50px;" src="'.$myImage.'" alt="'.$teacher->teacher->name.'" title="'.$teacher->teacher->name.'" />').'</td>
-                                <td class="align-middle">'.$teacher->teacher->name.'</td>
-                                <td class="align-middle">'.$teacher->teacher->expertise.'</td>
-                                <td class="text-nowrap align-middle"><a href="javascript:void(0)" data-name="'.$teacher->teacher->name.'" data-focus="'.$request->myFocusID.'" data-id="'.$teacher->teacher->id.'" class="btn btnSchedule">Schedule</a></td>
+                                <td class="align-middle">'.($myImage === "" ? "" : '<img class="rounded-circle imgmr-1" style="max-width:50px; max-height:50px;" src="'.$myImage.'" alt="'.$teacher->name.'" title="'.$teacher->name.'" />').'</td>
+                                <td class="align-middle">'.$teacher->name.'</td>
+                                <td class="align-middle">'.$teacher->expertise.'</td>
+                                <td class="text-nowrap align-middle"><a href="javascript:void(0)" data-name="'.$teacher->name.'" data-focus="'.$request->myFocusID.'" data-id="'.$teacher->id.'" class="btn btnSchedule">Schedule</a></td>
                             </tr>';
                 }
             }
