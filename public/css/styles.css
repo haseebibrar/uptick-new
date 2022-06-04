@@ -485,6 +485,9 @@ h5{
     color: black;
     width: 100%;
 }
+.myHeight{
+    height: 97.9vh;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 3px;

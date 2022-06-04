@@ -14,4 +14,9 @@ class Company extends Authenticatable
     protected $fillable = [
         'name', 'phone', 'bank_hours', 'allocated_date'
     ];
+
+    public function students()
+    {
+        return $this->hasMany(User::class);
+    }
 }

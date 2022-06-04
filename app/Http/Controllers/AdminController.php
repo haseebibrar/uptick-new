@@ -25,8 +25,30 @@ class AdminController extends Controller
             $myCompID   = Auth::user()->company_id;
             $students   = User::where('company_id', '=', $myCompID)->leftJoin('departments', 'users.dept_id', '=', 'departments.id')->select('users.*','departments.name as deptname')->ORDERBY('id', 'DESC')->get();
             //$students   = User::where('company_id', '=', $myCompID)->get();
-            return view('admin.hr', compact('students'));
+            return view('admin.hr', compact('students', 'myCompID'));
         }
+    }
+
+    public function divideHours(Request $request){
+        $myCompanyID    = $request->compID;
+        $myCompany      = Company::where('id', '=', $myCompanyID)->first();
+        $bankHours      = $myCompany->bank_hours;
+        $totalStudents  = count($myCompany->students);
+        $hoursNum       = round((intval($bankHours) / intval($totalStudents)), 2); 
+        //students
+        if(!empty($myCompany->students)){
+            $myCompany->bank_hours = 0;
+            $myCompany->save();
+            foreach($myCompany->students as $students){
+                $myStudent  = User::where('id', '=', $students->id)->first();
+                $studentHr  = intval($myStudent->allocated_hour)+intval($hoursNum);
+                $myStudent->allocated_hour = $studentHr;
+                $myStudent->save();
+            }
+            return '<div style="font-size: 15px; text-align:center;">Hours allocated to students!</div>';
+        }
+        return 'Please Add Students!';
+        // dd($bankHours.' || '.$totalStudents.' || '.$hoursNum);
     }
 
     public function editProfile($id)
@@ -219,8 +241,8 @@ class AdminController extends Controller
             $myCompID   = 0;
         else
             $myCompID   = Auth::user()->company_id;
-        $students  = User::findorFail($myID);
-        $departments  = Department::all();
+        $students       = User::findorFail($myID);
+        $departments    = Department::all();
         return view('admin.editstudent', compact('students', 'myCompID', 'departments'));
     }
 

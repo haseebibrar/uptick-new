@@ -4,7 +4,7 @@
     @php
         //dd(Auth::user());
     @endphp
-    <div class="col-md-7">
+    <div class="col-md-7 myHeight">
         <div class="topSection px-4 py-4 bgWhite">
             <div class="row">
                 <div class="col-md-6">
@@ -58,16 +58,16 @@
                                     $myImage = asset('images/users/'.$student->image);
                             @endphp
                             <tr>
-                                <td><div class="circleAct"></div></td>
-                                <td style="display:flex;">{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!}<div class="tdRight">{{$student->name}}<br /><p class="noMargin txtSmall">{{$student->title}}</p></div></td>
+                                <td class="align-middle"><div class="circleAct"></div></td>
+                                <td class="align-middle text-nowrap"><div style="display:flex;">{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!}<div style="margin-top: 0.8rem;">{{$student->name}}<br /><p class="noMargin txtSmall">{{$student->title}}</p></div></div></td>
                                 <td class="align-middle">{{ $student->deptname }}</td>
-                                <td>
+                                <td class="align-middle">
                                     <div class="txtCenter">3/6</div>
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </td>
-                                <td class="txtCenter">{{ rand(1, 10) }}</td>
+                                <td class="align-middle txtCenter">{{ rand(1, 10) }}</td>
                                 <td class="text-nowrap">
                                     <a href="/admin/students/edit/{{$student->id}}" class="btn mr-3 btnGray"><i class="fa fa-pencil"></i></a>
                                     <a href="javascript:void(0)" data-id="{{$student->id}}" class="btn btnDel btnGray"><i class="fa fa-trash"></i></a>
@@ -80,11 +80,22 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div class="chartSectionHr px-4 py-4 bgWhite">
+        <div class="chartSectionHr px-4 py-4 bgWhite myHeight">
             <h2 class="txtCenter mb-4">Lesson Type</h2>
             <div id="chart"></div>
         </div>
     </div>
+
+    <!-- Modal Event Open -->
+    <div class="modal" id="myModal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modalEvents modal-dialog-centered" role="document">
+            <div class="modal-content px-4 py-4">
+                <div style="text-align: right;"><a class="closeModal" href="javascript:void(0)"><i class="fa fa-close"></i></a></div>
+                <div class="ajaxData"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Event Open -->
 @endsection
 
 @section('scripts')
@@ -93,6 +104,10 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     $(document).ready(function() {
+        $('#myModal').modal({
+            backdrop: 'static', 
+            keyboard: false
+        });
         $('#myDataTable').DataTable({
             pageLength: 20,
             lengthMenu: [
@@ -102,7 +117,7 @@
             info: true,
             lengthChange: false
         });
-        $("#myDataTable_filter").append("<a class='btn btnGrayBg btnSearchBox mr-4 ml-4' href='/admin'>Auto Divide</a><a class='btn btnSearchBox btnGreen' href='/admin/students/add'>+ Add Member</a>")
+        $("#myDataTable_filter").append("<a data-id='{{ $myCompID }}' class='btn btnGrayBg btnSearchBox btnDivide mr-4 ml-4' href='javascript:void(0)'>Auto Divide</a><a class='btn btnSearchBox btnGreen' href='/admin/students/add'>+ Add Member</a>")
         $(document).off('click', '.btnDel').on('click', '.btnDel', function(){
             if(confirm("Are you sure you want to delete this?")){
                 myID        = $(this).attr('data-id');
@@ -111,6 +126,25 @@
             else{
                 return false;
             }
+        });
+
+        $(document).off('click', '.closeModal').on('click', '.closeModal', function(){
+            $('#myModal').modal('hide');
+        });
+
+        $(document).off('click', '.btnDivide').on('click', '.btnDivide', function(){
+            var compID = $(this).attr('data-id');
+            $('#myModal .ajaxData').html('<div class="text-center"><strong>Processing...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
+            $('#myModal').modal('show');
+            //alert(compID);
+            $.ajax({
+                url: "{{url('/')}}/admin/divide_hours",
+                type:'POST',
+                data: {_token:"{{ csrf_token() }}", compID:compID},
+                success: function(data) {
+                    $('#myModal .ajaxData').html(data);
+                }
+            });
         });
         $('#msgSuccess').delay(3000).fadeOut('slow');
         var options = {

@@ -74,7 +74,7 @@
                 </div>
                 <div class="row mb-4">
                     <div class="col-md-6"><label for="name">Allocate Hours</label></div>
-                    <div class="col-md-6"><input type="number" name="allocated_hour" class="form-control" value="{{ $department->allocated_hour }}"></div>
+                    <div class="col-md-6"><input type="number" name="allocated_hour" class="form-control" value="{{ $students->allocated_hour }}"></div>
                 </div>
                 <div class="row mb-4">
                     <div class="col-md-6"><label for="image">Image</label></div>

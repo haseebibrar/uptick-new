@@ -44,7 +44,7 @@
             <main class="px-2 py-2" style="background-color: #F8F8F8;">
                 <div class="container innerData">
                     <div class="row justify-content-center">
-                        <div class="px-4 py-4 col-md-2" style="position:relative; background-color: #FFF;">
+                        <div class="px-4 py-4 col-md-2 myHeight" style="position:relative; background-color: #FFF;">
                             <div class="profilePnl txtCenter">
                                 <img class="mx-auto d-block rounded-circle proImg" src="<?php echo $myImage; ?>" alt="{{ Auth::user()->name }} Image" title="{{ Auth::user()->name }} Image" />
                                 <p class="usrName mb-0">{{ Auth::user()->name }}</p>

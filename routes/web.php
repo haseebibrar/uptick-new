@@ -72,6 +72,7 @@ Route::group(['middleware' => 'auth:teacher'], function () {
 
 Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/admin', [AdminController::class, 'index']);
+    Route::post('/admin/divide_hours', [AdminController::class, 'divideHours']);
     Route::get('/editaprofile/{id}', [AdminController::class, 'editProfile']);
     Route::post('/updateaprofile', [AdminController::class, 'updateProfile']);
     Route::get('/admin/teachers', [AdminController::class, 'getTeachers'])->name('admin.teachers');
