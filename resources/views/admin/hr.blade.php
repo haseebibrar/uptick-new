@@ -74,54 +74,6 @@
                                 </td>
                             </tr>
                         @endforeach
-
-                        @foreach($students as $student)
-                            @php
-                                $myImage = '';
-                                if(!empty($student->image))
-                                    $myImage = asset('images/users/'.$student->image);
-                            @endphp
-                            <tr>
-                                <td class="align-middle"><div class="circleAct"></div></td>
-                                <td class="align-middle text-nowrap"><div style="display:flex;">{!! ($myImage === "" ? '' : '<img class="imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!}<div style="margin-top: 0.8rem; text-align: center; line-height: 1.4;">{{$student->name}}<br /><p class="noMargin txtSmall">{{$student->title}}</p></div></div></td>
-                                <td class="align-middle">{{ $student->deptname }}</td>
-                                <td class="align-middle">
-                                    <div class="txtCenter">3/6</div>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="align-middle txtCenter">{{ rand(1, 10) }}</td>
-                                <td class="text-nowrap">
-                                    <a href="/admin/students/edit/{{$student->id}}" class="btn mr-3 btnGray"><i class="fa fa-pencil"></i></a>
-                                    <a href="javascript:void(0)" data-id="{{$student->id}}" class="btn btnDel btnGray"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
-
-                        @foreach($students as $student)
-                            @php
-                                $myImage = '';
-                                if(!empty($student->image))
-                                    $myImage = asset('images/users/'.$student->image);
-                            @endphp
-                            <tr>
-                                <td class="align-middle"><div class="circleAct"></div></td>
-                                <td class="align-middle text-nowrap"><div style="display:flex;">{!! ($myImage === "" ? '' : '<img class="imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!}<div style="margin-top: 0.8rem; text-align: center; line-height: 1.4;">{{$student->name}}<br /><p class="noMargin txtSmall">{{$student->title}}</p></div></div></td>
-                                <td class="align-middle">{{ $student->deptname }}</td>
-                                <td class="align-middle">
-                                    <div class="txtCenter">3/6</div>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="align-middle txtCenter">{{ rand(1, 10) }}</td>
-                                <td class="text-nowrap">
-                                    <a href="/admin/students/edit/{{$student->id}}" class="btn mr-3 btnGray"><i class="fa fa-pencil"></i></a>
-                                    <a href="javascript:void(0)" data-id="{{$student->id}}" class="btn btnDel btnGray"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>
