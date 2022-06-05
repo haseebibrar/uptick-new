@@ -24,8 +24,8 @@ class AdminController extends Controller
         else{
             $myCompID   = Auth::user()->company_id;
             $students   = User::where('company_id', '=', $myCompID)->leftJoin('departments', 'users.dept_id', '=', 'departments.id')->select('users.*','departments.name as deptname')->ORDERBY('id', 'DESC')->get();
-            //$students   = User::where('company_id', '=', $myCompID)->get();
-            return view('admin.hr', compact('students', 'myCompID'));
+            $totalStudents = count($students);
+            return view('admin.hr', compact('students', 'myCompID', 'totalStudents'));
         }
     }
 
