@@ -10,7 +10,7 @@
     </style>
 @endpush
 @section('content')
-  <div class="col-md-6">
+  <div class="col-md-6 noPadRight">
       <div class="topSection px-4 py-4 bgWhite">
           <h2 class="mb-4">Schedule a lesson</h2>
           <div id='loading'>loading...</div>

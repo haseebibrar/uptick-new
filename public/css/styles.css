@@ -118,6 +118,9 @@ a:hover{
 .frontDataSec .card{
     padding: 4rem 3rem !important;
 }
+.noPadRight{
+    padding-right: 0px !important;
+}
 .brdrBtm{
     border: 0px !important;
     border-bottom: 1px solid black !important;

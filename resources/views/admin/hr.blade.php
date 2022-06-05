@@ -4,7 +4,7 @@
     @php
         //dd(Auth::user());
     @endphp
-    <div class="col-md-7 myHeight">
+    <div class="col-md-7 myHeight noPadRight">
         <div class="topSection studentStatsTop px-4 py-4 bgWhite">
             <div class="row">
                 <div class="col-md-6">
