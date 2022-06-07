@@ -18,6 +18,7 @@
                         <th scope="col">Email</th>
                         <th scope="col">Expertise</th>
                         <th scope="col">Phone</th>
+                        <th scope="col">Zoom Link</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -34,6 +35,7 @@
                             <td>{{$teacher->email}}</td>
                             <td>{{$teacher->expertise}}</td>
                             <td>{{$teacher->phone}}</td>
+                            <td><a href="{{ $teacher->zoom_link }}" target="_blank">{{$teacher->zoom_link}}</a></td>
                             <td class="text-nowrap">
                                 <a href="/admin/teachers/edit/{{$teacher->id}}" class="btn btn-info mr-3"><i class="fa fa-edit"></i> Edit</a>
                                 <a href="javascript:void(0)" data-id="{{$teacher->id}}" class="btn btnDel btn-danger"><i class="fa fa-trash"></i> Delete</a>

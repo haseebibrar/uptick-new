@@ -22,7 +22,7 @@
                 if($myImage <> ""){
                     echo '<div class="row mb-4">
                             <div class="col-md-12 mx-auto mt-5">
-                                <img class="d-block mx-auto" style="height:200px;" src="'.$myImage.'" alt="'.$teachers->name.'" title="'.$teachers->name.'" />
+                                <img class="d-block mx-auto" style="width:200px;" src="'.$myImage.'" alt="'.$teachers->name.'" title="'.$teachers->name.'" />
                             </div>
                         </div>';
                 }
@@ -58,6 +58,12 @@
                     <div class="col-md-6"><label for="image">Image</label></div>
                     <div class="col-md-6">
                         <input type="file" name="image" class="form-control" value="{{ $teachers->image }}">
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6"><label for="zoom_link">Zoom Link</label></div>
+                    <div class="col-md-6">
+                        <input type="url" name="zoom_link" class="form-control" value="{{ $teachers->zoom_link }}">
                     </div>
                 </div>
                 <div class="row mb-4">

@@ -24,8 +24,10 @@ class AdminController extends Controller
         else{
             $myCompID   = Auth::user()->company_id;
             $students   = User::where('company_id', '=', $myCompID)->leftJoin('departments', 'users.dept_id', '=', 'departments.id')->select('users.*','departments.name as deptname')->ORDERBY('id', 'DESC')->get();
+            $myCompany  = Company::where('id', '=', $myCompID)->first();
+            $bankHours  = $myCompany->bank_hours;
             $totalStudents = count($students);
-            return view('admin.hr', compact('students', 'myCompID', 'totalStudents'));
+            return view('admin.hr', compact('students', 'myCompID', 'totalStudents', 'bankHours'));
         }
     }
 
@@ -36,16 +38,20 @@ class AdminController extends Controller
         $totalStudents  = count($myCompany->students);
         $hoursNum       = round((intval($bankHours) / intval($totalStudents)), 2); 
         //students
-        if(!empty($myCompany->students)){
-            $myCompany->bank_hours = 0;
-            $myCompany->save();
-            foreach($myCompany->students as $students){
-                $myStudent  = User::where('id', '=', $students->id)->first();
-                $studentHr  = intval($myStudent->allocated_hour)+intval($hoursNum);
-                $myStudent->allocated_hour = $studentHr;
-                $myStudent->save();
+        if($myCompany->bank_hours > 0){
+            if(!empty($myCompany->students)){
+                $myCompany->bank_hours = 0;
+                $myCompany->save();
+                foreach($myCompany->students as $students){
+                    $myStudent  = User::where('id', '=', $students->id)->first();
+                    $studentHr  = intval($myStudent->allocated_hour)+intval($hoursNum);
+                    $myStudent->allocated_hour = $studentHr;
+                    $myStudent->save();
+                }
+                return '<div style="font-size: 15px; text-align:center;">Hours allocated equally to students!</div>';
             }
-            return '<div style="font-size: 15px; text-align:center;">Hours allocated to students!</div>';
+        }else{
+            return '<div style="font-size: 15px; text-align:center;">No hours left. Please contact admin!</div>';
         }
         return 'Please Add Students!';
         // dd($bankHours.' || '.$totalStudents.' || '.$hoursNum);
@@ -85,6 +91,8 @@ class AdminController extends Controller
             $profile->phone       = $request->phone;
         if(isset($request->image))
             $profile->image   = $request->image;
+        if(isset($request->zoom_link))
+            $profile->zoom_link   = $request->zoom_link;
         if(isset($request->password))
             $profile->password   = Hash::make($request->password);
         $profile->save();
@@ -124,6 +132,7 @@ class AdminController extends Controller
                 'image'     => $input['image'],
                 'expertise' => $input['expertise'],
                 'phone'     => $input['phone'],
+                'zoom_link' => $input['zoom_link'],
             ]);
             return redirect()->route('admin.teachers')->with('success','Teacher Added Successfully.');
         }
@@ -156,6 +165,8 @@ class AdminController extends Controller
             $teacher->expertise   = $request->expertise;
         if(isset($request->image))
             $teacher->image   = $request->image;
+        if(isset($request->zoom_link))
+            $teacher->zoom_link   = $request->zoom_link;
         if(isset($request->password))
             $teacher->password   = Hash::make($request->password);
         $teacher->save();
@@ -223,10 +234,8 @@ class AdminController extends Controller
                 'password'  => Hash::make($input['password']),
                 'image'     => $myImage,
                 'phone'     => $input['phone'],
-                'roll_num'  => $input['roll_num'],
                 'title'     => $input['title'],
                 'dept_id'   => $input['dept_id'],
-                'allocated_hour'=> $input['allocated_hour'],
             ]);
             if(Auth::user()->is_super > 0)
                 return redirect()->route('admin.student')->with('success','Student Added Successfully.');
@@ -263,8 +272,6 @@ class AdminController extends Controller
         $student->email       = $request->email;
         if(isset($request->phone))
             $student->phone       = $request->phone;
-        if(isset($request->roll_num))
-            $student->roll_num   = $request->roll_num;
         if(isset($request->title))
             $student->title   = $request->title;
         if(isset($request->dept_id))
@@ -313,9 +320,11 @@ class AdminController extends Controller
             ]);
             $input = $request->all();
             Company::create([
-                'name'      => $input['name'],
-                'phone'     => $input['phone'],
-                'bank_hours'=> $input['bank_hours'],
+                'name'                  => $input['name'],
+                'phone'                 => $input['phone'],
+                'bank_hours'            => $input['bank_hours'],
+                'total_bank_hours'      => $input['bank_hours'],
+                'remaining_bank_hours'  => $input['bank_hours'],
             ]);
             return redirect()->route('admin.companies')->with('success','Company Added Successfully.');
         }
@@ -325,7 +334,6 @@ class AdminController extends Controller
     {
         $companies  = Company::findorFail($myID);
         return view('admin.company.editcompany', compact('companies'));
-        
     }
 
     public function updateCompany(Request $request)
@@ -339,6 +347,20 @@ class AdminController extends Controller
             $company->bank_hours = $request->bank_hours;
         $company->save();
         return redirect()->route('admin.companies')->with('success','Record Updated Successfully.');
+
+        // if(isset($request->remaining_bank_hours)){
+        //     $newHours = 0;
+        //     $totalHours = 0;
+        //     $oldBankHours = intval($company->remaining_bank_hours);
+        //     $newBankHours = intval($request->remaining_bank_hours);
+        //     if($newBankHours > $oldBankHours){
+        //         $newHours = $newBankHours - $oldBankHours;
+        //         $totalHours = 
+        //     }
+            
+        //     dd($company->remaining_bank_hours.' || '.$request->remaining_bank_hours.' || '.$newHours);
+        //     $company->remaining_bank_hours = $request->remaining_bank_hours;
+        // }
     }
 
     public function delCompany($myID){

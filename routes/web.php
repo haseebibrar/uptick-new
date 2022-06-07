@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth:teacher'], function () {
     Route::get('/teacher/lessons-material/edit/{id}', [TeacherController::class, 'editFocusarea']);
     Route::post('/teacher/lessons-material/update', [TeacherController::class, 'updateFocusarea']);
 
-    Route::get('/fullcalendarmaster', [StudentController::class, 'calendarIndex']);
+    Route::get('/get-data-teachers', [TeacherController::class, 'getCalEvents']);
     Route::post('/eventdelete', [StudentController::class, 'eventDelete']);
     Route::post('/fullcalendarmaster/create', [StudentController::class, 'create']);
     Route::post('/fullcalendarmaster/update', [StudentController::class, 'update']);

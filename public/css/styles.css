@@ -303,11 +303,22 @@ h5{
     height: 64vh;
     overflow-y: scroll;
 }
-.studentStats div.table-responsive>div.dataTables_wrapper>div.row:first-child>div[class^=col-]:first-child{
+/* .studentStats div.table-responsive>div.dataTables_wrapper>div.row:first-child>div[class^=col-]:first-child{
     width: 30%;
 }
 .studentStats div.table-responsive>div.dataTables_wrapper>div.row:first-child>div[class^=col-]:last-child{
     width: 70%;
+} */
+.newBtnsDiv{
+    margin-top: 7px;
+}
+.newBtnsDiv .btnGrayBg{
+    margin:0 0 0 1rem !important;
+}
+.newBtnsDiv p{
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-top: 2px;
 }
 .studentStats .table > :not(caption) > * > * {
     padding: 12px 0.5rem !important;

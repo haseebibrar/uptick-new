@@ -16,7 +16,8 @@ use DB;
 
 class TeacherController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         // dd(Auth::guard());
         //dd('Test');
         $teacherID  = Auth::user()->id;
@@ -87,7 +88,8 @@ class TeacherController extends Controller
         return $output;
     }
 
-    public function updateTime(Request $request){
+    public function updateTime(Request $request)
+    {
         //dd(Auth::user()->id);
         // dd($request->all());
         $teacherID  = Auth::user()->id;
@@ -101,7 +103,8 @@ class TeacherController extends Controller
         return redirect()->route('teachers')->with('success','Availabilty Updated Successfully.'); 
     }
 
-    public function saveData($myData, $teacherID, $myDay){
+    public function saveData($myData, $teacherID, $myDay)
+    {
         if(isset($myData['name'])){
             $times = json_encode($myData['time']);
             $checkData = TeacherTimeTable::where('teacher_id', '=', $teacherID)->where('availableday', '=', $myDay)->first();
@@ -127,7 +130,8 @@ class TeacherController extends Controller
 
     }
 
-    public function lessonsMaterial(){
+    public function lessonsMaterial()
+    {
         $teacherID  = Auth::user()->id;
         $focusareas = FocusAreaTeacher::where('teacher_id', '=', $teacherID)
                         ->join('focus_areas', 'focus_areas.id', '=', 'focus_area_teachers.focusarea_id')
@@ -174,12 +178,14 @@ class TeacherController extends Controller
         return redirect()->route('teacher.focusareas')->with('success','Record Updated Successfully.');
     }
 
-    public function delFocusarea($myID){
+    public function delFocusarea($myID)
+    {
         FocusAreaTeacher::where("id", $myID)->delete();
         return redirect()->route('teacher.focusareas')->with('success','Record Deleted Successfully.');
     }
 
-    public function getLessons(Request $request){
+    public function getLessons(Request $request)
+    {
         //dd($request->all());
         $focusareas = LessonSubject::where('focusarea_id', '=', $request->myFocusID)->get();
         $output = '';
@@ -189,15 +195,25 @@ class TeacherController extends Controller
         return $output;
     }
 
-    public function calendarIndex(Request $request){
+    public function getCalEvents(Request $request)
+    {
         // dd($request->start);
         if($request->start) 
         {
-            //dd('testing');
-            $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
-            $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
-            $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
-            //return $data;
+            $teacherID  = Auth::user()->id;
+            $start  = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
+            $end    = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
+            //$data   = Event::where('teacher_id', '=', $teacherID)->whereDate('start', '>=', $start)->whereDate('end', '<=', $end)->get(['id', 'title','class_name as className','start','end']);
+            $data   = DB::table('events')->where('events.teacher_id', '=', $teacherID)->whereDate('events.start', '>=', $start)->whereDate('events.end', '<=', $end)
+                            ->join('focus_areas', 'focus_areas.id', '=', 'events.focusarea_id')
+                            ->join('users', 'users.id', '=', 'events.student_id')
+                            ->get(['events.id', 'events.start', 'events.end', 'events.class_name as className', 'focus_areas.name as title', 'users.name as description']);
+            
+            // $focusareas = Event::where('teacher_id', '=', $teacherID)->whereDate('start', '>=', $start)->whereDate('end', '<=', $end)
+            //                 ->join('focus_areas', 'focus_areas.id', '=', 'focus_area_teachers.focusarea_id')
+            //                 ->join('lesson_subjects', 'lesson_subjects.id', '=', 'focus_area_teachers.lesson_id')
+            //                 ->get(['focus_area_teachers.*', 'focus_areas.name as focusarea', 'lesson_subjects.name as lesson']);
+            // dd(response()->json($data));
             return response()->json($data);
         }
     }

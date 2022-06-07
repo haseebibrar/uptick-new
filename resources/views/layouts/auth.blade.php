@@ -102,9 +102,9 @@
                                     $myGuard = 'teacher';
                                 @endphp
                                 <div class="txtCenter navLaftCnt mb-4">
-                                    <a class="navLaft mb-4 schedLesson{{ (request()->is('teacher')) ? ' active' : '' }}" href="/teacher">Scheduled <br />lessons<br />& Availabilty</a>
+                                    <a class="navLaft mb-4 schedLesson{{ (request()->is('teacher')) ? ' active' : '' }}" href="/teacher">Scheduled <br />lessons<br />& availabilty</a>
                                     <a class="navLaft mb-4 openLesson{{ (request()->is('teacher/open-lesson')) ? ' active' : '' }}" href="/teacher/open-lesson">Open lessons</a>
-                                    <a class="navLaft mb-4 lessonMaterial{{ (request()->is('teacher/lessons-materials')) ? ' active' : '' }}" href="/teacher/lessons-materials">Lesson's Materials</a>
+                                    {{-- <a class="navLaft mb-4 lessonMaterial{{ (request()->is('teacher/lessons-materials')) ? ' active' : '' }}" href="/teacher/lessons-materials">Lesson's Materials</a> --}}
                                     <div class="logoutDiv txtCenter mb-4">
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

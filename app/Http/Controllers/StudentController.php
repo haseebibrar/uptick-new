@@ -73,9 +73,9 @@ class StudentController extends Controller
             }
             // dd($foundData);
             if($foundData === "no")
-                $myData = '<td colspan="3" class="text-center">No Teachers Available!</td>';
+                $myData = '<td colspan="3" class="text-center">No available teachers!</td>';
         }else{
-            $myData = '<td colspan="3" class="text-center">No Teachers Available!</td>';
+            $myData = '<td colspan="3" class="text-center">No available teachers!</td>';
         }
         return $myData;
         //dd($teachers);
@@ -192,7 +192,7 @@ class StudentController extends Controller
         $student->allocated_hour    = $myHours;
         $student->save();
         $starttime = new DateTime($request->event_date.' '.$request->starttime.':00');
-        $endtime = new DateTime($request->event_date.' '.$request->starttime.':00');
+        $endtime = new DateTime($request->event_date.' '.$request->endtime.':00');
         // dd($datetime);
         // class_name   
         //Remove allocated hour of student

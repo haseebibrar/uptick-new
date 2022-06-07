@@ -19,6 +19,11 @@
     $friCount = 1;
     $satCount = 1;
   @endphp
+  @if ($message = Session::get('success'))
+    <div class="alert alert-success" id="msgSuccess">
+      <p>{{ $message }}</p>
+    </div>
+  @endif
   <div class="col-md-6">
     <div class="topSection px-4 py-4 bgWhite">
       <h2 class="mb-4">Schedule a lesson</h2>
@@ -27,11 +32,6 @@
     </div>
   </div>
   <div class="col-md-4">
-    @if ($message = Session::get('success'))
-      <div class="alert alert-success" id="msgSuccess">
-        <p>{{ $message }}</p>
-      </div>
-    @endif
     <div class="topSection px-4 py-4 bgWhite">
       <h3 class="mb-4 text-center">Set your weekly hours</h3>
       <div class="innerSec">
@@ -477,7 +477,6 @@
           }
       });
     });
-
     $('#msgSuccess').delay(3000).fadeOut('slow');
   });
 
@@ -510,11 +509,56 @@
       nowIndicator      : true,
       dayMaxEvents      : true, // allow "more" link when too many events
       events: {
-        url: SITEURL + "/fullcalendareventmaster",
+        url: SITEURL + "/get-data-teachers",
         failure: function() {
           //document.getElementById('script-warning').style.display = 'none'
         }
       },
+      eventDidMount: function(info) {
+        //console.log(info);
+        if ( $(info.el).find(".badge-pill") ) {
+            var pill = document.createElement("span");
+            var freikapa = info.event.extendedProps.description;
+            if (isNaN(freikapa)) {
+                console.log(freikapa);
+                //console.info(info.timeText);
+                pill.innerText = freikapa; 
+                if (freikapa == 0) {
+                    pill.classList.add("badge","badge-pill","badge-danger");
+                } else {
+                    pill.classList.add("badge","badge-pill","badge-success");
+                }
+                var fcevent = info.el.querySelector('.fc-event-time'); // for gridView
+                if (fcevent ) { 
+                    fcevent.textContent += " ";
+                    fcevent.append(pill);
+                }
+                fcevent = info.el.querySelector('.fc-list-event-graphic');  // for listView
+                if (fcevent ) { 
+                    fcevent.textContent += " ";
+                    fcevent.append(pill);
+                }
+            } else {
+              console.info(info.event.extendedProps.timeText);
+                
+            }
+        } else {
+            console.info("eventDidMount: pill-Klasse schon vorhanden:", info.el);
+        }     
+      },
+      /*eventDidMount: function(arg, createElement) { 
+        console.log(arg.event);
+        var desc  = arg.event.extendedProps.description;
+        var title = arg.event.title;
+        var start = ' <div>'+arg.event.start+'</div>';
+        var end   = arg.event.end;
+        text = title+' / '+desc+start;
+        return {
+            html: text
+          };
+        //console.log(event.event.extendedProps.description);
+        //element.append("<br/>" + event.event.extendedProps.description); 
+      },*/
       loading: function(bool) {
         document.getElementById('loading').style.display =bool ? 'block' : 'none';
       },

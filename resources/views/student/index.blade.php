@@ -310,6 +310,9 @@ document.addEventListener('DOMContentLoaded', function() {
           //document.getElementById('script-warning').style.display = 'none'
         }
       },
+      eventRender: function (event, element, view) {
+          element.find('.fc-title').append('<div class="hr-line-solid-no-margin"></div><span style="font-size: 10px">' + event.description + '</span></div>');
+      },
       loading: function(bool) {
         document.getElementById('loading').style.display =bool ? 'block' : 'none';
       },

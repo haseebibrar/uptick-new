@@ -47,6 +47,12 @@
                     </div>
                 </div>
                 <div class="row mb-4">
+                    <div class="col-md-6"><label for="zoom_link">Zoom Link</label></div>
+                    <div class="col-md-6">
+                        <input type="url" name="zoom_link" class="form-control" value="{{ old('zoom_link') }}">
+                    </div>
+                </div>
+                <div class="row mb-4">
                     <div class="col-md-6"><label for="password">Password</label></div>
                     <div class="col-md-6">
                         <input type="password" name="password" class="form-control" value="{{ old('password') }}" required>

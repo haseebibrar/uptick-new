@@ -17,12 +17,14 @@
             
             @php
                 //dd('TEts');
+                $myZoomLink = '';
                 if (Auth::guard('admin')->check()){
                     $redirectUrl= '/admin';
                     $formLink   = 'updateaprofile';
                 }elseif (Auth::guard('teacher')->check()){
                     $redirectUrl= '/teacher';
                     $formLink   = 'updatetprofile';
+                    $myZoomLink = '<div class="row mb-4"><div class="col-md-6"><label for="zoom_link">Zoom Link</label></div><div class="col-md-6"><input type="url" name="zoom_link" class="form-control" value="'.$users->zoom_link.'"></div></div>';
                 }else{
                     $redirectUrl= '/home';
                     $formLink   = 'updateprofile';
@@ -67,6 +69,7 @@
                         <input type="file" name="image" class="form-control" value="{{ $users->image }}">
                     </div>
                 </div>
+                {!! $myZoomLink !!}
                 <div class="row mb-4">
                     <div class="col-md-6"><label for="image">Password</label></div>
                     <div class="col-md-6">
