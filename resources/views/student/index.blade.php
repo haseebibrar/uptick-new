@@ -39,7 +39,7 @@
       <div class="table-responsive mt-4">
         <table class="table" id="myDataTable">
           <thead>
-            <tr><th></th><th></th><th></th><th></th></tr>
+            <tr><th></th><th></th><th></th></tr>
           </thead>
           <tbody class="teacherData">
             @foreach($teachers as $teacher)
@@ -51,7 +51,6 @@
               <tr>
                 <td class="align-middle">{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="max-width:50px; max-height:50px;" src="'.$myImage.'" alt="'.$teacher->name.'" title="'.$teacher->name.'" />') !!}</td>
                 <td class="align-middle">{{$teacher->name}}</td>
-                <td class="align-middle">{{$teacher->expertise}} Marketing</td>
                 <td class="text-nowrap align-middle"><a href="#" data-name="{{$teacher->name}}" class="btn btnSchedule">Schedule</a></td>
               </tr>
             @endforeach

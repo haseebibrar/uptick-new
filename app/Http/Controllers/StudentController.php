@@ -66,7 +66,6 @@ class StudentController extends Controller
                     $myData .= '<tr>
                                 <td class="align-middle">'.($myImage === "" ? "" : '<img class="rounded-circle imgmr-1" style="max-width:50px; max-height:50px;" src="'.$myImage.'" alt="'.$teacher->name.'" title="'.$teacher->name.'" />').'</td>
                                 <td class="align-middle">'.$teacher->name.'</td>
-                                <td class="align-middle">'.$teacher->expertise.'</td>
                                 <td class="text-nowrap align-middle"><a href="javascript:void(0)" data-name="'.$teacher->name.'" data-focus="'.$request->myFocusID.'" data-id="'.$teacher->id.'" class="btn btnSchedule">Schedule</a></td>
                             </tr>';
                 }
