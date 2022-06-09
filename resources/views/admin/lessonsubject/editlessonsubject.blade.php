@@ -1,8 +1,8 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="col-md-4">
-        <div class="topSection px-4 py-4 bgWhite">
+    <div class="col-md-5">
+        <div class="topSection myHeight px-4 py-4 bgWhite">
             <h1 class="txtLeft">Edit Record</h1>
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -32,6 +32,12 @@
                     <div class="col-md-6"><label for="name">Name</label></div>
                     <div class="col-md-6">
                         <input type="text" name="name" class="form-control" value="{{ $lessonsubjects->name }}" required>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6"><label for="pdf_data">PDF File</label></div>
+                    <div class="col-md-6">
+                        <input type="file" name="pdf_data" class="form-control" value="{{ $lessonsubjects->pdf_data }}">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary btnGreen">Save</button>

@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="col-md-6">
+    <div class="col-md-7 noPadRight">
         <div class="topSection tblLessonPnl px-4 py-4 bgWhite">
             <h2 class="mb-4">Completed Lessons (13)</h2>
             <div class="table-responsive mt-4">
@@ -136,12 +136,6 @@
                                     <label class="form-check-label" for="Article">Article for lesson (Name of article)</label>
                                 </div>
                             </div>
-                            <div class="brdrGray">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="lesson">
-                                    <label class="form-check-label" for="lesson">Article for lesson (Name of article)</label>
-                                </div>
-                            </div>
                         </div>
                         <div class="btnsBtmSec pull-right mt-2">
                             <div class="the-final-countdown"><p></p></div>
@@ -177,12 +171,6 @@
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="Article">
                                     <label class="form-check-label" for="Article">Article for lesson (Name of article)</label>
-                                </div>
-                            </div>
-                            <div class="brdrGray">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="lesson">
-                                    <label class="form-check-label" for="lesson">Article for lesson (Name of article)</label>
                                 </div>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="col-md-10">
+    <div class="col-md-11">
         <div class="topSection tblLessonPnl px-4 py-4 bgWhite">
             <h2 class="mb-4">Homework</h2>
             <h4 class="mb-4">PLease answer the questions below:</h4>

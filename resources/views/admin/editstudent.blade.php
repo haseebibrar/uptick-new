@@ -1,8 +1,8 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="col-md-4">
-        <div class="topSection px-4 py-4 bgWhite">
+    <div class="col-md-5">
+        <div class="topSection myHeight px-4 py-4 bgWhite">
             <h1 class="txtLeft">Edit Student Record</h1>
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -22,7 +22,7 @@
                 if($myImage <> ""){
                     echo '<div class="row mb-4">
                             <div class="col-md-12 mx-auto mt-5">
-                                <img class="d-block mx-auto rounded-circle" style="width:200px;" src="'.$myImage.'" alt="'.$students->name.'" title="'.$students->name.'" />
+                                <img class="d-block mx-auto rounded-circle" style="width:200px; height:125px;" src="'.$myImage.'" alt="'.$students->name.'" title="'.$students->name.'" />
                             </div>
                         </div>';
                 }

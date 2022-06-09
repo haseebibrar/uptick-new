@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Company;
 use App\Models\Teacher;
+use App\Models\Event;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\FocusArea;
@@ -22,12 +23,41 @@ class AdminController extends Controller
         if(Auth::user()->is_super > 0)
             return view('admin');
         else{
-            $myCompID   = Auth::user()->company_id;
-            $students   = User::where('company_id', '=', $myCompID)->leftJoin('departments', 'users.dept_id', '=', 'departments.id')->select('users.*','departments.name as deptname')->ORDERBY('id', 'DESC')->get();
-            $myCompany  = Company::where('id', '=', $myCompID)->first();
-            $bankHours  = $myCompany->bank_hours;
-            $totalStudents = count($students);
-            return view('admin.hr', compact('students', 'myCompID', 'totalStudents', 'bankHours'));
+            $myCompID       = Auth::user()->company_id;
+            $students       = User::where('company_id', '=', $myCompID)->leftJoin('departments', 'users.dept_id', '=', 'departments.id')->select('users.*','departments.name as deptname')->ORDERBY('id', 'Asc')->get();
+            $myCompany      = Company::where('id', '=', $myCompID)->first();
+            $bankHours      = $myCompany->bank_hours;
+            $totalStudents  = count($students);
+            $totalConductW  = 0;
+            $totalSchedtW   = 0;
+            $totalConductM  = 0;
+            $totalSchedtM   = 0;
+
+            if($students->isNotEmpty()){
+                $oldDate = date('Y-m-d', strtotime('-7 days'));
+                $monDate = date('Y-m-d', strtotime('-30 days'));
+                $curDate = date('Y-m-d H:i:s');
+                foreach($students as $student){
+                    $eventcondut   = Event::where('student_id', '=', $student->id)->where('status', '=', 'canceled')->whereDate('start', '>=', $oldDate)->whereDate('start', '<=', $curDate)->get();
+                    $totalConduct = count($eventcondut);
+
+                    $eventshecd   = Event::where('student_id', '=', $student->id)->whereDate('start', '>=', $oldDate)->whereDate('start', '<=', $curDate)->get();
+                    $totalSchedt  = count($eventshecd);
+
+                    $eventcondutM   = Event::where('student_id', '=', $student->id)->where('status', '=', 'canceled')->whereDate('start', '>=', $monDate)->whereDate('start', '<=', $curDate)->get();
+                    $totalConductI = count($eventcondut);
+
+                    $eventshecdM   = Event::where('student_id', '=', $student->id)->whereDate('start', '>=', $monDate)->whereDate('start', '<=', $curDate)->get();
+                    $totalSchedtI  = count($eventshecd);
+
+                    $totalConductW  = $totalConductW+$totalConduct;
+                    $totalSchedtW   = $totalSchedtW+$totalSchedt;
+                    $totalConductM  = $totalConductM+$totalConductI;
+                    $totalSchedtM   = $totalSchedtM+$totalSchedtI;
+                }
+            }
+            
+            return view('admin.hr', compact('students', 'myCompID', 'totalStudents', 'bankHours', 'totalConductW', 'totalSchedtW', 'totalConductM', 'totalSchedtM'));
         }
     }
 
@@ -552,12 +582,23 @@ class AdminController extends Controller
             return view('admin.lessonsubject.addlessonsubject', compact('focusareas'));
         }else{
             $request->validate([
-                'name'        => 'required',
+                'name'      => 'required',
+                'pdf_data'  => 'mimetypes:application/pdf',
             ]);
             $input = $request->all();
+            if ($pdf_data = $request->file('pdf_data')) {
+                $destinationPath = 'images/users/';
+                $pdfFile = date('YmdHis') . "." . $pdf_data->getClientOriginalExtension();
+                $pdf_data->move($destinationPath, $pdfFile);
+                $input['pdf_data'] = "$pdfFile";
+            }
+            $myPDF = '';
+            if(isset($input['pdf_data']))
+                $myPDF = $input['pdf_data'];
             LessonSubject::create([
                 'focusarea_id'=> $input['focusarea_id'],
                 'name'        => $input['name'],
+                'pdf_data'    => $myPDF,
             ]);
             return redirect()->route('admin.lessonsubjects')->with('success','Lesson Added Successfully.');
         }
@@ -574,13 +615,26 @@ class AdminController extends Controller
     {
         //dd($request->all());
         $lesson                = LessonSubject::findorFail($request->id);
+        if ($image = $request->file('pdf_data')) {
+            $destinationPath = 'images/users/';
+            if(!empty($lesson->pdf_data))
+                unlink($destinationPath.$student->pdf_data);
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $request->pdf_data = "$profileImage";
+        }
         $lesson->name          = $request->name;
         $lesson->focusarea_id  = $request->focusarea_id;
+        if(isset($request->pdf_data))
+            $lesson->pdf_data   = $request->pdf_data;
         $lesson->save();
         return redirect()->route('admin.lessonsubjects')->with('success','Record Updated Successfully.');
     }
 
     public function delLessonsubject($myID){
+        $rec = LessonSubject::find($myID);
+        if(!empty($rec->pdf_data))
+            unlink("images/users/".$rec->pdf_data); 
         LessonSubject::where("id", $myID)->delete();
         return redirect()->route('admin.lessonsubjects')->with('success','Record Deleted Successfully.');
     }

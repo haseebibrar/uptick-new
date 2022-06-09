@@ -129,11 +129,10 @@
   <div class="modal" id="myModalDel" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modalEvents modal-dialog-centered" role="document">
       <div class="modal-content px-4 py-4">
-        <div style="font-size: 15px; text-align:center; display:none;" class="mb-4 delWarning">Your lesson is less than 24 hours away, which means that it can't be canceled and will count as a lesson 🙁</div>
         <div style="font-size: 15px; text-align:center;" class="mb-4">Are you sure you want to delete this lesson?</div>
         <div style="display:flex; text-align:center; margin: 0 auto;">
           <a href="javascript:void(0)" class="btnStndrd btnGreen closeModal" style="margin-right: 10px;">No</a>
-          <a href="javascript:void(0)" data-id="" data-lesshour="0" class="btnDelEvent btnStndrd btnGray">Yes</a>
+          <a href="javascript:void(0)" data-id="" class="btnDelEvent btnStndrd btnGray">Yes</a>
         </div>
       </div>
     </div>
@@ -157,114 +156,7 @@
 {{-- <script src="{{ asset('js/moment.js') }}"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
 <script>
-var calendar;
-  $(document).ready(function () {
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    var calendarEl = document.getElementById('calendar');
-    var SITEURL = "{{url('/')}}";
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      themeSystem       : 'standard',
-      height            : '85vh',
-      allDaySlot        : false,
-      expandRows        : true,
-      slotMinTime       : '07:00',
-      slotMaxTime       : '22:00',
-      slotDuration      : '01:00',
-      headerToolbar     : {
-        left    : 'prev,next today',
-        center  : 'title',
-        right   : 'timeGridWeek,timeGridDay'
-      },
-      initialView       : 'timeGridWeek',
-      navLinks          : true, // can click day/week names to navigate views
-      editable          : false,
-      selectable        : true,
-      nowIndicator      : true,
-      dayMaxEvents      : true, // allow "more" link when too many events
-      events: {
-        url: SITEURL + "/getevents",
-        failure: function() {
-          //document.getElementById('script-warning').style.display = 'none'
-        }
-      },
-      eventDidMount: function (info) {
-        //console.log(info);
-        info.el.innerHTML = '<div class="eventInfo">'+info.timeText+'<br />'+info.event._def.title+' / '+info.event._def.extendedProps.description+'</div>';
-      },
-      loading: function(bool) {
-        document.getElementById('loading').style.display =bool ? 'block' : 'none';
-      },
-      select: function(arg) {
-        var myStart = moment(arg.start, "m-dd-y");
-        //alert(myStart);
-        if(myStart.isBefore(moment())) {
-            alert("You can't book in past!");
-            return false;
-        }
-        //console.log(arg.jsEvent);
-        //arg.dayEl.style.backgroundColor = 'red';
-        //alert(arg.start);
-        $.ajax({
-            url: SITEURL + "/get-data",
-            data: {start:arg.start, end:arg.end},
-            type: "POST",
-            success: function (data) {
-              if(data === "1"){
-                // alert();
-                $('#myModalSmall .modal-content').html('<div style="font-size: 15px; text-align:center;" class="mb-4">You don\'t have any Hours please contact with your company.</div><div style="display:flex; text-align:center; margin: 0 auto;"><a href="javascript:void(0)" class="btnStndrd btnGreen closeModal" style="margin-right: 10px;">Close</a></div>');
-                $('#myModalSmall').modal('show');
-              }else{
-                $('.disabledDivFocus').hide();
-                myData = data.split("--");
-                $('#myday').val(myData[0]);
-                $('#mydate').val(myData[1]);
-                $('#mystart').val(myData[2]);
-                $('#myend').val(myData[3]);
-                 $('#mydatefull').val(myData[4]);
-                $("input[name='focusarea']:radio").prop( "checked", false );
-                $('.disabledDiv').show();
-              }
-              return false;
-            }
-        });
-        calendar.unselect()
-      },
-      eventClick: function(arg) {
-        //$('#myModal').modal('show');
-        var myEventID = arg.event.id;
-        $('.editEvent, .dltEvent').attr('data-id', myEventID);
-        $('.modal-backdrop').hide();
-        $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Loading...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
-        $('#myModalSmall').modal('show');
-        $.ajax({
-            url: "{{url('/')}}/editbook",
-            type:'POST',
-            data: {_token:"{{ csrf_token() }}", myEventID:myEventID},
-            success: function(data) {
-              $('#myModalSmall').modal('hide');
-              $('#myModalSec').modal('show');
-              //$('#myModalSec .modal-content').html(data);
-              //alert(myDateFull);
-              //$('.datepicker').val(myDateFull);
-              //$('.datepicker').datepicker({
-              //  autoclose : true,
-              //  format    : 'M dd yyyy', //format    : moment().format('MM D YYYY'),
-              //  startDate : 'd'
-              //});
-              //$('.timeDiv').html(data);
-              //$('#myModal').modal('show');
-              //$('#myModalSmall').modal('hide');
-              //$('#myModalSmall .modal-content').html(data);
-            }
-        });
-      },
-    });
-    calendar.render();
-
+$(document).ready(function () {
     $('#myModalSmall').modal({
       backdrop: 'static', 
       keyboard: false
@@ -285,12 +177,11 @@ var calendar;
     });
 
     $(document).off('click', '.closeModal').on('click', '.closeModal', function(){
-      $('#myModal, #myModalSmall, #myModalDel, #myModalSec').modal('hide');
+      $('#myModal, #myModalSmall, #myModalDel').modal('hide');
     });
 
     $(document).off('click', '.dltEvent').on('click', '.dltEvent', function(){
       $('#myModalSec').modal('hide');
-      $('.delWarning').hide();
       $('#myModalDel').modal('show');
       var myEventID = $(this).attr('data-id');
       $('.btnDelEvent').attr('data-id', myEventID);
@@ -298,25 +189,16 @@ var calendar;
 
     $(document).off('click', '.btnDelEvent').on('click', '.btnDelEvent', function(){
       $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Processing...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
-      $('#myModalSmall').modal('show');
       //var _token = {{ csrf_token() }};
-      var myEventID   = $(this).attr('data-id');
-      var myLessHour  = $(this).attr('data-lesshour');
+      var myEventID = $(this).attr('data-id');
       $.ajax({
           url: "{{url('/')}}/event-delete",
           type:'POST',
-          data: {_token:"{{ csrf_token() }}", myEventID:myEventID, myLessHour:myLessHour},
+          data: {_token:"{{ csrf_token() }}", myEventID:myEventID},
           success: function(data) {
-            $('#myModalSmall').modal('hide');
-            if(data === "No"){
-              $('.delWarning').show();
-              $('.btnDelEvent').attr('data-lesshour', 1);
-              //
-            }else{
-              $('#myModalDel').modal('hide');
-              calendar.refetchEvents();
-              $('.btnDelEvent').attr('data-lesshour', 0);
-            }
+            calendar.getEventById(myEventID).remove();
+            //calendar.fullCalendar('removeEvents', myEventID);
+            $('#myModalDel').modal('hide');
             //$('#myModalSmall .modal-content').html(data);
           }
       });
@@ -412,6 +294,115 @@ var calendar;
           }
       });
     });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    var calendarEl = document.getElementById('calendar');
+    var SITEURL = "{{url('/')}}";
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      themeSystem       : 'standard',
+      height            : '85vh',
+      allDaySlot        : false,
+      expandRows        : true,
+      slotMinTime       : '07:00',
+      slotMaxTime       : '22:00',
+      slotDuration      : '01:00',
+      headerToolbar     : {
+        left    : 'prev,next today',
+        center  : 'title',
+        right   : 'timeGridWeek,timeGridDay'
+      },
+      initialView       : 'timeGridWeek',
+      navLinks          : true, // can click day/week names to navigate views
+      editable          : true,
+      selectable        : true,
+      nowIndicator      : true,
+      dayMaxEvents      : true, // allow "more" link when too many events
+      events: {
+        url: SITEURL + "/getevents",
+        failure: function() {
+          //document.getElementById('script-warning').style.display = 'none'
+        }
+      },
+      eventDidMount: function (info) {
+        //console.log(info);
+        info.el.innerHTML = '<div class="eventInfo">'+info.timeText+'<br />'+info.event._def.title+' / '+info.event._def.extendedProps.description+'</div>';
+      },
+      loading: function(bool) {
+        document.getElementById('loading').style.display =bool ? 'block' : 'none';
+      },
+      select: function(arg) {
+        var myStart = moment(arg.start, "m-dd-y");
+        //alert(myStart);
+        if(myStart.isBefore(moment())) {
+            alert("You can't book in past!");
+            return false;
+        }
+        //console.log(arg.jsEvent);
+        //arg.dayEl.style.backgroundColor = 'red';
+        //alert(arg.start);
+        $.ajax({
+            url: SITEURL + "/get-data",
+            data: {start:arg.start, end:arg.end},
+            type: "POST",
+            success: function (data) {
+              if(data === "1"){
+                // alert();
+                $('#myModalSmall .modal-content').html('<div style="font-size: 15px; text-align:center;" class="mb-4">You don\'t have any Hours please contact with your company.</div><div style="display:flex; text-align:center; margin: 0 auto;"><a href="javascript:void(0)" class="btnStndrd btnGreen closeModal" style="margin-right: 10px;">Close</a></div>');
+                $('#myModalSmall').modal('show');
+              }else{
+                $('.disabledDivFocus').hide();
+                myData = data.split("--");
+                $('#myday').val(myData[0]);
+                $('#mydate').val(myData[1]);
+                $('#mystart').val(myData[2]);
+                $('#myend').val(myData[3]);
+                 $('#mydatefull').val(myData[4]);
+                $("input[name='focusarea']:radio").prop( "checked", false );
+                $('.disabledDiv').show();
+              }
+              return false;
+            }
+        });
+        calendar.unselect()
+      },
+      eventClick: function(arg) {
+        //$('#myModal').modal('show');
+        var myEventID = arg.event.id;
+        $('.editEvent, .dltEvent').attr('data-id', myEventID);
+        $('.modal-backdrop').hide();
+        $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Loading...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
+        $('#myModalSmall').modal('show');
+        $.ajax({
+            url: "{{url('/')}}/editbook",
+            type:'POST',
+            data: {_token:"{{ csrf_token() }}", myEventID:myEventID},
+            success: function(data) {
+              $('#myModalSmall').modal('hide');
+              $('#myModalSec').modal('show');
+              //$('#myModalSec .modal-content').html(data);
+              //alert(myDateFull);
+              //$('.datepicker').val(myDateFull);
+              //$('.datepicker').datepicker({
+              //  autoclose : true,
+              //  format    : 'M dd yyyy', //format    : moment().format('MM D YYYY'),
+              //  startDate : 'd'
+              //});
+              //$('.timeDiv').html(data);
+              //$('#myModal').modal('show');
+              //$('#myModalSmall').modal('hide');
+              //$('#myModalSmall .modal-content').html(data);
+            }
+        });
+      },
+    });
+    calendar.render();
   });
 </script>
 @endsection

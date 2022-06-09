@@ -4,7 +4,7 @@
     @php
         //dd(Auth::user());
     @endphp
-    <div class="col-md-7 myHeight noPadRight">
+    <div class="col-md-8 noPadRight">
         <div class="topSection studentStatsTop px-4 py-4 bgWhite">
             <div class="row">
                 <div class="col-md-6">
@@ -12,11 +12,11 @@
                     <div class="row justify-content-md-center">
                         <div class="col col-md-4 mr-2 innerNumsDiv bgGreen">
                             <h3>Conducted</h3>
-                            <div class="numsData">22</div>
+                            <div class="numsData">{{ $totalConductW }}</div>
                         </div>
                         <div class="col col-md-4 innerNumsDiv bgPink">
                             <h3>Scheduled</h3>
-                            <div class="numsData">40</div>
+                            <div class="numsData">{{ $totalSchedtW }}</div>
                         </div>
                     </div>
                 </div>
@@ -25,11 +25,11 @@
                     <div class="row justify-content-md-center">
                         <div class="col col-md-4 mr-2 innerNumsDiv bgGreenDark">
                             <h3>Conducted</h3>
-                            <div class="numsData">100</div>
+                            <div class="numsData">{{ $totalConductM }}</div>
                         </div>
                         <div class="col col-md-4 innerNumsDiv bgYellow">
                             <h3>Scheduled</h3>
-                            <div class="numsData">160</div>
+                            <div class="numsData">{{ $totalSchedtM }}</div>
                         </div>
                     </div>
                 </div>
@@ -56,18 +56,37 @@
                                 $myImage = '';
                                 if(!empty($student->image))
                                     $myImage = asset('images/users/'.$student->image);
+                                
+                                $studentEv  = $student->events;
+                                $pastEvents = 0;
+                                $totalEvent = 0;
+                                $myPercente = 0;
+                                $canceled   = 0;
+                                if($studentEv->isNotEmpty()){
+                                    foreach($studentEv as $event){
+                                        $myTime = strtotime($event->start);
+                                        if($myTime < time())
+                                            $pastEvents = $pastEvents+1;
+                                        if($event->status === "canceled")
+                                            $canceled = $canceled+1;
+                                    }
+                                    $totalEvent = count($studentEv);
+                                    $myPercente = round(($pastEvents / $totalEvent)*100, 2);
+                                    //dd($myPercente);
+                                }
+                                //dd($student->events);
                             @endphp
                             <tr>
-                                <td class="align-middle"><div class="circleAct"></div></td>
-                                <td class="align-middle text-nowrap"><div style="display:flex;">{!! ($myImage === "" ? '' : '<img class="imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!}<div style="margin-top: 0.8rem; text-align: center; line-height: 1.4;">{{$student->name}}<br /><p class="noMargin txtSmall">{{$student->title}}</p></div></div></td>
+                                <td class="align-middle"><div class="circleAct{{ $totalEvent < 1 ? ' circleActRed' : '' }}"></div></td>
+                                <td class="align-middle text-nowrap"><div style="display:flex;">{!! ($myImage === "" ? '' : '<img class="imgmr-1" style="width:50x; height:30px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!}<div style="margin-top: 0.4rem; text-align: center; line-height: 1.4;">{{$student->name}}<br /><p class="noMargin txtSmall">{{$student->title}}</p></div></div></td>
                                 <td class="align-middle">{{ $student->deptname }}</td>
                                 <td class="align-middle">
-                                    <div class="txtCenter">3/6</div>
+                                    <div class="txtCenter">{{ $pastEvents }}/{{ $totalEvent }}</div>
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar" role="progressbar" style="width: {{ $myPercente }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </td>
-                                <td class="align-middle txtCenter">{{ rand(1, 10) }}</td>
+                                <td class="align-middle txtCenter">{{ $canceled }}</td>
                                 <td class="text-nowrap">
                                     <a href="/admin/students/edit/{{$student->id}}" class="btn mr-3 btnGray"><i class="fa fa-pencil"></i></a>
                                     <a href="javascript:void(0)" data-id="{{$student->id}}" class="btn btnDel btnGray"><i class="fa fa-trash"></i></a>
@@ -119,7 +138,10 @@
             language: {
                 search: "",
                 searchPlaceholder: "Search"
-            }
+            },
+            targets: 'no-sort',
+            bSort: false,
+            order: []
         });
         $("#myDataTableStudent_wrapper .row:first div:first").append('Total: {{ $totalStudents }} members');
         $("#myDataTableStudent_filter").append("<a class='btn btnSearchBox btnGreen' href='/admin/students/add'>+ Add Member</a><div class='newBtnsDiv'><p>Hourly Bank: {{ $bankHours }}/500</p><a data-id='{{ $myCompID }}' class='btn btnGrayBg btnSearchBox btnDivide' href='javascript:void(0)'>Auto Divide</a></div>")

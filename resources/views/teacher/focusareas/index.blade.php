@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="col-md-10">
+    <div class="col-md-11">
         <h1 class="txtLeft">Lesson's Material</h1>
         @if ($message = Session::get('success'))
             <div class="alert alert-success" id="msgSuccess">

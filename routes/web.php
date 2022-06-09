@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/homework', [StudentController::class, 'studentHomework']);
     Route::post('/geteachers', [StudentController::class, 'getTeachers']);
     Route::post('/openbookpoup', [StudentController::class, 'getTeachersDetail']);
+    Route::post('/editbook', [StudentController::class, 'getCalEdit']);
     //fullcalender
     Route::any('/get-data', [StudentController::class, 'getClickData']);
     Route::get('/getevents', [StudentController::class, 'getCalEvents']);

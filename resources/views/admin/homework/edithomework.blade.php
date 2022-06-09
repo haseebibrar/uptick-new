@@ -1,8 +1,8 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="col-md-6">
-        <div class="topSection px-4 py-4 bgWhite">
+    <div class="col-md-7">
+        <div class="topSection myHeight px-4 py-4 bgWhite">
             <h1 class="txtLeft">Edit Record</h1>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success" id="msgSuccess">

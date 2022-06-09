@@ -44,7 +44,7 @@
             <main class="px-2 py-2" style="background-color: #F8F8F8;">
                 <div class="container innerData">
                     <div class="row justify-content-center">
-                        <div class="px-4 py-4 col-md-2 myHeight" style="position:relative; background-color: #FFF;">
+                        <div class="px-4 py-4 col-md-1 myHeight" style="position:relative; background-color: #FFF;">
                             <div class="profilePnl txtCenter">
                                 <img class="mx-auto d-block rounded-circle proImg" src="<?php echo $myImage; ?>" alt="{{ Auth::user()->name }} Image" title="{{ Auth::user()->name }} Image" />
                                 <p class="usrName mb-0">{{ Auth::user()->name }}</p>
@@ -126,7 +126,7 @@
                                 @endphp
                                 <div class="txtCenter navLaftCnt mb-4">
                                     <a class="navLaft mb-4 schedLesson{{ (request()->is('home')) ? ' active' : '' }}" href="/home">Schedule a<br />lesson</a>
-                                    <a class="navLaft mb-4{{ (request()->is('past-future-lesson')) ? ' active' : '' }}" href="/past-future-lesson"><img src="{{ asset('images/checklist.svg') }}" alt="Past and future lessons" title="Past and future lessons" /><br />Past and future<br />lessons</a>
+                                    <a class="navLaft mb-4 pastLesson{{ (request()->is('past-future-lesson')) ? ' active' : '' }}" href="/past-future-lesson"><img src="{{ asset('images/checklist.svg') }}" alt="Past and future lessons" title="Past and future lessons" /><br />Past and future<br />lessons</a>
                                     <div class="logoutDiv txtCenter mb-4">
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

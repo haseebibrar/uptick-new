@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'student_id');
+    }
 }

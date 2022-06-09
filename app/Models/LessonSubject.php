@@ -14,6 +14,7 @@ class LessonSubject extends Authenticatable
     protected $fillable = [
         'name',
         'focusarea_id',
+        'pdf_data',
     ];
 
     public function homeworks()

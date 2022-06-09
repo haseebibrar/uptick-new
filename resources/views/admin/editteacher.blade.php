@@ -1,8 +1,8 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="col-md-4">
-        <div class="topSection px-4 py-4 bgWhite">
+    <div class="col-md-5">
+        <div class="topSection px-4 py-4 myHeight bgWhite">
             <h1 class="txtLeft">Edit Tutors Record</h1>
             @if ($errors->any())
                 <div class="alert alert-danger">

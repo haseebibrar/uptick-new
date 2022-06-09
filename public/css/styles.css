@@ -26,7 +26,7 @@ body {
     line-height: normal;
 }
 .btnMainScreen{
-    font-size: 17px;
+    font-size: 24px;
     background: #58CFEF 0% 0% no-repeat padding-box;
     padding: .5rem 3rem !important;
     width: fit-content;
@@ -85,18 +85,18 @@ a:hover{
     background: linear-gradient(180deg, white 50%, #FD6B82 50%);
     padding-bottom: .6rem !important;
     margin-bottom: .7rem !important;
-    font-size: 3rem !important;
+    font-size: 4rem !important;
     display: inline-block;
     padding-right: 1rem;
     padding-left: 1rem;
     font-weight: 500;
 }
 .welcomeCont .headSec h2 {
-    font-size: 2rem !important;
+    font-size: 2.5rem !important;
     font-weight: 500;
 }
 .welcomeCont .btmSecMain{
-    max-width: 855px;
+    max-width: 950px;
     margin: 0 auto;
     height: 42vh;
 }
@@ -111,8 +111,8 @@ a:hover{
 }
 .frontData .card{
     box-shadow: 3px 3px 44px #00000029 !important;
-    padding: 4rem 3rem 1rem 3rem !important;
-    width: 55% !important;
+    padding: 5rem 6rem 2rem 6rem !important;
+    width: 62% !important;
     border: none;
 }
 .frontDataSec .card{
@@ -175,7 +175,7 @@ a:hover{
 }
 .btmCnt{
     position:absolute;
-    left: 30%;
+    left: 15%;
     bottom: 50px;
 }
 .proImg{
@@ -284,6 +284,9 @@ h5{
     margin: 0 auto;
     height: 14px;
     width: 14px;
+}
+.circleActRed{
+    background: #EE585D;
 }
 .btnSearchBox{
     padding: 0.2rem 0.75rem !important;
@@ -446,7 +449,7 @@ h5{
     color: white;
 }
 .modal-dialog {
-    max-width: 1000px;
+    max-width: 500px;
     max-height: fit-content;
     margin: 30px auto;
 }
@@ -476,7 +479,7 @@ h5{
 }
 .tblLessonPnl, .tblLessonPnlRight{
     overflow-y: scroll;
-    max-height: 700px;
+    height: 97.7vh;
 }
 .noMargin{
     margin: 0px !important;
@@ -485,6 +488,9 @@ h5{
     padding: 0.2rem 0.75rem;
     border-radius: 0px;
     border: 0px !important;
+}
+.frontData .form-control{
+    border-bottom: 1px solid black !important;
 }
 .schedLesson{
     background: url(/images/schedule_icon.svg) no-repeat top center;
@@ -516,7 +522,7 @@ h5{
     max-width: 500px !important;
 }
 #myModal .modalEvents .modal-content{
-    max-width: 700px !important;
+    max-width: 500px !important;
 }
 .innerSec{
     margin: 0 auto;
@@ -527,6 +533,15 @@ h5{
 }
 .myHeight{
     height: 97.9vh;
+    max-height: 97.9vh;
+    overflow-y: scroll;
+}
+.fc-event-main{
+    display: none !important;
+}
+.eventInfo{
+    max-height: 65px !important;
+    color: white !important;
 }
 /* width */
 ::-webkit-scrollbar {

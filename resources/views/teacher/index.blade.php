@@ -24,7 +24,7 @@
       <p>{{ $message }}</p>
     </div>
   @endif
-  <div class="col-md-6">
+  <div class="col-md-7 noPadRight">
     <div class="topSection px-4 py-4 bgWhite">
       <h2 class="mb-4">Schedule a lesson</h2>
       <div id='loading'>loading...</div>
@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="topSection px-4 py-4 bgWhite">
+    <div class="topSection px-4 py-4 myHeight bgWhite">
       <h3 class="mb-4 text-center">Set your weekly hours</h3>
       <div class="innerSec">
         <form class="mt-4 mb-4" method="POST" action="/teacher/updatetime" enctype="multipart/form-data">
@@ -491,7 +491,7 @@
     var SITEURL = "{{url('/')}}";
     var calendar = new FullCalendar.Calendar(calendarEl, {
       themeSystem       : 'standard',
-      height            : 'auto',
+      height            : '85vh',
       allDaySlot        : false,
       expandRows        : true,
       slotMinTime       : '07:00',
@@ -516,49 +516,8 @@
       },
       eventDidMount: function(info) {
         //console.log(info);
-        if ( $(info.el).find(".badge-pill") ) {
-            var pill = document.createElement("span");
-            var freikapa = info.event.extendedProps.description;
-            if (isNaN(freikapa)) {
-                console.log(freikapa);
-                //console.info(info.timeText);
-                pill.innerText = freikapa; 
-                if (freikapa == 0) {
-                    pill.classList.add("badge","badge-pill","badge-danger");
-                } else {
-                    pill.classList.add("badge","badge-pill","badge-success");
-                }
-                var fcevent = info.el.querySelector('.fc-event-time'); // for gridView
-                if (fcevent ) { 
-                    fcevent.textContent += " ";
-                    fcevent.append(pill);
-                }
-                fcevent = info.el.querySelector('.fc-list-event-graphic');  // for listView
-                if (fcevent ) { 
-                    fcevent.textContent += " ";
-                    fcevent.append(pill);
-                }
-            } else {
-              console.info(info.event.extendedProps.timeText);
-                
-            }
-        } else {
-            console.info("eventDidMount: pill-Klasse schon vorhanden:", info.el);
-        }     
+        info.el.innerHTML = '<div class="eventInfo">'+info.timeText+'<br />'+info.event._def.title+' / '+info.event._def.extendedProps.description+'</div>';
       },
-      /*eventDidMount: function(arg, createElement) { 
-        console.log(arg.event);
-        var desc  = arg.event.extendedProps.description;
-        var title = arg.event.title;
-        var start = ' <div>'+arg.event.start+'</div>';
-        var end   = arg.event.end;
-        text = title+' / '+desc+start;
-        return {
-            html: text
-          };
-        //console.log(event.event.extendedProps.description);
-        //element.append("<br/>" + event.event.extendedProps.description); 
-      },*/
       loading: function(bool) {
         document.getElementById('loading').style.display =bool ? 'block' : 'none';
       },

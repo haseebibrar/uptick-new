@@ -110,32 +110,12 @@ class StudentController extends Controller
                 $startOptions .= $myTime[1];
                 $endOptions .= $myTime[2];
             }
-            $myData = '<div class="col-md-4"><select name="starttime" class="form-control">'.$startOptions.'</select></div><div class="col-md-1 text-center"> - </div><div class="col-md-4"><select name="endtime" class="form-control">'.$endOptions.'</select></div></div>';
+            $myData = '<div class="col-md-3"><select name="starttime" class="form-control">'.$startOptions.'</select></div><div class="col-md-1 text-center"> - </div><div class="col-md-3"><select name="endtime" class="form-control">'.$endOptions.'</select></div></div>';
         }else{
             $myData = '1';
         }
             // dd($myData);
         return $myData;
-    }
-
-    public function getTimes ($default = '', $startTime, $endTime, $interval = '+60 minutes')
-    {
-        $output     = '';
-        $current    = strtotime('07:00');
-        $end        = strtotime('23:00');
-        $start_time = strtotime($startTime);
-        $end_time   = strtotime($endTime);
-        while ($current <= $end) {
-            $time   = date('H:i', $current);
-            //$myTime = date('H:i', strtotime($current));
-            //dd($current.' || '.$start_time.' || '.$end_time);
-            if ($current >= $start_time && $current <= $end_time){
-                $sel = ($time == $default) ? ' selected' : '';
-                $output .= "<option value=\"{$time}\"{$sel}>" . date('h.i A', $current) .'</option>';
-            }
-            $current = strtotime($interval, $current);
-        }
-        return $output;
     }
 
     public function pastLessosns(){
@@ -154,20 +134,18 @@ class StudentController extends Controller
             $studentID  = Auth::user()->id;
             $start  = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
             $end    = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
-            $data   = Event::where('student_id', '=', $studentID)->whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','teacher_id','start', 'end']);
+            $data   = DB::table('events')->where('events.student_id', '=', $studentID)->where('events.status', '<>', 'canceled')->whereDate('events.start', '>=', $start)->whereDate('events.end', '<=', $end)
+                            ->join('focus_areas', 'focus_areas.id', '=', 'events.focusarea_id')
+                            ->join('teachers', 'teachers.id', '=', 'events.teacher_id')
+                            ->get(['events.id', 'events.start', 'events.end', 'events.class_name as className', 'focus_areas.name as title', 'teachers.name as description']);
+            // $data   = Event::where('student_id', '=', $studentID)->whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','teacher_id','start', 'end']);
             //return $data;
             return response()->json($data);
         }
-        //$teachers   = '';
-        //$focusareas = '';
-        // $teachers   = Teacher::all();
-        // $focusareas = FocusArea::all();
-        // return view('student.index', compact('teachers', 'focusareas'));
     }
 
     public function getClickData(Request $request)
     {
-        //dd(Auth::user()->allocated_hour);
         if(!empty(Auth::user()->allocated_hour)){
             $strDate    = substr($request->start,4,20);
             $endDate    = substr($request->end,4,20);
@@ -181,6 +159,10 @@ class StudentController extends Controller
         }else{
             return '1';
         }
+    }
+
+    public function getCalEdit(Request $request){
+
     }
 
     public function saveEvent(Request $request)
@@ -219,8 +201,46 @@ class StudentController extends Controller
  
     public function eventDelete(Request $request)
     {
-        // dd($request->all());
-        $event = Event::where('id',$request->id)->delete();
-        return Response::json($event);
+        $bookData = Event::where('id', '=', $request->myEventID)->first();
+        $myTime = strtotime($bookData->start);
+        if($myTime > time() + 86400){
+            $bookData->status = 'canceled';
+            $bookData->save();
+            $studentID  = Auth::user()->id;
+            $student    = User::where('id', '=', $studentID)->first();
+            $myHours    = intval($student->allocated_hour) + 1;
+            $student->allocated_hour    = $myHours;
+            $student->save();
+        }else{
+            if($request->myLessHour === '1'){
+                $bookData->status = 'canceled';
+                $bookData->save();
+            }else
+                return 'No';
+        }
+        return 'Done';
+        //dd($request->all());
+        // $event = Event::where('id',$request->id)->delete();
+        // return Response::json($event);
+    }
+
+    public function getTimes ($default = '', $startTime, $endTime, $interval = '+60 minutes')
+    {
+        $output     = '';
+        $current    = strtotime('07:00');
+        $end        = strtotime('23:00');
+        $start_time = strtotime($startTime);
+        $end_time   = strtotime($endTime);
+        while ($current <= $end) {
+            $time   = date('H:i', $current);
+            //$myTime = date('H:i', strtotime($current));
+            //dd($current.' || '.$start_time.' || '.$end_time);
+            if ($current >= $start_time && $current <= $end_time){
+                $sel = ($time == $default) ? ' selected' : '';
+                $output .= "<option value=\"{$time}\"{$sel}>" . date('h.i A', $current) .'</option>';
+            }
+            $current = strtotime($interval, $current);
+        }
+        return $output;
     }
 }
