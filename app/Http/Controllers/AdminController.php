@@ -259,12 +259,12 @@ class AdminController extends Controller
             if(isset($input['image']))
                 $myImage = $input['image'];
             //dd($input);
-            $password = Hash::make($input['password']);
+            //$password = Hash::make($input['password']);
             User::create([
                 'company_id'=> $input['company_id'],
                 'name'      => $input['name'],
                 'email'     => $input['email'],
-                'password'  => $password,
+                'password'  => Hash::make($input['password']),
                 'image'     => $myImage,
                 'phone'     => $input['phone'],
                 'title'     => $input['title'],
@@ -273,7 +273,7 @@ class AdminController extends Controller
             $emailData = [
                 'first_name'=> $input['name'], 
                 'email'     => $input['email'],
-                'password'  => $password
+                'password'  => $input['password']
             ];
             Mail::to($input['email'])->send(new NotifyMail($emailData, 'signup'));
             if(Auth::user()->is_super > 0)
