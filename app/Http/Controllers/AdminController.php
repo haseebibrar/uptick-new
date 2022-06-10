@@ -14,6 +14,8 @@ use App\Models\LessonSubject;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use DB;
+use Mail;
+use App\Mail\NotifyMail;
 
 class AdminController extends Controller
 {
