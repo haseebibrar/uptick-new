@@ -17,9 +17,11 @@ class NotifyMail extends Mailable
      * @return void
      */
     public $data;
-    public function __construct($data)
+    public $filename;
+    public function __construct($data, $filename)
     {
         $this->data = $data;
+        $this->filename = $filename;
     }
 
     /**
@@ -29,6 +31,6 @@ class NotifyMail extends Mailable
      */
     public function build()
     {
-       return $this->view('emails.emaildata')->with('data', $this->data);
+       return $this->view('emails.'.$this->filename)->with('data', $this->data);
     }
 }

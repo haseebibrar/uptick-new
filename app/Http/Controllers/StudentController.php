@@ -214,12 +214,11 @@ class StudentController extends Controller
         $event = Event::insert($insertArr);   
         
         $emailData = [
-            'first_name'=>'John', 
-            'last_name'=>'Doe', 
+            'first_name'=>'Haseeb Ibrar', 
             'email'=>'john@doe.com',
             'password'=>'temp'
         ];
-        Mail::to('lahorewebdesign@gmail.com')->send(new NotifyMail($emailData));
+        Mail::to('lahorewebdesign@gmail.com')->send(new NotifyMail($emailData, 'signup'));
         if (Mail::failures()) {
             //return response()->Fail('Sorry! Please try again latter');
         }else{
