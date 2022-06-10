@@ -543,6 +543,9 @@ h5{
     max-height: 65px !important;
     color: white !important;
 }
+#myModalStudents .modal-dialog {
+    max-width: 1000px !important;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 3px;

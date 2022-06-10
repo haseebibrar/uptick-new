@@ -518,7 +518,8 @@ class AdminController extends Controller
         return redirect()->route('admin.departments')->with('success','Record Updated Successfully.');
     }
 
-    public function delDepartment($myID){
+    public function delDepartment($myID)
+    {
         Department::where("id", $myID)->delete();
         return redirect()->route('admin.departments')->with('success','Record Deleted Successfully.');
     }
@@ -562,7 +563,8 @@ class AdminController extends Controller
         return redirect()->route('admin.focusareas')->with('success','Record Updated Successfully.');
     }
 
-    public function delFocusarea($myID){
+    public function delFocusarea($myID)
+    {
         FocusArea::where("id", $myID)->delete();
         return redirect()->route('admin.focusareas')->with('success','Record Deleted Successfully.');
     }

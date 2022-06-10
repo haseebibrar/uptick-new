@@ -61,7 +61,10 @@ class HomeworkController extends Controller
 
     public function updateHomework(Request $request)
     {
-        //dd($request->all());
+        // dd($request->all());
+        $homework  = HomeWork::findorFail($request->homeworkid);
+        $homework->name = $request->name;
+        $homework->save();
         foreach ($request->question as $question) {
             $final_answer = '';
             $answers = json_encode($question['answer']);

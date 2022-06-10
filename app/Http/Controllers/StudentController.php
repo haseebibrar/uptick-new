@@ -7,6 +7,8 @@ use App\Models\FocusArea;
 use App\Models\Teacher;
 use App\Models\Event;
 use App\Models\User;
+use App\Models\HomeWork;
+use App\Models\HomeWorkDetail;
 use App\Models\FocusAreaTeacher;
 use App\Models\TeacherTimeTable;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +16,8 @@ use Illuminate\Support\Facades\Hash;
 use Redirect,Response;
 use DB;
 use DateTime;
+use Mail;
+use App\Mail\NotifyMail;
 
 class StudentController extends Controller
 {
@@ -118,12 +122,33 @@ class StudentController extends Controller
         return $myData;
     }
 
-    public function pastLessosns(){
-        return view('student.pastfuture');
+    public function pastLessosns()
+    {
+        $compCount  = 0;
+        $curDate    = date('Y-m-d H:i:s');
+        $studentID  = Auth::user()->id;
+        $compEvents =  DB::table('events')->where('events.student_id', '=', $studentID)->where('events.status', '<>', 'canceled')->whereDate('events.start', '<=', $curDate)
+                        ->join('focus_areas', 'focus_areas.id', '=', 'events.focusarea_id')
+                        ->join('focus_area_teachers', function($join){
+                            $join->on('focus_area_teachers.focusarea_id', '=', 'events.focusarea_id');
+                            $join->on('focus_area_teachers.teacher_id', '=', 'events.teacher_id');
+                        })
+                        ->join('teachers', 'teachers.id', '=', 'events.teacher_id')
+                        ->join('home_works', 'home_works.focusarea_id', '=', 'events.focusarea_id')
+                        ->get(['events.*', 'focus_areas.name as focusarea', 'teachers.name as teacher', 'teachers.image as teacherimage', 'focus_area_teachers.embeded_url', 'home_works.id as homeworkid']);
+        
+        $compCount  = count($compEvents);
+        // dd($compEvents);
+        // $eventshecd   = Event::where('student_id', '=', $student->id)->whereDate('start', '>=', $oldDate)->whereDate('start', '<=', $curDate)->get();
+        // $totalSchedt  = count($eventshecd);
+        return view('student.pastfuture', compact('compEvents', 'compCount', 'studentID'));
     }
 
-    public function studentHomework(){
-        return view('student.homework');
+    public function studentHomework($myID)
+    {
+        $myHomeWork = HomeWorkDetail::where('homework_id', '=', $myID)->get();
+        // dd($myHomeWork);
+        return view('student.homework', compact('myHomeWork'));
     }
 
     public function getCalEvents(Request $request){
@@ -187,14 +212,27 @@ class StudentController extends Controller
                        'class_name' => 'scheduledEvent'
                     ];
         $event = Event::insert($insertArr);   
+        
+        $emailData = [
+            'first_name'=>'John', 
+            'last_name'=>'Doe', 
+            'email'=>'john@doe.com',
+            'password'=>'temp'
+        ];
+        Mail::to('lahorewebdesign@gmail.com')->send(new NotifyMail($emailData));
+        if (Mail::failures()) {
+            //return response()->Fail('Sorry! Please try again latter');
+        }else{
+            //return response()->success('Great! Successfully send in your mail');
+        }
         return redirect('/home')->with('success','Record Updated Successfully.');
     }
  
     public function update(Request $request)
     {   
-        $where = array('id' => $request->id);
-        $updateArr = ['title' => $request->title,'start' => $request->start, 'end' => $request->end];
-        $event  = Event::where($where)->update($updateArr);
+        $where      = array('id' => $request->id);
+        $updateArr  = ['title' => $request->title,'start' => $request->start, 'end' => $request->end];
+        $event      = Event::where($where)->update($updateArr);
  
         return Response::json($event);
     }
@@ -233,8 +271,6 @@ class StudentController extends Controller
         $end_time   = strtotime($endTime);
         while ($current <= $end) {
             $time   = date('H:i', $current);
-            //$myTime = date('H:i', strtotime($current));
-            //dd($current.' || '.$start_time.' || '.$end_time);
             if ($current >= $start_time && $current <= $end_time){
                 $sel = ($time == $default) ? ' selected' : '';
                 $output .= "<option value=\"{$time}\"{$sel}>" . date('h.i A', $current) .'</option>';

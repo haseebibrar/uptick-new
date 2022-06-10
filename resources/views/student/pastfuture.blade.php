@@ -3,103 +3,37 @@
 @section('content')
     <div class="col-md-7 noPadRight">
         <div class="topSection tblLessonPnl px-4 py-4 bgWhite">
-            <h2 class="mb-4">Completed Lessons (13)</h2>
+            <h2 class="mb-4">Completed Lessons ({{ $compCount }})</h2>
             <div class="table-responsive mt-4">
                 <table class="table" id="myDataTable">
                     <thead>
                         <tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="align-middle">1</td>
-                            <td class="align-middle"><img class="rounded-circle imgmr-1" style="height:50px;" src="{{ asset('images/max.png') }}" alt="" title="" /> Max Smith</td>
-                            <td class="align-middle">2/5/22</td>
-                            <td class="align-middle">Vocabulary and Fluency</td>
-                            <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModal">Recording</button></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework">Homework</a></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle">2</td>
-                            <td class="align-middle"><img class="rounded-circle imgmr-1" style="height:50px;" src="{{ asset('images/max.png') }}" alt="" title="" /> Max Smith</td>
-                            <td class="align-middle">2/5/22</td>
-                            <td class="align-middle">Vocabulary and Fluency</td>
-                            <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModal">Recording</button></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework">Homework</a></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle">3</td>
-                            <td class="align-middle"><img class="rounded-circle imgmr-1" style="height:50px;" src="{{ asset('images/max.png') }}" alt="" title="" /> Max Smith</td>
-                            <td class="align-middle">2/5/22</td>
-                            <td class="align-middle">Vocabulary and Fluency</td>
-                            <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModal">Recording</button></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework">Homework</a></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle">4</td>
-                            <td class="align-middle"><img class="rounded-circle imgmr-1" style="height:50px;" src="{{ asset('images/max.png') }}" alt="" title="" /> Max Smith</td>
-                            <td class="align-middle">2/5/22</td>
-                            <td class="align-middle">Vocabulary and Fluency</td>
-                            <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModal">Recording</button></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework">Homework</a></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle">5</td>
-                            <td class="align-middle"><img class="rounded-circle imgmr-1" style="height:50px;" src="{{ asset('images/max.png') }}" alt="" title="" /> Max Smith</td>
-                            <td class="align-middle">2/5/22</td>
-                            <td class="align-middle">Vocabulary and Fluency</td>
-                            <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModal">Recording</button></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework">Homework</a></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle">6</td>
-                            <td class="align-middle"><img class="rounded-circle imgmr-1" style="height:50px;" src="{{ asset('images/max.png') }}" alt="" title="" /> Max Smith</td>
-                            <td class="align-middle">2/5/22</td>
-                            <td class="align-middle">Vocabulary and Fluency</td>
-                            <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModal">Recording</button></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework">Homework</a></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle">7</td>
-                            <td class="align-middle"><img class="rounded-circle imgmr-1" style="height:50px;" src="{{ asset('images/max.png') }}" alt="" title="" /> Max Smith</td>
-                            <td class="align-middle">2/5/22</td>
-                            <td class="align-middle">Vocabulary and Fluency</td>
-                            <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModal">Recording</button></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework">Homework</a></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle">8</td>
-                            <td class="align-middle"><img class="rounded-circle imgmr-1" style="height:50px;" src="{{ asset('images/max.png') }}" alt="" title="" /> Max Smith</td>
-                            <td class="align-middle">2/5/22</td>
-                            <td class="align-middle">Vocabulary and Fluency</td>
-                            <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModal">Recording</button></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework">Homework</a></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle">9</td>
-                            <td class="align-middle"><img class="rounded-circle imgmr-1" style="height:50px;" src="{{ asset('images/max.png') }}" alt="" title="" /> Max Smith</td>
-                            <td class="align-middle">2/5/22</td>
-                            <td class="align-middle">Vocabulary and Fluency</td>
-                            <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModal">Recording</button></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework">Homework</a></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle">10</td>
-                            <td class="align-middle"><img class="rounded-circle imgmr-1" style="height:50px;" src="{{ asset('images/max.png') }}" alt="" title="" /> Max Smith</td>
-                            <td class="align-middle">2/5/22</td>
-                            <td class="align-middle">Vocabulary and Fluency</td>
-                            <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModal">Recording</button></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                            <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework">Homework</a></td>
-                        </tr>
+                        @php
+                            $counter = 1;
+                        @endphp
+                        @foreach ($compEvents as $events)
+                            @php
+                                //dd($events->homeworkid);
+                                $myImage = asset('images/placeholderimage.png');
+                                $myDate  = date('m/d/Y', strtotime($events->start));
+                                if(!empty($events->teacherimage))
+                                    $myImage = asset('images/users/'.$events->teacherimage);
+                            @endphp
+                            <tr>
+                                <td class="align-middle">{{ $counter }}</td>
+                                <td class="align-middle"><img class="rounded-circle imgmr-1" style="width:40px; height:30px;" src="{{ $myImage }}" alt="{{ $events->teacher }}" title="{{ $events->teacher }}" /> {{ $events->teacher }}</td>
+                                <td class="align-middle">{{ $myDate }}</td>
+                                <td class="align-middle">{{ $events->focusarea }}</td>
+                                <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="{{ $events->embeded_url }}" data-target="#myModalStudents">Recording</button></td>
+                                <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
+                                <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework/{{ $events->homeworkid }}">Homework</a></td>
+                            </tr>
+                            @php
+                                $counter++;
+                            @endphp
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -185,15 +119,15 @@
     </div>
 
     <!-- Modal For Playing Video -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModalStudents" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="max-height:700px;">
+            <div class="modal-content" style="max-height:1000px;">
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>        
                     <!-- 16:9 aspect ratio -->
                     <div class="embed-responsive">
                         {{-- <iframe src="" title="" frameborder="0" id="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> --}}
-                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay" target="_parent"></iframe>
                     </div>
                 </div>
             </div>
@@ -226,12 +160,12 @@ $(document).ready(function () {
     });
     //console.log($videoSrc);
     // when the modal is opened autoplay it  
-    $('#myModal').on('shown.bs.modal', function (e) {  
+    $('#myModalStudents').on('shown.bs.modal', function (e) {  
         // set the video src to autoplay and not to show related video. Youtube related video is like a box of chocolates... you never know what you're gonna get
         $("#video").attr('src',$videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0" ); 
     });
     // stop playing the youtube video when I close the modal
-    $('#myModal').on('hide.bs.modal', function (e) {
+    $('#myModalStudents').on('hide.bs.modal', function (e) {
         // a poor man's stop video
         $("#video").attr('src', ''); 
     });

@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/editprofile/{id}', [AdminController::class, 'editProfile']);
     Route::post('/updateprofile', [AdminController::class, 'updateProfile']);
     Route::get('/past-future-lesson', [StudentController::class, 'pastLessosns']);
-    Route::get('/homework', [StudentController::class, 'studentHomework']);
+    Route::any('/homework/{id}', [StudentController::class, 'studentHomework']);
     Route::post('/geteachers', [StudentController::class, 'getTeachers']);
     Route::post('/openbookpoup', [StudentController::class, 'getTeachersDetail']);
     Route::post('/editbook', [StudentController::class, 'getCalEdit']);

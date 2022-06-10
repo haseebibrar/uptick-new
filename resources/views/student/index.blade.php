@@ -35,7 +35,7 @@
     </div>
     <div class="btmSection tblTeacherPnl mt-4 px-4 py-4 bgWhite">
       <div class="disabledDiv"></div>
-      <h3 class="mb-4">Available Teachers</h3>
+      <h3 class="mb-4">Teachers available at selected time</h3>
       <div class="table-responsive mt-4">
         <table class="table" id="myDataTable">
           <thead>
