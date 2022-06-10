@@ -213,18 +213,18 @@ class StudentController extends Controller
                     ];
         $event = Event::insert($insertArr);   
         
-        $emailData = [
-            'first_name'=>'Haseeb Ibrar', 
-            'email'=>'john@doe.com',
-            'password'=>'temp'
-        ];
-        Mail::to('lahorewebdesign@gmail.com')->send(new NotifyMail($emailData, 'signup'));
-        if (Mail::failures()) {
-            //return response()->Fail('Sorry! Please try again latter');
-        }else{
-            //return response()->success('Great! Successfully send in your mail');
-        }
-        return redirect('/home')->with('success','Record Updated Successfully.');
+        // $emailData = [
+        //     'first_name'=>'Haseeb Ibrar', 
+        //     'email'=>'john@doe.com',
+        //     'password'=>'temp'
+        // ];
+        // Mail::to('lahorewebdesign@gmail.com')->send(new NotifyMail($emailData, 'signup'));
+        // if (Mail::failures()) {
+        //     //return response()->Fail('Sorry! Please try again latter');
+        // }else{
+        //     //return response()->success('Great! Successfully send in your mail');
+        // }
+        return redirect('/home')->with('success','Booked Successfully.');
     }
  
     public function update(Request $request)

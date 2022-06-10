@@ -542,6 +542,7 @@ h5{
 .eventInfo{
     max-height: 65px !important;
     color: white !important;
+    overflow: hidden;
 }
 #myModalStudents .modal-dialog {
     max-width: 1000px !important;

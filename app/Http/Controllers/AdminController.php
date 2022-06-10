@@ -257,16 +257,23 @@ class AdminController extends Controller
             if(isset($input['image']))
                 $myImage = $input['image'];
             //dd($input);
+            $password = Hash::make($input['password']);
             User::create([
                 'company_id'=> $input['company_id'],
                 'name'      => $input['name'],
                 'email'     => $input['email'],
-                'password'  => Hash::make($input['password']),
+                'password'  => $password,
                 'image'     => $myImage,
                 'phone'     => $input['phone'],
                 'title'     => $input['title'],
                 'dept_id'   => $input['dept_id'],
             ]);
+            $emailData = [
+                'first_name'=> $input['name'], 
+                'email'     => $input['email'],
+                'password'  => $password
+            ];
+            Mail::to($input['email'])->send(new NotifyMail($emailData, 'signup'));
             if(Auth::user()->is_super > 0)
                 return redirect()->route('admin.student')->with('success','Student Added Successfully.');
             else
