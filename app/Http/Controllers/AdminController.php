@@ -83,7 +83,7 @@ class AdminController extends Controller
                 return '<div style="font-size: 15px; text-align:center;">Hours allocated equally to students!</div>';
             }
         }else{
-            return '<div style="font-size: 15px; text-align:center;">No hours left. Please contact admin!</div>';
+            return '<div style="font-size: 15px; text-align:center;">No hour left. Please contact your customer success person :)</div>';
         }
         return 'Please Add Students!';
         // dd($bankHours.' || '.$totalStudents.' || '.$hoursNum);
@@ -145,7 +145,7 @@ class AdminController extends Controller
         }else{
             $request->validate([
                 'name'      => 'required',
-                'email'     => 'required',
+                'email'     => 'required|unique:teachers,email',
                 'password'  => 'required_with:password_confirmation|same:password_confirmation',
                 'image'     => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -244,7 +244,7 @@ class AdminController extends Controller
         }else{
             $request->validate([
                 'name'      => 'required',
-                'email'     => 'required',
+                'email'     => 'required|unique:users,email',
                 'password'  => 'required_with:password_confirmation|same:password_confirmation',
                 'image'     => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -423,7 +423,7 @@ class AdminController extends Controller
         }else{
             $request->validate([
                 'name'      => 'required',
-                'email'     => 'required',
+                'email'     => 'required|unique:admins,email',
                 'password'  => 'required_with:password_confirmation|same:password_confirmation',
                 'image'     => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);

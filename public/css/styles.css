@@ -547,6 +547,12 @@ h5{
 #myModalStudents .modal-dialog {
     max-width: 1000px !important;
 }
+.hide{
+    display: none;
+}
+.teacherName, .editDateData{
+    display: inline-block;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 3px;

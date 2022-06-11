@@ -81,6 +81,7 @@
                                         <a class="navLaft mb-4" href="/admin/users"><img src="{{ asset('images/people.svg') }}" alt="Admin Users" title="Admin Users" /><br />Admin Users</a>
                                         <a class="navLaft mb-2" href="/admin/focusarea">Focus Area</a>
                                         <a class="navLaft mb-2" href="/admin/lessonsubject">Lesson Subjects</a>
+                                        <a class="navLaft mb-2" href="/admin/departments">Departments</a>
                                         <div class="logoutDiv txtCenter mb-4">
                                             <a href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();

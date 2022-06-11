@@ -94,11 +94,6 @@ class StudentController extends Controller
         $myEnd          = date('H:i', strtotime($request->myEnd));
         $startOptions   = '';
         $endOptions     = '';
-        // $teachers       = DB::table('focus_area_teachers')->where('focus_area_teachers.focusarea_id', '=', $myFocusID)->where('focus_area_teachers.teacher_id', '=', $myTeacherID)
-        //                     ->join('focus_areas', 'focus_areas.id', '=', 'focus_area_teachers.focusarea_id')
-        //                     ->join('lesson_subjects', 'lesson_subjects.id', '=', 'focus_area_teachers.lesson_id')
-        //                     ->first(['focus_area_teachers.*', 'focus_areas.name as focusarea', 'lesson_subjects.name as lesson']);
-        //where('focusarea_id', '=', $myFocusID)->where('teacher_id', '=', $myTeacherID)->first();
         $timetable      = TeacherTimeTable::where('teacher_id', '=', $myTeacherID)->where('availableday', '=', $myDay)->first();
         if(!empty($timetable)){
             $time           = json_decode($timetable['availabletime'], true);
@@ -186,8 +181,53 @@ class StudentController extends Controller
         }
     }
 
-    public function getCalEdit(Request $request){
+    public function showCalEdit(Request $request){
+        // $eventData = Event::where('id', '=', $request->myEventID)->first();
+        $data   = DB::table('events')->where('events.id', '=', $request->myEventID)
+                            ->join('focus_areas', 'focus_areas.id', '=', 'events.focusarea_id')
+                            ->join('teachers', 'teachers.id', '=', 'events.teacher_id')
+                            ->first(['events.id', 'events.start', 'events.end', 'focus_areas.name as title', 'focus_areas.id as focusid', 'teachers.name as teachername', 'teachers.id as teacherid']);
+        $strDate            = $data->start;
+        $data->starttime    = date('Y-m-d H:i:s', strtotime($strDate));
+        $data->endtime      = date('Y-m-d H:i:s', strtotime($data->end));
+        $data->full         = date('M d Y', strtotime($strDate));
+        $data->start        = date('l, F, d h:i', strtotime($strDate));
+        $data->end          = date('h:i a', strtotime($data->end));
+        // dd($data);
+        return $data;
+    }
 
+    public function getCalEdit(Request $request){
+        $eventData      = Event::where('id', '=', $request->myEventID)->first();
+        $myDay          = strtolower(date('D', strtotime($eventData->start)));
+        $myTeacherID    = $eventData->teacher_id;
+        $myFocusID      = $eventData->focusarea_id;
+        $myStart        = date('H:i', strtotime($eventData->start));
+        $myEnd          = date('H:i', strtotime($eventData->end));
+        $startOptions   = '';
+        $endOptions     = '';
+        // return $myTeacherID;
+        $timetable      = TeacherTimeTable::where('teacher_id', '=', $myTeacherID)->where('availableday', '=', $myDay)->first();
+        if(!empty($timetable)){
+            $time           = json_decode($timetable['availabletime'], true);
+            $timeData       = array();
+            $counter        = 0;
+            foreach($time as $data){
+                $timeData[$counter][1] = $this->getTimes($myStart, $data[1], $data[2]);
+                $timeData[$counter][2] = $this->getTimes($myEnd, $data[1], $data[2]);
+                $counter++;
+            }
+
+            foreach($timeData as $myTime){
+                $startOptions .= $myTime[1];
+                $endOptions .= $myTime[2];
+            }
+            $myData = '<div class="col-md-3"><select name="starttime" class="form-control">'.$startOptions.'</select></div><div class="col-md-1 text-center"> - </div><div class="col-md-3"><select name="endtime" class="form-control">'.$endOptions.'</select></div></div>';
+        }else{
+            $myData = '1';
+        }
+            // dd($myData);
+        return $myData;
     }
 
     public function saveEvent(Request $request)
@@ -225,6 +265,17 @@ class StudentController extends Controller
         //     //return response()->success('Great! Successfully send in your mail');
         // }
         return redirect('/home')->with('success','Booked Successfully.');
+    }
+
+    public function editEvent(Request $request)
+    {
+        // dd($request->all());
+        $starttime  = new DateTime($request->edit_event_date.' '.$request->starttime.':00');
+        $endtime    = new DateTime($request->edit_event_date.' '.$request->endtime.':00');
+        $where      = array('id' => $request->eventeditid);
+        $updateArr  = ['start' => $starttime, 'end' => $endtime];
+        $event      = Event::where($where)->update($updateArr);
+        return redirect('/home')->with('success','Updated Successfully.');
     }
  
     public function update(Request $request)

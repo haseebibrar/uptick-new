@@ -105,20 +105,27 @@
             <a class="closeModal" href="javascript:void(0)"><i class="fa fa-close"></i></a>
           </div>
           <div style="font-size: 17px; font-weight: 600; margin-bottom: 1rem;" class="focusTitleEdit"></div>
-          
-          <div class="align-middle" style="font-size: 13px;">
-            <div class="form-check mb-2 row d-flex">
-              <div class="col-md-5">
-                <div class="input-group date">
-                  <img height="11" style="margin-top: 9px;margin-right: 1rem;" src="{{ asset('images/clock.svg') }}" alt="Clock" title="Clock" /> 
-                  <input type="text" name="event_date" class="form-control datepicker" value="">
-                  <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
-                </div>
-              </div>
-              <div class="timeDiv" style="display: contents;"></div>
-            </div>
+          <div class="editData" style="margin-bottom:1rem;">
+            <img height="11" style="margin-top: 0px;margin-right: .5rem;" src="{{ asset('images/clock.svg') }}" alt="Clock" title="Clock" /><div class="editDateData"></div>
           </div>
-          <div style="font-size: 13px;"><img height="11" src="{{ asset('images/user.svg') }}" alt="User" title="User" /> Max Smith</div>
+          <form method="POST" action="/edit-lesson-event" enctype="multipart/form-data">
+            @csrf
+            <div class="align-middle hide editFormData" style="font-size: 13px;">
+              <div class="form-check mb-2 row d-flex">
+                <div class="col-md-5">
+                  <div class="input-group date">
+                    <img height="11" style="margin-top: 9px;margin-right: 1rem;" src="{{ asset('images/clock.svg') }}" alt="Clock" title="Clock" /> 
+                    <input type="text" name="edit_event_date" class="form-control editdatepicker" value="">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+                  </div>
+                </div>
+                <div class="timeDiv" style="display: contents;"></div>
+              </div>
+            </div>
+            <div style="font-size: 13px;"><img height="11" style="margin-right: .5rem;" src="{{ asset('images/user.svg') }}" alt="User" title="User" /> <div class="teacherName"></div></div>
+            <input type="hidden" name="eventeditid" id="eventeditid" value="">
+            <button type="submit" class="btn btn-primary btnGreen btnGreenEdit">Save</button>
+          </form>
         </div>
       </div>
     </div>
@@ -200,14 +207,10 @@ var calendar;
       },
       select: function(arg) {
         var myStart = moment(arg.start, "m-dd-y");
-        //alert(myStart);
         if(myStart.isBefore(moment())) {
             alert("You can't book in past!");
             return false;
         }
-        //console.log(arg.jsEvent);
-        //arg.dayEl.style.backgroundColor = 'red';
-        //alert(arg.start);
         $.ajax({
             url: SITEURL + "/get-data",
             data: {start:arg.start, end:arg.end},
@@ -234,31 +237,34 @@ var calendar;
         calendar.unselect()
       },
       eventClick: function(arg) {
-        //$('#myModal').modal('show');
+        var myStart = moment(arg.el.fcSeg.start, "m-dd-y");
+        //console.log(arg.el.fcSeg.start);
+        if(myStart.isBefore(moment())) {
+            alert("You can't edit past lesson!");
+            return false;
+        }
         var myEventID = arg.event.id;
         $('.editEvent, .dltEvent').attr('data-id', myEventID);
-        $('.modal-backdrop').hide();
+        $('.modal-backdrop, .btnGreenEdit').hide();
         $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Loading...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
         $('#myModalSmall').modal('show');
+        $('.editData').show();
+        $('.editFormData').hide();
         $.ajax({
-            url: "{{url('/')}}/editbook",
+            url: "{{url('/')}}/showeventdata",
             type:'POST',
             data: {_token:"{{ csrf_token() }}", myEventID:myEventID},
             success: function(data) {
+              $('.focusTitleEdit').html(data.title);
+              $('.teacherName').html(data.teachername);
+              $('.editDateData').html(data.start+' - '+data.end);
+              $('.editdatepicker').val(data.full);
+              $('#teacher_id').val(data.teacherid);
+              $('#focusarea_id').val(data.focusid);
+              $('#mystart').val(data.starttime);
+              $('#myend').val(data.endtime);
               $('#myModalSmall').modal('hide');
               $('#myModalSec').modal('show');
-              //$('#myModalSec .modal-content').html(data);
-              //alert(myDateFull);
-              //$('.datepicker').val(myDateFull);
-              //$('.datepicker').datepicker({
-              //  autoclose : true,
-              //  format    : 'M dd yyyy', //format    : moment().format('MM D YYYY'),
-              //  startDate : 'd'
-              //});
-              //$('.timeDiv').html(data);
-              //$('#myModal').modal('show');
-              //$('#myModalSmall').modal('hide');
-              //$('#myModalSmall .modal-content').html(data);
             }
         });
       },
@@ -286,6 +292,32 @@ var calendar;
 
     $(document).off('click', '.closeModal').on('click', '.closeModal', function(){
       $('#myModal, #myModalSmall, #myModalDel, #myModalSec').modal('hide');
+    });
+
+    $(document).off('click', '.editEvent').on('click', '.editEvent', function(){
+      var myEventID = $(this).attr('data-id');
+      $('#eventeditid').val(myEventID);
+      $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Loading...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
+      $('#myModalSmall').modal('show');
+      $('.editData').hide();
+      $('.editFormData, .btnGreenEdit').show();
+      //editData editFormData 
+      $.ajax({
+        url: "{{url('/')}}/showeditevent",
+        type:'POST',
+        data: {_token:"{{ csrf_token() }}", myEventID:myEventID},
+        success: function(data) {
+          $('#myModalSmall').modal('hide');
+          $('#myModalSec').modal('show');
+          //$('.editdatepicker').val(myDateFull);
+          $('.editdatepicker').datepicker({
+            autoclose : true,
+            format    : 'M dd yyyy',
+            startDate : 'd'
+          });
+          $('.timeDiv').html(data);
+        }
+      });
     });
 
     $(document).off('click', '.dltEvent').on('click', '.dltEvent', function(){
@@ -342,7 +374,7 @@ var calendar;
       });
     });
     
-    $(document).off('change', '.datepicker').on('change', '.datepicker', function(){
+    $(document).off('change', '.datepicker, .editdatepicker').on('change', '.datepicker, .editdatepicker', function(){
       $('.timeDiv').html('Loading...');
       $(':input[type="submit"]').prop('disabled', true);
       var weekday     = ["sun","mon","tue","wed","thu","fri","sat"];
@@ -364,7 +396,7 @@ var calendar;
               startDate : 'd'
             });
             if(data === "1"){
-              $('.timeDiv').html('<div class="col-md-8" style="font-size: 15px;">Unavailable</div>');
+              $('.timeDiv').html('<div class="col-md-7" style="font-size: 15px;">Unavailable</div>');
             }else{
               $('.timeDiv').html(data);
               $(':input[type="submit"]').prop('disabled', false);

@@ -41,12 +41,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('/homework/{id}', [StudentController::class, 'studentHomework']);
     Route::post('/geteachers', [StudentController::class, 'getTeachers']);
     Route::post('/openbookpoup', [StudentController::class, 'getTeachersDetail']);
-    Route::post('/editbook', [StudentController::class, 'getCalEdit']);
+    Route::post('/showeventdata', [StudentController::class, 'showCalEdit']);
+    Route::post('/showeditevent', [StudentController::class, 'getCalEdit']);
     //fullcalender
     Route::any('/get-data', [StudentController::class, 'getClickData']);
     Route::get('/getevents', [StudentController::class, 'getCalEvents']);
     Route::post('/event-delete', [StudentController::class, 'eventDelete']);
     Route::post('/save-event', [StudentController::class, 'saveEvent']);
+    Route::post('/edit-lesson-event', [StudentController::class, 'editEvent']);
     Route::post('/fullcalendareventmaster/update', [StudentController::class, 'update']);
     Route::post('/fullcalendareventmaster/delete', [StudentController::class, 'destroy']);
 });
