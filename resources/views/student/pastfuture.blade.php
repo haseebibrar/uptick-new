@@ -63,7 +63,7 @@
     </div>
     <div class="col-md-4">
         <div class="topSection tblLessonPnlRight px-4 py-4 bgWhite">
-            <h2 class="mb-4">Upcoming Lessons (4)</h2>
+            <h2 class="mb-4">Upcoming Lessons ({{ $futCount }})</h2>
              @php
                 $counterBtm = 1;
             @endphp
@@ -82,7 +82,7 @@
                 <div class="mt-4 upcomingLessons">
                     <div class="row">
                         <div class="col-md-6"><h4>{{ $myDate }}</h4></div>
-                        <div class="col-md-6 txtRight"><a class="editLess" href="#"><i class="fa fa-pencil"></i> Edit Lesson</a></div>
+                        <div class="col-md-6 txtRight">{{-- <a class="editLess" href="#"><i class="fa fa-pencil"></i> Edit Lesson</a> --}}</div>
                     </div>
                     <div class="mt-1 px-2 py-2 btmSecLesson">
                         <div class="teacherInfo">

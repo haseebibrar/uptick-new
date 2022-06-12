@@ -421,9 +421,6 @@ var calendar;
       $('.teacherTitle').html($(this).attr('data-name'));
       $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Processing...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
       $('#myModalSmall').modal('show');
-      
-      //return false;
-      //alert(myTeacherID);
       $.ajax({
           url: "{{url('/')}}/openbookpoup",
           type:'POST',
@@ -439,8 +436,6 @@ var calendar;
             });
             $('.timeDiv').html(data);
             $('#myModal').modal('show');
-            //$('#myModalSmall').modal('hide');
-            //$('#myModalSmall .modal-content').html(data);
           }
       });
     });

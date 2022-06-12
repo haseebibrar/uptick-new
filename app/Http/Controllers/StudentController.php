@@ -120,6 +120,7 @@ class StudentController extends Controller
     public function pastLessosns()
     {
         $compCount  = 0;
+        $futCount   = 0;
         $curDate    = date('Y-m-d H:i:s');
         $studentID  = Auth::user()->id;
         $compEvents = DB::table('events')->where('events.student_id', '=', $studentID)->where('events.status', '<>', 'canceled')->whereDate('events.start', '<', $curDate)
@@ -139,10 +140,11 @@ class StudentController extends Controller
                             ->join('teachers', 'teachers.id', '=', 'events.teacher_id')
                             ->leftJoin('lesson_subjects', 'lesson_subjects.focusarea_id', '=', 'events.focusarea_id')
                             ->get(['events.*', 'focus_areas.name as focusarea', 'teachers.name as teacher', 'teachers.zoom_link', 'teachers.expertise', 'teachers.image as teacherimage', 'lesson_subjects.pdf_data']);
+        $futCount     = count($futureEvents);
         // dd($futureEvents);
         // $eventshecd   = Event::where('student_id', '=', $student->id)->whereDate('start', '>=', $oldDate)->whereDate('start', '<=', $curDate)->get();
         // $totalSchedt  = count($eventshecd);
-        return view('student.pastfuture', compact('compEvents', 'futureEvents', 'compCount', 'studentID'));
+        return view('student.pastfuture', compact('compEvents', 'futureEvents', 'compCount', 'futCount', 'studentID'));
     }
 
     public function studentHomework($myID)

@@ -64,7 +64,7 @@
                                             <a href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
-                                                <img style="width:23px; height:23px;" src="{{ asset('images/logout.png') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
+                                                <img style="width:23px; height:23px;" src="{{ asset('images/logout.svg') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
                                             </a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                                 @csrf
@@ -86,7 +86,7 @@
                                             <a href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
-                                                <img style="width:23px; height:23px;" src="{{ asset('images/logout.png') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
+                                                <img style="width:23px; height:23px;" src="{{ asset('images/logout.svg') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
                                             </a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                                 @csrf
@@ -110,7 +110,7 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
-                                            <img style="width:23px; height:23px;" src="{{ asset('images/logout.png') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
+                                            <img style="width:23px; height:23px;" src="{{ asset('images/logout.svg') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
                                         </a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             @csrf
@@ -132,7 +132,7 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
-                                            <img style="width:23px; height:23px;" src="{{ asset('images/logout.png') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
+                                            <img style="width:23px; height:23px;" src="{{ asset('images/logout.svg') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
                                         </a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             @csrf

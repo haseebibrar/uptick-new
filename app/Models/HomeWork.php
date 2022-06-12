@@ -15,6 +15,7 @@ class HomeWork extends Authenticatable
         'focusarea_id',
         'lesson_id',
         'name',
+        'instructions_text'
     ];
 
     public function focusareas()

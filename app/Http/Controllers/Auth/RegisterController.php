@@ -97,7 +97,7 @@ class RegisterController extends Controller
      */
     protected function createAdmin(Request $request)
     {
-        $password = Hash::make($data['password']);
+        // $password = Hash::make($data['password']);
         $this->validator($request->all())->validate();
         Admin::create([
             'name' => $request->name,
@@ -115,7 +115,7 @@ class RegisterController extends Controller
     protected function createTeacher(Request $request)
     {
         $this->validator($request->all())->validate();
-        $password = Hash::make($data['password']);
+        // $password = Hash::make($data['password']);
         Teacher::create([
             'name' => $request->name,
             'email' => $request->email,

@@ -56,7 +56,7 @@
                 @isset($url)
                     @if($url === "teacher")
                         <div class="row mb-0 signUp">
-                            <p>Didn't have an account? <a href="/register/teacher">{{ __('Singup') }}</a></p>
+                            <p>Didn't have an account? <a href="/register/teacher">{{ __('Sign Up') }}</a></p>
                         </div>
                     @endif
                 @endisset

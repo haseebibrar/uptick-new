@@ -421,6 +421,7 @@ class AdminController extends Controller
             $companies  = Company::all();
             return view('admin.adminusers.adduser', compact('companies'));
         }else{
+            $profileImage = '';
             $request->validate([
                 'name'      => 'required',
                 'email'     => 'required|unique:admins,email',
@@ -432,7 +433,7 @@ class AdminController extends Controller
                 $destinationPath = 'images/users/';
                 $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
                 $image->move($destinationPath, $profileImage);
-                $input['image'] = "$profileImage";
+                // $input['image'] = $profileImage;
             }
             //dd($input);
             Admin::create([
@@ -440,7 +441,7 @@ class AdminController extends Controller
                 'name'      => $input['name'],
                 'email'     => $input['email'],
                 'password'  => Hash::make($input['password']),
-                'image'     => $input['image'],
+                'image'     => $profileImage,
                 'phone'     => $input['phone'],
             ]);
             return redirect()->route('admin.users')->with('success','User Added Successfully.');

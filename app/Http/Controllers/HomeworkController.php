@@ -28,9 +28,10 @@ class HomeworkController extends Controller
             return view('admin.homework.addhomework', compact('focusID', 'lessonID'));
         }else{
             $homework = new HomeWork();
-            $homework->focusarea_id = $request->focusarea_id;
-            $homework->lesson_id    = $request->lesson_id;
-            $homework->name         = $request->name;
+            $homework->focusarea_id      = $request->focusarea_id;
+            $homework->lesson_id         = $request->lesson_id;
+            $homework->name              = $request->name;
+            $homework->instructions_text = $request->instructions_text;
             $homework->save();
             $homeworkId = $homework->id;
             // dd($homeworkId);
@@ -64,6 +65,8 @@ class HomeworkController extends Controller
         // dd($request->all());
         $homework  = HomeWork::findorFail($request->homeworkid);
         $homework->name = $request->name;
+        if(isset($request->instructions_text))
+        $homework->instructions_text = $request->instructions_text;
         $homework->save();
         foreach ($request->question as $question) {
             $final_answer = '';
