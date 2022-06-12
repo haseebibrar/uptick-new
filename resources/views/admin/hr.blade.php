@@ -59,7 +59,7 @@
                                 
                                 $studentEv  = $student->events;
                                 $pastEvents = 0;
-                                $totalEvent = 0;
+                                $totalEvent = 6;
                                 $myPercente = 0;
                                 $canceled   = 0;
                                 if($studentEv->isNotEmpty()){
@@ -70,7 +70,7 @@
                                         if($event->status === "canceled")
                                             $canceled = $canceled+1;
                                     }
-                                    $totalEvent = count($studentEv);
+                                    //$totalEvent = count($studentEv);
                                     $myPercente = round(($pastEvents / $totalEvent)*100, 2);
                                     //dd($myPercente);
                                 }
@@ -171,6 +171,7 @@
                 data: {_token:"{{ csrf_token() }}", compID:compID},
                 success: function(data) {
                     $('#myModal .ajaxData').html(data);
+                    location.reload();
                 }
             });
         });

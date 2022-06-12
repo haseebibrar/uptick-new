@@ -68,18 +68,19 @@ class AdminController extends Controller
         $myCompany      = Company::where('id', '=', $myCompanyID)->first();
         $bankHours      = $myCompany->bank_hours;
         $totalStudents  = count($myCompany->students);
-        $hoursNum       = round((intval($bankHours) / intval($totalStudents)), 2); 
+        // $hoursNum       = round((intval($bankHours) / intval($totalStudents)), 2); 
         //students
         if($myCompany->bank_hours > 0){
             if(!empty($myCompany->students)){
-                $myCompany->bank_hours = 0;
-                $myCompany->save();
                 foreach($myCompany->students as $students){
                     $myStudent  = User::where('id', '=', $students->id)->first();
-                    $studentHr  = intval($myStudent->allocated_hour)+intval($hoursNum);
+                    $studentHr  = intval($myStudent->allocated_hour)+6;
+                    $bankHours  = intval($bankHours)-6;
                     $myStudent->allocated_hour = $studentHr;
                     $myStudent->save();
                 }
+                $myCompany->bank_hours = $bankHours;
+                $myCompany->save();
                 return '<div style="font-size: 15px; text-align:center;">Hours allocated equally to students!</div>';
             }
         }else{
