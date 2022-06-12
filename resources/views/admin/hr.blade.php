@@ -144,7 +144,7 @@
             order: []
         });
         $("#myDataTableStudent_wrapper .row:first div:first").append('Total: {{ $totalStudents }} members');
-        $("#myDataTableStudent_filter").append("<a class='btn btnSearchBox btnGreen' href='/admin/students/add'>+ Add Member</a><div class='newBtnsDiv'><p>Hourly Bank: {{ $bankHours }}/6</p><a data-id='{{ $myCompID }}' class='btn btnGrayBg btnSearchBox btnDivide' href='javascript:void(0)'>Auto Divide</a></div>")
+        $("#myDataTableStudent_filter").append("<a class='btn btnSearchBox btnGreen' href='/admin/students/add'>+ Add Member</a><div class='newBtnsDiv'><p>Hourly Bank: {{ $bankHours }}/{{ $bankHours }}</p><a data-id='{{ $myCompID }}' class='btn btnGrayBg btnSearchBox btnDivide' href='javascript:void(0)'>Auto Divide</a></div>")
         // 
         $(document).off('click', '.btnDel').on('click', '.btnDel', function(){
             if(confirm("Are you sure you want to delete this?")){
