@@ -18,6 +18,12 @@
                         <input type="text" name="name" class="form-control" value="{{ $homeworks->name }}" required>
                     </div>
                 </div>
+                <div class="row mb-4">
+                    <div class="col-md-6"><label for="name">Instructions</label></div>
+                    <div class="col-md-6">
+                        <input type="text" name="instructions_text" class="form-control" value="{{ $homeworks->instructions_text }}">
+                    </div>
+                </div>
                 <div class="dynamicAddRemove">
                     @php
                         //dd($homeworks->homeworkdetails);
