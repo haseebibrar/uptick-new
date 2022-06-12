@@ -1,6 +1,28 @@
 @extends('layouts.auth')
 
 @section('content')
+    <script>
+        function myFunction(myDate, myClass) {
+            var countDownDate = new Date(myDate).getTime();
+            var x = setInterval(function() {
+                var now = new Date().getTime();
+                // Find the distance between now an the count down date
+                var distance = countDownDate - now;
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                // Output the result in an element with id="counter"11
+                //document.getElementById("counter").innerHTML = days + "Day : " + hours + "h " +minutes + "m " + seconds + "s ";
+                jQuery('.the-final-countdown'+myClass+' p').html(days + "Day : " + hours + "h " +minutes + "m " + seconds + "s Left");
+                // If the count down is over, write some text 
+                if (distance < 0) {
+                    jQuery('.the-final-countdown'+myClass+' p').html('Conducted')
+                }
+            }, 1000);
+        }
+    </script>
     <div class="col-md-7 noPadRight">
         <div class="topSection tblLessonPnl px-4 py-4 bgWhite">
             <h2 class="mb-4">Completed Lessons ({{ $compCount }})</h2>
@@ -26,9 +48,9 @@
                                 <td class="align-middle"><img class="rounded-circle imgmr-1" style="width:40px; height:30px;" src="{{ $myImage }}" alt="{{ $events->teacher }}" title="{{ $events->teacher }}" /> {{ $events->teacher }}</td>
                                 <td class="align-middle">{{ $myDate }}</td>
                                 <td class="align-middle">{{ $events->focusarea }}</td>
-                                <td class="text-nowrap align-middle"><button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="{{ $events->embeded_url }}" data-target="#myModalStudents">Recording</button></td>
-                                <td class="text-nowrap align-middle"><a class="linkBlue" href="#">Slides</a></td>
-                                <td class="text-nowrap align-middle"><a class="linkBlue" href="/homework/{{ $events->homeworkid }}">Homework</a></td>
+                                <td class="text-nowrap align-middle">{!! empty($events->embeded_url) ? '' : '<button type="button" class="btn linkBlue video-btn" data-toggle="modal" data-src="'.$events->embeded_url.'" data-target="#myModalStudents">Recording</button>' !!}</td>
+                                <td class="text-nowrap align-middle">{!! empty($events->pdf_data) ? '' : '<a class="linkBlue" href="'.asset('images/users/'.$events->pdf_data).'" target="_blank">Slides</a>' !!}</td>
+                                <td class="text-nowrap align-middle">{!! empty($events->homeworkid) ? '' : '<a class="linkBlue" href="/homework/'.$events->homeworkid.'">Homework</a>' !!}</td>
                             </tr>
                             @php
                                 $counter++;
@@ -42,79 +64,52 @@
     <div class="col-md-4">
         <div class="topSection tblLessonPnlRight px-4 py-4 bgWhite">
             <h2 class="mb-4">Upcoming Lessons (4)</h2>
-            <div class="mt-4 upcomingLessons">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4>Wed, May 04, 9:00-11:30AM</h4>
+             @php
+                $counterBtm = 1;
+            @endphp
+            @foreach ($futureEvents as $events)
+                @php
+                    //dd($events->homeworkid);
+                    $myImage = asset('images/placeholderimage.png');
+                    $start   = date('D, M d, h:i', strtotime($events->start));
+                    $end     = date('h:i a', strtotime($events->end));
+                    $timerDat= date("F d, Y H:i:s", strtotime($events->start));
+                    $myDate  = $start.' - '.$end;
+                    $eID     = $events->id;
+                    if(!empty($events->teacherimage))
+                        $myImage = asset('images/users/'.$events->teacherimage);
+                @endphp
+                <div class="mt-4 upcomingLessons">
+                    <div class="row">
+                        <div class="col-md-6"><h4>{{ $myDate }}</h4></div>
+                        <div class="col-md-6 txtRight"><a class="editLess" href="#"><i class="fa fa-pencil"></i> Edit Lesson</a></div>
                     </div>
-                    <div class="col-md-6 txtRight">
-                        <a class="editLess" href="#"><i class="fa fa-pencil"></i> Edit Lesson</a>
-                    </div>
-                </div>
-                <div class="mt-1 px-2 py-2 btmSecLesson">
-                    <div class="teacherInfo">
-                        <img class="rounded-circle imgmr-1" style="height:50px;"  src="{{ asset('images/collins.png') }}" alt="" title="" />
-                        <p class="brdrRight">Sean Collins</p>
-                        <p class="textSecPnl">Certified English Teacher</p>
-                    </div>
-                    <div class="mt-4 px-3 py-3">
-                        <div style="display:flex">
-                            <img class="imgmr-1" style="height:21px;"  src="{{ asset('images/playbutton.png') }}" alt="" title="" />
-                            <p><strong>Grammer</strong></p>
+                    <div class="mt-1 px-2 py-2 btmSecLesson">
+                        <div class="teacherInfo">
+                            <img class="rounded-circle imgmr-1" style="width:50px; height:50px;"  src="{{ $myImage }}" alt="{{ $events->teacher }}" title="{{ $events->teacher }}" />
+                            <p class="brdrRight">{{ $events->teacher }}</p>
+                            <p class="textSecPnl">{{ $events->expertise }}</p>
                         </div>
-                        <div class="txtSmall">
-                            <p>To-Do List</p>
-                            <div class="brdrGray mb-1">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="Article">
-                                    <label class="form-check-label" for="Article">Article for lesson (Name of article)</label>
-                                </div>
+                        <div class="mt-4 px-3 py-3">
+                            <div style="display:flex">
+                                <img class="imgmr-1" style="height:21px;"  src="{{ asset('images/playbutton.png') }}" alt="" title="" />
+                                <p><strong>{{ $events->focusarea }}</strong></p>
+                            </div>
+                            @if(!empty($events->pdf_data))
+                                <div class="txtSmall"><p>To-Do List</p><div class="brdrGray mb-1"><div class="form-check"><input type="checkbox" {!! ($events->file_downloaded === 1) ? 'checked disabled' : '' !!} class="form-check-input articleDownload" data-id="{{ $events->id }}" data-url="{{ asset('images/users/'.$events->pdf_data) }}" id="check-{{ $events->id }}"><label class="form-check-label" for="check-{{ $events->id }}">Article for lesson</label></div></div></div>
+                            @endif
+                            <div class="btnsBtmSec pull-right mt-2">
+                                <script type = "text/javascript">myFunction('{!! $timerDat !!}', '{!! $eID !!}');</script>
+                                <div class="the-final-countdown the-final-countdown{{ $events->id }}"><p></p></div>
+                                {!! empty($events->zoom_link) ? '' : '<a class="enterLesson" href="'.$events->zoom_link.'" target="_blank">Enter Lesson</a>' !!}
                             </div>
                         </div>
-                        <div class="btnsBtmSec pull-right mt-2">
-                            <div class="the-final-countdown"><p></p></div>
-                            <a class="enterLesson" href="">Enter Lesson</a>
-                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="mt-4 upcomingLessons">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4>Wed, May 04, 9:00-11:30AM</h4>
-                    </div>
-                    <div class="col-md-6 txtRight">
-                        <a class="editLess" href="#"><i class="fa fa-pencil"></i> Edit Lesson</a>
-                    </div>
-                </div>
-                <div class="mt-1 px-2 py-2 btmSecLesson">
-                    <div class="teacherInfo">
-                        <img class="rounded-circle imgmr-1" style="height:50px;"  src="{{ asset('images/collins.png') }}" alt="" title="" />
-                        <p class="brdrRight">Sean Collins</p>
-                        <p class="textSecPnl">Certified English Teacher</p>
-                    </div>
-                    <div class="mt-4 px-3 py-3">
-                        <div style="display:flex">
-                            <img class="imgmr-1" style="height:21px;"  src="{{ asset('images/playbutton.png') }}" alt="" title="" />
-                            <p><strong>Grammer</strong></p>
-                        </div>
-                        <div class="txtSmall">
-                            <p>To-Do List</p>
-                            <div class="brdrGray mb-1">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="Article">
-                                    <label class="form-check-label" for="Article">Article for lesson (Name of article)</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="btnsBtmSec pull-right mt-2">
-                            <div class="the-final-countdown"><p></p></div>
-                            <a class="enterLesson" href="">Enter Lesson</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                @php
+                    $counterBtm++;
+                @endphp
+            @endforeach
         </div>
     </div>
 
@@ -134,6 +129,14 @@
         </div>
     </div>
     <!-- Modal For Playing Video -->
+
+    <!-- Modal Event Open -->
+    <div class="modal" id="myModalSmall" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modalEvents modal-dialog-centered" role="document">
+        <div class="modal-content px-4 py-4"></div>
+        </div>
+    </div>
+    <!-- Modal Event Open -->
 @endsection
 
 @section('scripts')
@@ -142,6 +145,10 @@
 <script src="https://cdn.rawgit.com/JacobLett/bootstrap4-latest/master/bootstrap-4-latest.min.js"></script>
 <script>
 $(document).ready(function () {
+    $('#myModalSmall').modal({
+      backdrop: 'static', 
+      keyboard: false
+    });
     $('#myDataTable').DataTable({
         pageLength: 20,
         lengthMenu: [
@@ -158,6 +165,26 @@ $(document).ready(function () {
         //alert('test');
         $videoSrc = $(this).data( "src" );
     });
+
+    
+    $(document).off('click', '.articleDownload').on('click', '.articleDownload', function(){
+      var myEventID = $(this).attr('data-id');
+      var myFile    = $(this).attr('data-url');
+      $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Please wait...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');
+      $('#myModalSmall').modal('show');
+      //editData editFormData 
+      $.ajax({
+        url: "{{url('/')}}/downlaod-lesson",
+        type:'POST',
+        data: {_token:"{{ csrf_token() }}", myEventID:myEventID},
+        success: function(data) {
+            $('#myModalSmall').modal('hide');
+            $('#check-'+myEventID).prop('disabled', true);
+            window.open(myFile, '_blank');
+            return false;
+        }
+      });
+    });
     //console.log($videoSrc);
     // when the modal is opened autoplay it  
     $('#myModalStudents').on('shown.bs.modal', function (e) {  
@@ -170,18 +197,5 @@ $(document).ready(function () {
         $("#video").attr('src', ''); 
     });
 });
-setInterval(function time(){
-    var d = new Date();
-    var hours = 24 - d.getHours();
-    var min = 60 - d.getMinutes();
-    if((min + '').length == 1){
-        min = '0' + min;
-    }
-    var sec = 60 - d.getSeconds();
-    if((sec + '').length == 1){
-        sec = '0' + sec;
-    }
-  jQuery('.the-final-countdown p').html(min+':'+sec+' Left')
-}, 1000);
 </script>
 @endsection

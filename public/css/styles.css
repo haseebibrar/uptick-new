@@ -496,12 +496,20 @@ h5{
     background: url(/images/schedule_icon.svg) no-repeat top center;
     padding-top: 29px;
 }
+.pastLesson{
+    background: url(/images/checklist.svg) no-repeat top center;
+    padding-top: 29px;
+}
 .openLesson{
     background: url(/images/open_lessons_icon.svg) no-repeat top center;
     padding-top: 29px;
 }
 .schedLesson:hover, .schedLesson.active{
     background-image: url(/images/schedule-lesson.svg);
+}
+.pastLesson:hover, .pastLesson.active{
+    background-image: url(/images/checklist.png);
+    background-size: 25px 20px;
 }
 .fc-timegrid-slots table tr{
     height: 65px;

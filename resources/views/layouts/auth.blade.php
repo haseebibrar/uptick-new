@@ -64,7 +64,7 @@
                                             <a href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
-                                                <img src="{{ asset('images/logout.svg') }}" alt="Uptick Logo" title="Uptick Logo" /><br />{{ __('Logout') }}
+                                                <img style="width:23px; height:23px;" src="{{ asset('images/logout.png') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
                                             </a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                                 @csrf
@@ -86,7 +86,7 @@
                                             <a href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
-                                                <img src="{{ asset('images/logout.svg') }}" alt="Uptick Logo" title="Uptick Logo" /><br />{{ __('Logout') }}
+                                                <img style="width:23px; height:23px;" src="{{ asset('images/logout.png') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
                                             </a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                                 @csrf
@@ -110,7 +110,7 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
-                                            <img src="{{ asset('images/logout.svg') }}" alt="Uptick Logo" title="Uptick Logo" /><br />{{ __('Logout') }}
+                                            <img style="width:23px; height:23px;" src="{{ asset('images/logout.png') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
                                         </a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             @csrf
@@ -127,12 +127,12 @@
                                 @endphp
                                 <div class="txtCenter navLaftCnt mb-4">
                                     <a class="navLaft mb-4 schedLesson{{ (request()->is('home')) ? ' active' : '' }}" href="/home">Schedule a<br />lesson</a>
-                                    <a class="navLaft mb-4 pastLesson{{ (request()->is('past-future-lesson')) ? ' active' : '' }}" href="/past-future-lesson"><img src="{{ asset('images/checklist.svg') }}" alt="Past and future lessons" title="Past and future lessons" /><br />Past and future<br />lessons</a>
+                                    <a class="navLaft mb-4 pastLesson{{ (request()->is('past-future-lesson')) ? ' active' : '' }}" href="/past-future-lesson">Past and future<br />lessons</a>
                                     <div class="logoutDiv txtCenter mb-4">
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
-                                            <img src="{{ asset('images/logout.svg') }}" alt="Uptick Logo" title="Uptick Logo" /><br />{{ __('Logout') }}
+                                            <img style="width:23px; height:23px;" src="{{ asset('images/logout.png') }}" alt="Logout" title="Logout" /><br />{{ __('Logout') }}
                                         </a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             @csrf

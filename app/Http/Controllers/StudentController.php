@@ -122,21 +122,27 @@ class StudentController extends Controller
         $compCount  = 0;
         $curDate    = date('Y-m-d H:i:s');
         $studentID  = Auth::user()->id;
-        $compEvents =  DB::table('events')->where('events.student_id', '=', $studentID)->where('events.status', '<>', 'canceled')->whereDate('events.start', '<=', $curDate)
-                        ->join('focus_areas', 'focus_areas.id', '=', 'events.focusarea_id')
-                        ->join('focus_area_teachers', function($join){
-                            $join->on('focus_area_teachers.focusarea_id', '=', 'events.focusarea_id');
-                            $join->on('focus_area_teachers.teacher_id', '=', 'events.teacher_id');
-                        })
-                        ->join('teachers', 'teachers.id', '=', 'events.teacher_id')
-                        ->join('home_works', 'home_works.focusarea_id', '=', 'events.focusarea_id')
-                        ->get(['events.*', 'focus_areas.name as focusarea', 'teachers.name as teacher', 'teachers.image as teacherimage', 'focus_area_teachers.embeded_url', 'home_works.id as homeworkid']);
-        
+        $compEvents = DB::table('events')->where('events.student_id', '=', $studentID)->where('events.status', '<>', 'canceled')->whereDate('events.start', '<', $curDate)
+                            ->join('focus_areas', 'focus_areas.id', '=', 'events.focusarea_id')
+                            ->join('teachers', 'teachers.id', '=', 'events.teacher_id')
+                            ->leftJoin('home_works', 'home_works.focusarea_id', '=', 'events.focusarea_id')
+                            ->leftJoin('focus_area_teachers', function($join){
+                                $join->on('focus_area_teachers.focusarea_id', '=', 'events.focusarea_id');
+                                $join->on('focus_area_teachers.teacher_id', '=', 'events.teacher_id');
+                            })
+                            ->leftJoin('lesson_subjects', 'lesson_subjects.focusarea_id', '=', 'events.focusarea_id')
+                            ->get(['events.*', 'focus_areas.name as focusarea', 'teachers.name as teacher', 'teachers.image as teacherimage', 'focus_area_teachers.embeded_url as embeded_url', 'home_works.id as homeworkid', 'lesson_subjects.pdf_data']);
         $compCount  = count($compEvents);
-        // dd($compEvents);
+
+        $futureEvents = DB::table('events')->where('events.student_id', '=', $studentID)->where('events.status', '<>', 'canceled')->whereDate('events.start', '>=', $curDate)
+                            ->join('focus_areas', 'focus_areas.id', '=', 'events.focusarea_id')
+                            ->join('teachers', 'teachers.id', '=', 'events.teacher_id')
+                            ->leftJoin('lesson_subjects', 'lesson_subjects.focusarea_id', '=', 'events.focusarea_id')
+                            ->get(['events.*', 'focus_areas.name as focusarea', 'teachers.name as teacher', 'teachers.zoom_link', 'teachers.expertise', 'teachers.image as teacherimage', 'lesson_subjects.pdf_data']);
+        // dd($futureEvents);
         // $eventshecd   = Event::where('student_id', '=', $student->id)->whereDate('start', '>=', $oldDate)->whereDate('start', '<=', $curDate)->get();
         // $totalSchedt  = count($eventshecd);
-        return view('student.pastfuture', compact('compEvents', 'compCount', 'studentID'));
+        return view('student.pastfuture', compact('compEvents', 'futureEvents', 'compCount', 'studentID'));
     }
 
     public function studentHomework($myID)
@@ -276,6 +282,15 @@ class StudentController extends Controller
         $updateArr  = ['start' => $starttime, 'end' => $endtime];
         $event      = Event::where($where)->update($updateArr);
         return redirect('/home')->with('success','Updated Successfully.');
+    }
+
+    public function downloadLesson(Request $request)
+    {
+        // dd($request->all());
+        $where      = array('id' => $request->myEventID);
+        $updateArr  = ['file_downloaded' => 1];
+        $event      = Event::where($where)->update($updateArr);
+        return 1;
     }
  
     public function update(Request $request)
