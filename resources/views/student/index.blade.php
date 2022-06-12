@@ -222,6 +222,7 @@ var calendar;
                 $('#myModalSmall').modal('show');
               }else{
                 $('.disabledDivFocus').hide();
+                //$('.topSectionPnl').addClass('animatebutton');
                 myData = data.split("--");
                 $('#myday').val(myData[0]);
                 $('#mydate').val(myData[1]);
@@ -230,6 +231,11 @@ var calendar;
                  $('#mydatefull').val(myData[4]);
                 $("input[name='focusarea']:radio").prop( "checked", false );
                 $('.disabledDiv').show();
+                const element =  document.querySelector('.topSectionPnl');
+                  element.classList.add('animateDiv');
+                  setTimeout(function() {
+                    element.classList.remove('animateDiv'); 
+                  },1000); 
               }
               return false;
             }
