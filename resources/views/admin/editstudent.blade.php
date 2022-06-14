@@ -31,6 +31,19 @@
                 @csrf
                 <input type="hidden" name="id" value="{{ $students->id }}">
                 <input type="hidden" name="company_id" value="{{ $myCompID }}">
+                @if(!empty($myCompanies))
+                    <div class="row mb-4">
+                        <div class="col-md-6"><label for="company_id">Company</label></div>
+                        <div class="col-md-6">
+                            <select name="company_id_admin" class="form-control" required>
+                                <option>Please Select Company</option>
+                                @foreach ($myCompanies as $company)
+                                    <option {{ $students->company_id === $company->id ? 'selected' : '' }} value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @endif
                 <div class="row mb-4">
                     <div class="col-md-6"><label for="name">Name</label></div>
                     <div class="col-md-6">
@@ -68,7 +81,7 @@
                 </div>
                 <div class="row mb-4">
                     <div class="col-md-6"><label for="name">Allocate Hours</label></div>
-                    <div class="col-md-6"><input type="number" name="allocated_hour" class="form-control" value="{{ $department->allocated_hour }}"></div>
+                    <div class="col-md-6"><input type="number" name="allocated_hour" class="form-control" value="{{ $students->allocated_hour }}"></div>
                 </div>
                 <div class="row mb-4">
                     <div class="col-md-6"><label for="image">Image</label></div>

@@ -37,7 +37,7 @@
         </div>
 
         <div class="btmSection studentStats px-4 py-4 bgWhite">
-            <h2 class="mb-4">Students Statistics</h2>
+            <h2 class="mb-4">Student Statistics</h2>
             <div class="table-responsive mt-4">
                 <table class="table" id="myDataTableStudent">
                     <thead>
@@ -144,7 +144,7 @@
             order: []
         });
         $("#myDataTableStudent_wrapper .row:first div:first").append('Total: {{ $totalStudents }} members');
-        $("#myDataTableStudent_filter").append("<a class='btn btnSearchBox btnGreen' href='/admin/students/add'>+ Add Member</a><div class='newBtnsDiv'><p>Hourly Bank: {{ $bankHours }}/{{ $bankHours }}</p><a data-id='{{ $myCompID }}' class='btn btnGrayBg btnSearchBox btnDivide' href='javascript:void(0)'>Auto Divide</a></div>")
+        $("#myDataTableStudent_filter").append("<a class='btn btnSearchBox btnGreen' href='/admin/students/add'>+ Add Member</a><div class='newBtnsDiv'><p>Hourly Bank: {{ $remHours }}/{{ $bankHours }}</p><a data-id='{{ $myCompID }}' class='btn btnGrayBg btnSearchBox btnDivide' href='javascript:void(0)'>Auto Divide</a></div>")
         // 
         $(document).off('click', '.btnDel').on('click', '.btnDel', function(){
             if(confirm("Are you sure you want to delete this?")){
@@ -202,9 +202,9 @@
                 position: 'bottom',
                 floating: false,
             },
-            series: [44, 55, 13, 33, 55, 65],
-            labels: ['Vocabulary and Fluency', 'Grammar', 'Interview Prep', 'Presentation Prep', 'Debate', 'Current Affairs'],
-            colors: ['#FFEC02', '#58CFEF', '#5F369E', '#FD6B82', '#28DF99', '#5886D5']
+            series: [20, 10, 10, 5, 15, 10, 20, 10],
+            labels: ['Vocabulary and Fluency', 'Grammar', 'Interview Prep', 'Presentation Prep', 'Debate', 'Current Affairs', 'Professional Writing', 'Freestyle'],
+            colors: ['#FFEC02', '#58CFEF', '#5F369E', '#FD6B82', '#28DF99', '#FFA754', '#5886D5', '#EE585D']
         }
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();

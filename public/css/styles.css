@@ -579,6 +579,11 @@ h5{
     90% { transform: translate(1px, 2px) rotate(0deg); }
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
+#zoomLink{
+    display: inline-block;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 3px;

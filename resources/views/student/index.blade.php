@@ -39,7 +39,7 @@
       <div class="table-responsive mt-4">
         <table class="table" id="myDataTable">
           <thead>
-            <tr><th></th><th></th><th></th></tr>
+            <tr><th></th><th></th><th></th><th></th></tr>
           </thead>
           <tbody class="teacherData">
             @foreach($teachers as $teacher)
@@ -51,6 +51,7 @@
               <tr>
                 <td class="align-middle">{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="max-width:50px; max-height:50px;" src="'.$myImage.'" alt="'.$teacher->name.'" title="'.$teacher->name.'" />') !!}</td>
                 <td class="align-middle">{{$teacher->name}}</td>
+                <td class="align-middle">{{$teacher->expertise}}</td>
                 <td class="text-nowrap align-middle"><a href="#" data-name="{{$teacher->name}}" class="btn btnSchedule">Schedule</a></td>
               </tr>
             @endforeach
@@ -123,6 +124,7 @@
               </div>
             </div>
             <div style="font-size: 13px;"><img height="11" style="margin-right: .5rem;" src="{{ asset('images/user.svg') }}" alt="User" title="User" /> <div class="teacherName"></div></div>
+            <a class="enterLesson" href="" id="zoomLink" target="_blank">Enter Lesson</a>
             <input type="hidden" name="eventeditid" id="eventeditid" value="">
             <button type="submit" class="btn btn-primary btnGreen btnGreenEdit">Save</button>
           </form>
@@ -261,6 +263,7 @@ var calendar;
             type:'POST',
             data: {_token:"{{ csrf_token() }}", myEventID:myEventID},
             success: function(data) {
+              $('#zoomLink').show();
               $('.focusTitleEdit').html(data.title);
               $('.teacherName').html(data.teachername);
               $('.editDateData').html(data.start+' - '+data.end);
@@ -269,6 +272,7 @@ var calendar;
               $('#focusarea_id').val(data.focusid);
               $('#mystart').val(data.starttime);
               $('#myend').val(data.endtime);
+              $('#zoomLink').attr('href', data.zoom_link);
               $('#myModalSmall').modal('hide');
               $('#myModalSec').modal('show');
             }
@@ -301,6 +305,7 @@ var calendar;
     });
 
     $(document).off('click', '.editEvent').on('click', '.editEvent', function(){
+      $('#zoomLink').hide();
       var myEventID = $(this).attr('data-id');
       $('#eventeditid').val(myEventID);
       $('#myModalSmall .modal-content').html('<div class="text-center"><strong>Loading...</strong><br /><div class="spinner-border ml-auto" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div></div>');

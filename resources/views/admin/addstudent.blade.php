@@ -20,6 +20,19 @@
             <form class="mt-4 mb-4" method="POST" action="/admin/students/add" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="company_id" value="{{ $myCompID }}">
+                @if(!empty($myCompanies))
+                    <div class="row mb-4">
+                        <div class="col-md-6"><label for="company_id">Company</label></div>
+                        <div class="col-md-6">
+                            <select name="company_id_admin" class="form-control" required>
+                                <option>Please Select Company</option>
+                                @foreach ($myCompanies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @endif
                 <div class="row mb-4">
                     <div class="col-md-6"><label for="name">Name</label></div>
                     <div class="col-md-6">

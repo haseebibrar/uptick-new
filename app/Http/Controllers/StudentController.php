@@ -154,7 +154,8 @@ class StudentController extends Controller
         return view('student.homework', compact('myHomeWork'));
     }
 
-    public function getCalEvents(Request $request){
+    public function getCalEvents(Request $request)
+    {
         // dd($request->start);
         if($request->start) 
         {
@@ -189,12 +190,13 @@ class StudentController extends Controller
         }
     }
 
-    public function showCalEdit(Request $request){
+    public function showCalEdit(Request $request)
+    {
         // $eventData = Event::where('id', '=', $request->myEventID)->first();
         $data   = DB::table('events')->where('events.id', '=', $request->myEventID)
                             ->join('focus_areas', 'focus_areas.id', '=', 'events.focusarea_id')
                             ->join('teachers', 'teachers.id', '=', 'events.teacher_id')
-                            ->first(['events.id', 'events.start', 'events.end', 'focus_areas.name as title', 'focus_areas.id as focusid', 'teachers.name as teachername', 'teachers.id as teacherid']);
+                            ->first(['events.id', 'events.start', 'events.end', 'focus_areas.name as title', 'focus_areas.id as focusid', 'teachers.name as teachername', 'teachers.id as teacherid', 'teachers.zoom_link']);
         $strDate            = $data->start;
         $data->starttime    = date('Y-m-d H:i:s', strtotime($strDate));
         $data->endtime      = date('Y-m-d H:i:s', strtotime($data->end));
@@ -205,7 +207,8 @@ class StudentController extends Controller
         return $data;
     }
 
-    public function getCalEdit(Request $request){
+    public function getCalEdit(Request $request)
+    {
         $eventData      = Event::where('id', '=', $request->myEventID)->first();
         $myDay          = strtolower(date('D', strtotime($eventData->start)));
         $myTeacherID    = $eventData->teacher_id;
