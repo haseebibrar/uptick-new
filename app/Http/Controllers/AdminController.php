@@ -340,24 +340,21 @@ class AdminController extends Controller
             $oldtotalHours  = $student->total_hours;
             $oldremainHours = $student->remaining_hours;
             $oldHours       = $student->remaining_hours;
-            $newHours       = $student->remaining_hours;
+            $newHours       = $request->allocated_hour;
+            $remainHoursComp= $company->remaining_bank_hours;
             if($newHours > $oldHours){
                 $totalHours = ($newHours - $oldHours) + $oldtotalHours;
                 $remainHours= ($newHours - $oldHours) + $oldremainHours;
                 $remainHoursComp= $company->remaining_bank_hours-($newHours - $oldHours);
             }elseif($newHours < $oldHours){
-                $totalHours = $oldtotalHours-($oldHours - $newHours);
-                $remainHours= $oldremainHours-($oldHours - $newHours);
+                $totalHours     = $oldtotalHours-($oldHours - $newHours);
+                $remainHours    = $oldremainHours-($oldHours - $newHours);
                 $remainHoursComp= $company->remaining_bank_hours+($oldHours - $newHours);
-            }else{
-                $totalHours = $oldtotalHours+($oldHours - $newHours);
-                $remainHours= $oldremainHours+($oldHours - $newHours);
             }
             // dd($totalHours);
-            $student->total_bank_hours      = $totalHours;
-            $student->remaining_bank_hours  = $remainHours;
+            $student->total_hours           = $totalHours;
+            $student->remaining_hours       = $remainHours;
             $student->allocated_hour        = $request->allocated_hour;
-
             $company->remaining_bank_hours  = $remainHoursComp;
             $company->save();
         }
@@ -367,7 +364,6 @@ class AdminController extends Controller
         else
             return redirect('/admin')->with('success','Record Updated Successfully.');
         //return redirect()->route('admin.student')->with('success','Record Updated Successfully.');
-            
     }
 
     public function delStudents($myID, $compid = ''){
