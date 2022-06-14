@@ -59,7 +59,7 @@
                                 
                                 $studentEv  = $student->events;
                                 $pastEvents = 0;
-                                $totalEvent = 6;
+                                $totalEvent = $student->allocated_hour;
                                 $myPercente = 0;
                                 $canceled   = 0;
                                 if($studentEv->isNotEmpty()){
@@ -70,9 +70,7 @@
                                         if($event->status === "canceled")
                                             $canceled = $canceled+1;
                                     }
-                                    //$totalEvent = count($studentEv);
                                     $myPercente = round(($pastEvents / $totalEvent)*100, 2);
-                                    //dd($myPercente);
                                 }
                                 //dd($student->events);
                             @endphp

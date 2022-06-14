@@ -175,7 +175,7 @@ class StudentController extends Controller
 
     public function getClickData(Request $request)
     {
-        if(!empty(Auth::user()->allocated_hour)){
+        if(Auth::user()->remaining_hours === 0){
             $strDate    = substr($request->start,4,20);
             $endDate    = substr($request->end,4,20);
             $myDateFull = substr($request->start,4,11);
@@ -245,11 +245,13 @@ class StudentController extends Controller
     {
         $studentID  = Auth::user()->id;
         $student    = User::where('id', '=', $studentID)->first();
-        $myHours    = intval($student->allocated_hour) - 1;
-        $student->allocated_hour    = $myHours;
+        $myHours    = intval($student->remaining_hours) - 1;
+        $myUsedHour = intval($student->used_hours) + 1;
+        $student->remaining_hours   = $myHours;
+        $student->used_hours        = $myUsedHour;
         $student->save();
-        $starttime = new DateTime($request->event_date.' '.$request->starttime.':00');
-        $endtime = new DateTime($request->event_date.' '.$request->endtime.':00');
+        $starttime  = new DateTime($request->event_date.' '.$request->starttime.':00');
+        $endtime    = new DateTime($request->event_date.' '.$request->endtime.':00');
         // dd($datetime);
         // class_name   
         //Remove allocated hour of student
@@ -316,8 +318,10 @@ class StudentController extends Controller
             $bookData->save();
             $studentID  = Auth::user()->id;
             $student    = User::where('id', '=', $studentID)->first();
-            $myHours    = intval($student->allocated_hour) + 1;
-            $student->allocated_hour    = $myHours;
+            $myHours    = intval($student->remaining_hours) + 1;
+            $myUsedHour = intval($student->used_hours) - 1;
+            $student->remaining_hours   = $myHours;
+            $student->used_hours        = $myUsedHour;
             $student->save();
         }else{
             if($request->myLessHour === '1'){

@@ -41,13 +41,13 @@ class AdminController extends Controller
                 $monDate = date('Y-m-d', strtotime('-30 days'));
                 $curDate = date('Y-m-d H:i:s');
                 foreach($students as $student){
-                    $eventcondut   = Event::where('student_id', '=', $student->id)->where('status', '=', 'canceled')->whereDate('start', '>=', $oldDate)->whereDate('start', '<=', $curDate)->get();
+                    $eventcondut   = Event::where('student_id', '=', $student->id)->where('status', '<>', 'canceled')->whereDate('start', '>=', $oldDate)->whereDate('start', '<=', $curDate)->get();
                     $totalConduct = count($eventcondut);
 
                     $eventshecd   = Event::where('student_id', '=', $student->id)->whereDate('start', '>=', $oldDate)->whereDate('start', '<=', $curDate)->get();
                     $totalSchedt  = count($eventshecd);
 
-                    $eventcondutM   = Event::where('student_id', '=', $student->id)->where('status', '=', 'canceled')->whereDate('start', '>=', $monDate)->whereDate('start', '<=', $curDate)->get();
+                    $eventcondutM   = Event::where('student_id', '=', $student->id)->where('status', '<>', 'canceled')->whereDate('start', '>=', $monDate)->whereDate('start', '<=', $curDate)->get();
                     $totalConductI = count($eventcondut);
 
                     $eventshecdM   = Event::where('student_id', '=', $student->id)->whereDate('start', '>=', $monDate)->whereDate('start', '<=', $curDate)->get();
