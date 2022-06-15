@@ -441,7 +441,7 @@ class AdminController extends Controller
             // dd($totalHours);
             $company->total_bank_hours      = $totalHours;
             $company->remaining_bank_hours  = $remainHours;
-            $company->bank_hours            = $request->bank_hours;
+            $company->bank_hours            = $request->remaining_bank_hours;
         }
         $company->save();
         return redirect()->route('admin.companies')->with('success','Record Updated Successfully.');
