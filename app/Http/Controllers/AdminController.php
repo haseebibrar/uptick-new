@@ -422,12 +422,12 @@ class AdminController extends Controller
         $company->name  = $request->name;
         if(isset($request->phone))
             $company->phone = $request->phone;
-        if(isset($request->bank_hours)){
+        if(isset($request->remaining_bank_hours)){
             $oldtotalHours  = $company->total_bank_hours;
             $oldremainHours = $company->remaining_bank_hours;
             $oldHours       = $company->remaining_bank_hours;
             $newHours       = $request->remaining_bank_hours;
-            dd($newHours.' || '.$oldHours);
+            //dd($newHours.' || '.$oldHours);
             if($newHours > $oldHours){
                 $totalHours = ($newHours - $oldHours) + $oldtotalHours;
                 $remainHours= ($newHours - $oldHours) + $oldremainHours;
