@@ -389,6 +389,7 @@ class AdminController extends Controller
 
     public function addCompany(Request $request)
     {
+        dd($request->all());
         if(count($request->all()) === 0){
             return view('admin.company.addcompany');
         }else{

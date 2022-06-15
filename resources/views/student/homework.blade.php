@@ -5,6 +5,7 @@
         <div class="topSection tblLessonPnl px-4 py-4 bgWhite">
             <h2 class="mb-4">Homework</h2>
             <h4 class="mb-4">PLease answer the questions below:</h4>
+            <h5><em>{{ $instruct }}</em></h5>
             <div class="row">
                 @php
                     $counter = 1;
@@ -12,7 +13,7 @@
                 @foreach ($myHomeWork as $data)
                     <div class="col-md-6 ">
                         <div class="myQuesDiv mb-4">
-                            <h5>{{ $counter }}. {{ $data->question }}</h5>
+                            <h4>{{ $counter }}. {{ $data->question }}</h4>
                             @php
                                 $countIn = 1;
                                 $answers = json_decode($data->answer);

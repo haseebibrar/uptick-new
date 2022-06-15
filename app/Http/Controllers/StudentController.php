@@ -149,9 +149,11 @@ class StudentController extends Controller
 
     public function studentHomework($myID)
     {
+        $instruct   = '';
+        $homeWork   = HomeWork::where('id', '=', $myID)->first();
         $myHomeWork = HomeWorkDetail::where('homework_id', '=', $myID)->get();
-        // dd($myHomeWork);
-        return view('student.homework', compact('myHomeWork'));
+        $instruct   = $homeWork->instructions_text;
+        return view('student.homework', compact('myHomeWork', 'instruct'));
     }
 
     public function getCalEvents(Request $request)
