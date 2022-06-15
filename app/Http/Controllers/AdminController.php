@@ -389,7 +389,7 @@ class AdminController extends Controller
 
     public function addCompany(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
         if(count($request->all()) === 0){
             return view('admin.company.addcompany');
         }else{
@@ -427,6 +427,7 @@ class AdminController extends Controller
             $oldremainHours = $company->remaining_bank_hours;
             $oldHours       = $company->remaining_bank_hours;
             $newHours       = $request->remaining_bank_hours;
+            dd($newHours.' || '.$oldHours);
             if($newHours > $oldHours){
                 $totalHours = ($newHours - $oldHours) + $oldtotalHours;
                 $remainHours= ($newHours - $oldHours) + $oldremainHours;
