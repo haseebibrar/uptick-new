@@ -66,7 +66,7 @@ class HomeworkController extends Controller
         $homework  = HomeWork::findorFail($request->homeworkid);
         $homework->name = $request->name;
         if(isset($request->instructions_text))
-        $homework->instructions_text = $request->instructions_text;
+            $homework->instructions_text = $request->instructions_text;
         $homework->save();
         foreach ($request->question as $question) {
             $final_answer = '';

@@ -32,4 +32,9 @@ class HomeWork extends Authenticatable
     {
         return $this->hasMany(HomeWorkDetail::class, 'homework_id')->orderBy('id');
     }
+
+    public function homeworkstudents()
+    {
+        return $this->hasMany(HomeWorkDetailsStudent::class, 'homework_id')->orderBy('id');
+    }
 }

@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\User;
 use App\Models\HomeWork;
 use App\Models\HomeWorkDetail;
+use App\Models\HomeWorkDetailsStudent;
 use App\Models\FocusAreaTeacher;
 use App\Models\TeacherTimeTable;
 use Illuminate\Support\Facades\Auth;
@@ -150,10 +151,46 @@ class StudentController extends Controller
     public function studentHomework($myID)
     {
         $instruct   = '';
+        $homework_id= $myID;
+        $studentID  = Auth::user()->id;
         $homeWork   = HomeWork::where('id', '=', $myID)->first();
-        $myHomeWork = HomeWorkDetail::where('homework_id', '=', $myID)->get();
         $instruct   = $homeWork->instructions_text;
-        return view('student.homework', compact('myHomeWork', 'instruct'));
+        $myHomeWork = DB::table('home_work_details')->where('home_work_details.homework_id', '=', $myID)
+                            ->leftJoin('home_work_details_students', function($join){
+                                $join->where('home_work_details_students.student_id', '=', Auth::user()->id);
+                                $join->on('home_work_details_students.homework_id', '=', 'home_work_details.homework_id');
+                                $join->on('home_work_details_students.question_id', '=', 'home_work_details.id');
+                            })
+                            ->orderBy('home_work_details.id')
+                            ->get(['home_work_details.*', 'home_work_details_students.id as student_homeworkid', 'home_work_details_students.question_id', 'home_work_details_students.answer_name']);
+        // dd($myHomeWork);
+        return view('student.homework', compact('myHomeWork', 'instruct', 'homework_id', 'studentID'));
+    }
+
+    public function saveHomeWork(Request $request){
+        // dd($request->question);
+        if(isset($request->question)){
+            foreach ($request->question as $key => $value) {//homework_id
+                // dd($value);
+                $homework  = HomeWorkDetailsStudent::where('homework_id', '=', $request->homework_id)->where('student_id', '=', $request->student_id)->where('question_id', '=', $key)->first();
+                if(!empty($homework)){
+                    $homework->homework_id  = $request->homework_id;
+                    $homework->student_id   = $request->student_id;
+                    $homework->question_id  = $key;
+                    $homework->answer_name  = $value;
+                    $homework->save();
+                }else{
+                    //dd($request->key);
+                    HomeWorkDetailsStudent::create([
+                        'homework_id'   => $request->homework_id,
+                        'student_id'    => $request->student_id,
+                        'question_id'   => $key,
+                        'answer_name'   => $value,
+                    ]);
+                }
+            }
+        }
+        return back();
     }
 
     public function getCalEvents(Request $request)

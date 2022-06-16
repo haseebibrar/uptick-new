@@ -2,10 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class HomeWorkDetailsStudent extends Model
+class HomeWorkDetailsStudent extends Authenticatable
 {
-    use HasFactory;
+    use Notifiable;
+
+    protected $guard = 'web';
+
+    protected $fillable = [
+        'homework_id',
+        'student_id',
+        'question_id',
+        'answer_name',
+    ];
+
+    public function homework()
+    {
+        return $this->belongsTo(HomeWork::class);
+    }
 }
+

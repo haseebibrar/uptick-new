@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/save-event', [StudentController::class, 'saveEvent']);
     Route::post('/edit-lesson-event', [StudentController::class, 'editEvent']);
     Route::post('/downlaod-lesson', [StudentController::class, 'downloadLesson']);
+    Route::post('/homeworksave', [StudentController::class, 'saveHomeWork']);
     Route::post('/fullcalendareventmaster/update', [StudentController::class, 'update']);
     Route::post('/fullcalendareventmaster/delete', [StudentController::class, 'destroy']);
 });
