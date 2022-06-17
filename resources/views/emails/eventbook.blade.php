@@ -3,6 +3,6 @@ Your lesson with {{ $data['teacher'] }} is booked successfully. Are you ready?? 
 <a href="{{ $data['zoom_link'] }}" target="_blank">Click here to join the lesson</a>.<br /><br />
 Looking forward to seeing you soon!<br /><br />
 Much love,<br />
-{{ $data['teacher'] }}
+{{ $data['teacher'] }}<br /><br />
 
-<a href="{{ $data['icslink']}}" download="Cal.ics">Download ICS file</a>
+<a href="{{ $data['icslink']}}">Download ICS file</a>
