@@ -338,6 +338,8 @@ class AdminController extends Controller
             $student->dept_id   = $request->dept_id;
         if(isset($request->image))
             $student->image   = $request->image;
+        if(isset($request->password))
+            $student->password   = Hash::make($request->password);
         if(isset($request->allocated_hour)){
             $oldtotalHours  = $student->total_hours;
             $oldremainHours = $student->remaining_hours;
