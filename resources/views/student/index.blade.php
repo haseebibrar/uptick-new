@@ -209,10 +209,10 @@ var calendar;
       },
       select: function(arg) {
         var myStart = moment(arg.start, "m-dd-y");
-        if(myStart.isBefore(moment())) {
-            alert("You can't book in past!");
-            return false;
-        }
+        //if(myStart.isBefore(moment())) {
+        //    alert("You can't book in past!");
+        //    return false;
+        //}
         $.ajax({
             url: SITEURL + "/get-data",
             data: {start:arg.start, end:arg.end},
@@ -247,10 +247,10 @@ var calendar;
       eventClick: function(arg) {
         var myStart = moment(arg.el.fcSeg.start, "m-dd-y");
         //console.log(arg.el.fcSeg.start);
-        if(myStart.isBefore(moment())) {
-            alert("You can't edit past lesson!");
-            return false;
-        }
+        //if(myStart.isBefore(moment())) {
+        //    alert("You can't edit past lesson!");
+        //    return false;
+        //}
         var myEventID = arg.event.id;
         $('.editEvent, .dltEvent').attr('data-id', myEventID);
         $('.modal-backdrop, .btnGreenEdit').hide();
