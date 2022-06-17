@@ -328,6 +328,8 @@ class AdminController extends Controller
         $student->company_id  = $compID;
         $student->name        = $request->name;
         $student->email       = $request->email;
+        $totalHours           = 0;
+        $remainHours          = 0;
         if(isset($request->phone))
             $student->phone       = $request->phone;
         if(isset($request->title))
@@ -559,7 +561,6 @@ class AdminController extends Controller
     {
         $departments  = Department::findorFail($myID);
         return view('admin.department.editdepartment', compact('departments'));
-        
     }
 
     public function updateDepartment(Request $request)

@@ -64,17 +64,6 @@
                                     <a href="javascript:void(0)" data-id="{{$student->id}}" class="btn btnDel btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
-                            {{-- <tr>
-                                <td class="font-weight-bold"></td>
-                                <td>{!! ($myImage === "" ? '' : '<img class="rounded-circle imgmr-1" style="height:50px;" src="'.$myImage.'" alt="'.$student->name.'" title="'.$student->name.'" />') !!} {{$student->name}}</td>
-                                <td>Marketing</td>
-                                <td> 0 </td>
-                                <td>{{ rand(1, 10) }}</td>
-                                <td class="text-nowrap">
-                                    <a href="/admin/students/edit/{{$student->id}}" class="btn btn-info mr-3"><i class="fa fa-edit"></i> Edit</a>
-                                    <a href="javascript:void(0)" data-id="{{$student->id}}" class="btn btnDel btn-danger"><i class="fa fa-trash"></i> Delete</a>
-                                </td>
-                            </tr> --}}
                         @endforeach
                     </tbody>
                 </table>

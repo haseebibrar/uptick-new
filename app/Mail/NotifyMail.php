@@ -18,10 +18,12 @@ class NotifyMail extends Mailable
      */
     public $data;
     public $filename;
-    public function __construct($data, $filename)
+    public $icsname;
+    public function __construct($data, $filename, $icsname)
     {
-        $this->data = $data;
+        $this->data     = $data;
         $this->filename = $filename;
+        $this->icsname  = $icsname;
     }
 
     /**
