@@ -19,6 +19,7 @@ use DB;
 use DateTime;
 use Mail;
 use App\Mail\NotifyMail;
+use Spatie\CalendarLinks\Link;
 
 class StudentController extends Controller
 {
@@ -167,7 +168,8 @@ class StudentController extends Controller
         return view('student.homework', compact('myHomeWork', 'instruct', 'homework_id', 'studentID'));
     }
 
-    public function saveHomeWork(Request $request){
+    public function saveHomeWork(Request $request)
+    {
         // dd($request->question);
         if(isset($request->question)){
             foreach ($request->question as $key => $value) {//homework_id
@@ -214,7 +216,8 @@ class StudentController extends Controller
 
     public function getClickData(Request $request)
     {
-        if(Auth::user()->remaining_hours === 0){
+        // dd(Auth::user()->remaining_hours);
+        if(Auth::user()->remaining_hours > 0){
             $strDate    = substr($request->start,4,20);
             $endDate    = substr($request->end,4,20);
             $myDateFull = substr($request->start,4,11);
@@ -283,6 +286,8 @@ class StudentController extends Controller
     public function saveEvent(Request $request)
     {
         $studentID  = Auth::user()->id;
+        $emailStude = Auth::user()->email;
+        $teacherDt  = Teacher::where('id', '=', $request->teacher_id)->first();
         $student    = User::where('id', '=', $studentID)->first();
         $myHours    = intval($student->remaining_hours) - 1;
         $myUsedHour = intval($student->used_hours) + 1;
@@ -294,6 +299,12 @@ class StudentController extends Controller
         // dd($datetime);
         // class_name   
         //Remove allocated hour of student
+        // $from = DateTime::createFromFormat('Y-m-d H:i', $request->event_date.' '.$request->starttime);
+        // $to = DateTime::createFromFormat('Y-m-d H:i', $request->event_date.' '.$request->endtime);
+        $link = Link::create('Uptick Lesson', $starttime, $endtime)
+                ->description('with '.$teacherDt->name);
+        // $link->ics();
+        // dd($link->ics());
         $insertArr = [ 'focusarea_id' => $request->focusarea_id,
                        'teacher_id' => $request->teacher_id,
                        'lesson_id' => $request->lesson_id,
@@ -304,7 +315,13 @@ class StudentController extends Controller
                        'class_name' => 'scheduledEvent'
                     ];
         $event = Event::insert($insertArr);   
-        
+        $emailData = [
+            'first_name'=> $student->name, 
+            'zoom_link' => $teacherDt->zoom_link,
+            'teacher'   => $teacherDt->name,
+            'icslink'   => $link->ics()
+        ];
+        Mail::to($emailStude)->send(new NotifyMail($emailData, 'eventbook'));
         // $emailData = [
         //     'first_name'=>'Haseeb Ibrar', 
         //     'email'=>'john@doe.com',
