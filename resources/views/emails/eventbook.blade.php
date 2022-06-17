@@ -4,5 +4,3 @@ Your lesson with {{ $data['teacher'] }} is booked successfully. Are you ready?? 
 Looking forward to seeing you soon!<br /><br />
 Much love,<br />
 {{ $data['teacher'] }}<br /><br />
-
-<a href="{{ $data['icslink']}}">Download ICS file</a>
