@@ -304,7 +304,7 @@ class StudentController extends Controller
         $link = Link::create('Uptick Lesson', $starttime, $endtime)
                 ->description('with '.$teacherDt->name);
         // $link->ics();
-        // dd($link->ics());
+        //dd($link->ics());
         $insertArr = [ 'focusarea_id' => $request->focusarea_id,
                        'teacher_id' => $request->teacher_id,
                        'lesson_id' => $request->lesson_id,
