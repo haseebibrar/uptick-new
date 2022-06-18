@@ -69,7 +69,8 @@ class AdminController extends Controller
     {
         $myCompanyID    = $request->compID;
         $myCompany      = Company::where('id', '=', $myCompanyID)->first();
-        if($myCompany->bank_hours > 0){
+        if($myCompany->remaining_bank_hours > 0){
+            // dd($myCompany->bank_hours);
             $bankHours      = $myCompany->bank_hours;
             $totalStudents  = count($myCompany->students);
             $newHours       = round(intval($bankHours)/intval($totalStudents));
@@ -349,6 +350,13 @@ class AdminController extends Controller
             $newHours       = $request->allocated_hour;
             $remainHoursComp= $company->remaining_bank_hours;
             if($newHours > $oldHours){
+                $checkHours = $newHours - $oldHours;
+                if($checkHours > $company->remaining_bank_hours){
+                    if(Auth::user()->is_super > 0)
+                        return redirect()->route('admin.student')->with('warning','You don\'t have more hours you can only increase if you have hours left');
+                    else
+                        return redirect('/admin')->with('warning','You don\'t have more hours you can only increase if you have hours left');
+                }
                 $totalHours = ($newHours - $oldHours) + $oldtotalHours;
                 $remainHours= ($newHours - $oldHours) + $oldremainHours;
                 $remainHoursComp= $company->remaining_bank_hours-($newHours - $oldHours);
@@ -357,7 +365,7 @@ class AdminController extends Controller
                 $remainHours    = $oldremainHours-($oldHours - $newHours);
                 $remainHoursComp= $company->remaining_bank_hours+($oldHours - $newHours);
             }
-            // dd($totalHours);
+            //dd($totalHours);
             $student->total_hours           = $totalHours;
             $student->remaining_hours       = $remainHours;
             $student->allocated_hour        = $request->allocated_hour;
@@ -374,7 +382,11 @@ class AdminController extends Controller
 
     public function delStudents($myID, $compid = ''){
         //dd($myID);
-        $rec = User::find($myID);
+        $rec     = User::findorFail($myID);
+        $company = Company::findorFail($rec->company_id);
+        $remainHoursComp = $company->remaining_bank_hours+$rec->remaining_hours;
+        $company->remaining_bank_hours  = $remainHoursComp;
+        $company->save();
         if(!empty($rec->image))
             unlink("images/users/".$rec->image); 
         User::where("id", $rec->id)->delete();

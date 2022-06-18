@@ -38,6 +38,11 @@
 
         <div class="btmSection studentStats px-4 py-4 bgWhite">
             <h2 class="mb-4">Student Statistics</h2>
+            @if ($message = Session::get('warning'))
+                <div class="alert alert-warning" id="msgSuccess">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
             <div class="table-responsive mt-4">
                 <table class="table" id="myDataTableStudent">
                     <thead>
