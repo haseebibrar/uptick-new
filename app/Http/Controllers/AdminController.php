@@ -25,6 +25,7 @@ class AdminController extends Controller
         if(Auth::user()->is_super > 0)
             return view('admin');
         else{
+            // dd(Auth::user());
             $myCompID       = Auth::user()->company_id;
             $students       = User::where('company_id', '=', $myCompID)->leftJoin('departments', 'users.dept_id', '=', 'departments.id')->select('users.*','departments.name as deptname')->ORDERBY('id', 'Asc')->get();
             $myCompany      = Company::where('id', '=', $myCompID)->first();
@@ -68,21 +69,22 @@ class AdminController extends Controller
     {
         $myCompanyID    = $request->compID;
         $myCompany      = Company::where('id', '=', $myCompanyID)->first();
-        $bankHours      = $myCompany->bank_hours;
-        $totalStudents  = count($myCompany->students);
         if($myCompany->bank_hours > 0){
+            $bankHours      = $myCompany->bank_hours;
+            $totalStudents  = count($myCompany->students);
+            $newHours       = round(intval($bankHours)/intval($totalStudents));
             if(!empty($myCompany->students)){
                 foreach($myCompany->students as $students){
                     $myStudent    = User::where('id', '=', $students->id)->first();
-                    $studentHr    = $myStudent->allocated_hour+6;
-                    $remainHours  = $myStudent->remaining_hours+6;
-                    $totalHours   = $myStudent->total_hours+6;
+                    $studentHr    = $myStudent->allocated_hour+$newHours;
+                    $remainHours  = $myStudent->remaining_hours+$newHours;
+                    $totalHours   = $myStudent->total_hours+$newHours;
                     $myStudent->allocated_hour  = $studentHr;
                     $myStudent->remaining_hours = $remainHours;
                     $myStudent->total_hours     = $totalHours;
                     $myStudent->save();
-                    $compRemHours   = $myCompany->remaining_bank_hours-6;
-                    $compUsedHours  = $myCompany->used_hours+6;
+                    $compRemHours   = $myCompany->remaining_bank_hours-$newHours;
+                    $compUsedHours  = $myCompany->used_hours+$newHours;
                     $myCompany->remaining_bank_hours = $compRemHours;
                     $myCompany->used_hours           = $compUsedHours;
                     $myCompany->save();
@@ -90,7 +92,7 @@ class AdminController extends Controller
                 return '<div style="font-size: 15px; text-align:center;">Hours allocated equally to students!</div>';
             }
         }else{
-            return '<div style="font-size: 15px; text-align:center;">No hour left. Please contact your customer success person :)</div>';
+            return '1';
         }
         return 'Please Add Students!';
         // dd($bankHours.' || '.$totalStudents.' || '.$hoursNum);

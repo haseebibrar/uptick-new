@@ -60,7 +60,7 @@
                                 $studentEv  = $student->events;
                                 $pastEvents = 0;
                                 $totalEvent = $student->allocated_hour;
-                                $myPercente = 0;
+                                $myPercente = 1;
                                 $canceled   = 0;
                                 if($studentEv->isNotEmpty()){
                                     foreach($studentEv as $event){
@@ -70,7 +70,9 @@
                                         if($event->status === "canceled")
                                             $canceled = $canceled+1;
                                     }
-                                    $myPercente = round(($pastEvents / $totalEvent)*100, 2);
+                                    //dd($totalEvent);
+                                    if($totalEvent > 0)
+                                        $myPercente = round(($pastEvents / $totalEvent)*100, 2);
                                 }
                                 //dd($student->events);
                             @endphp
@@ -168,8 +170,13 @@
                 type:'POST',
                 data: {_token:"{{ csrf_token() }}", compID:compID},
                 success: function(data) {
-                    $('#myModal .ajaxData').html(data);
-                    location.reload();
+                    if(data === "1"){
+                        $('#myModal .ajaxData').html('<div style="font-size: 15px; text-align:center;">You don\'t have more hours you can only divide if you have hours left</div>');
+                        return false;
+                    }else{
+                        $('#myModal .ajaxData').html(data);
+                        location.reload();
+                    }
                 }
             });
         });

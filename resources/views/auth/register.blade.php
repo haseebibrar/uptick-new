@@ -54,7 +54,7 @@
                     </div>
                 </form>
                 <div class="row mb-0 signUp">
-                    <p>Already have an account? <a href="/login/teacher">{{ __('Sing in') }}</a></p>
+                    <p>Already have an account? <a href="/login/teacher">{{ __('Sign in') }}</a></p>
                 </div>
             </div>
         </div>
