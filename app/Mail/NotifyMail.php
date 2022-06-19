@@ -34,10 +34,10 @@ class NotifyMail extends Mailable
      */
     public function build()
     {
-        // dd('Tets');
-        if(isset($this->data['icslink']))
-            return $this->view('emails.'.$this->filename)->with('data', $this->data)->attach($this->data['icslink'], 'invite.ics', ['mime' => 'text/calendar; charset=UTF-8; method=REQUEST',]);
-        else
+        // $this->data['icslink'];
+        if(isset($this->data['icslink'])){
+            return $this->view('emails.'.$this->filename)->with('data', $this->data)->attach($data['icslink'], ['as' => 'invite.ics', 'mime' => 'text/calendar; charset=UTF-8; method=REQUEST']);
+        }else
             return $this->view('emails.'.$this->filename)->with('data', $this->data);
     }
 }
