@@ -19,10 +19,7 @@ use DB;
 use DateTime;
 use Mail;
 use App\Mail\NotifyMail;
-use Carbon\Carbon;
-use Spatie\IcalendarGenerator\Components\Calendar;
-use Spatie\IcalendarGenerator\Components\Events;
-use Spatie\IcalendarGenerator\Properties\TextProperty;
+use Spatie\CalendarLinks\Link;
 
 class StudentController extends Controller
 {
@@ -304,20 +301,10 @@ class StudentController extends Controller
         //Remove allocated hour of student
         // $from = DateTime::createFromFormat('Y-m-d H:i', $request->event_date.' '.$request->starttime);
         // $to = DateTime::createFromFormat('Y-m-d H:i', $request->event_date.' '.$request->endtime);
-        $calendar = Calendar::create()
-            ->productIdentifier('Kutac.cz')
-            ->event(function (Events $event) {
-                $event->name("Uptick Lesson")
-                    ->attendee(Auth::user()->email)
-                    ->startsAt(Carbon::parse('2022-06-19 06:00:00'))
-                    ->endsAt(Carbon::parse('2022-06-19 07:00:00'))
-                    ->address('Online - Zoom Class');
-            });
-        // $calendar->appendProperty(TextProperty::create('METHOD', 'REQUEST'));
-        // $link = Link::create('Uptick Lesson', $starttime, $endtime)
-        //         ->description('with '.$teacherDt->name);
+        $link = Link::create('Uptick Lesson', $starttime, $endtime)
+                ->description('with '.$teacherDt->name);
         // $link->ics();
-        // dd($calendar->get());
+        // dd($link->ics());
         $insertArr = [ 'focusarea_id' => $request->focusarea_id,
                        'teacher_id' => $request->teacher_id,
                        'lesson_id' => $request->lesson_id,
@@ -332,7 +319,7 @@ class StudentController extends Controller
             'first_name'=> $student->name, 
             'zoom_link' => $teacherDt->zoom_link,
             'teacher'   => $teacherDt->name,
-            'icslink'   => $calendar->get()
+            'icslink'   => $link->ics()
         ];
         Mail::to($emailStude)->send(new NotifyMail($emailData, 'eventbook'));
         // $emailData = [
