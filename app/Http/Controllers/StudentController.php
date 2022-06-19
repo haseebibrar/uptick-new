@@ -313,7 +313,7 @@ class StudentController extends Controller
                     ->endsAt(Carbon::parse('2022-06-19 07:00:00'))
                     ->address('Online - Zoom Class');
             });
-        $calendar->appendProperty(TextProperty::create('METHOD', 'REQUEST'));
+        // $calendar->appendProperty(TextProperty::create('METHOD', 'REQUEST'));
         // $link = Link::create('Uptick Lesson', $starttime, $endtime)
         //         ->description('with '.$teacherDt->name);
         // $link->ics();
