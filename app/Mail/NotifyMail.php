@@ -80,7 +80,7 @@ class NotifyMail extends Mailable
             //             'Content-class: urn:content-classes:calendarmessage' . "\r\n" .
             //             'Content-Type: text/calendar;name=invite.ics; component=VEVENT' . "\r\n" .
             //             'Content-Transfer-Encoding: 7bit';
-            file_put_contents($filename, $mail);
+            file_put_contents($filename, $mail); 
 
             return $this->view('emails.'.$this->filename)->with('data', $this->data)->attach($filename, array('Content-Disposition' => "attachment;filename=invite.ics", 'Content-class' => 'Content-class: urn:content-classes:calendarmessage', 'Content-Type' => 'text/calendar;name=invite.ics; component=VEVENT', 'Content-Transfer-Encoding' => '7bit'));
         }else
