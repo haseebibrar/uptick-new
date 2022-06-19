@@ -36,7 +36,7 @@ class NotifyMail extends Mailable
     {
         if(isset($this->data['icslink'])){
             // dd($_SERVER["DOCUMENT_ROOT"]);
-            $filename = $_SERVER["DOCUMENT_ROOT"].'images/users/invite.ics';
+            $filename = $_SERVER["DOCUMENT_ROOT"].'/images/users/invite.ics';
             $meeting_duration = (3600); // 1 hour
             $meetingstamp = strtotime( '2022-06-20 08:00:00' . " UTC");
             $dtstart = gmdate('Ymd\THis\Z', $meetingstamp);
