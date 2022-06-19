@@ -309,8 +309,8 @@ class StudentController extends Controller
             ->event(function (Events $event) {
                 $event->name("Uptick Lesson")
                     ->attendee(Auth::user()->email)
-                    ->startsAt(Carbon::parse($request->event_date.' '.$request->starttime.':00'))
-                    ->endsAt(Carbon::parse($request->event_date.' '.$request->endtime.':00'))
+                    ->startsAt(Carbon::parse('2022-06-19 06:00:00'))
+                    ->endsAt(Carbon::parse('2022-06-19 07:00:00'))
                     ->address('Online - Zoom Class with '.$teacherDt->name);
             });
         $calendar->appendProperty(TextProperty::create('METHOD', 'REQUEST'));
