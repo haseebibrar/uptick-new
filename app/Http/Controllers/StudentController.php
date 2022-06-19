@@ -19,7 +19,10 @@ use DB;
 use DateTime;
 use Mail;
 use App\Mail\NotifyMail;
-use Spatie\CalendarLinks\Link;
+use Carbon\Carbon;
+use Spatie\IcalendarGenerator\Components\Calendar;
+use Spatie\IcalendarGenerator\Components\Events;
+use Spatie\IcalendarGenerator\Properties\TextProperty;
 
 class StudentController extends Controller
 {
@@ -301,8 +304,18 @@ class StudentController extends Controller
         //Remove allocated hour of student
         // $from = DateTime::createFromFormat('Y-m-d H:i', $request->event_date.' '.$request->starttime);
         // $to = DateTime::createFromFormat('Y-m-d H:i', $request->event_date.' '.$request->endtime);
-        $link = Link::create('Uptick Lesson', $starttime, $endtime)
-                ->description('with '.$teacherDt->name);
+        $calendar = Calendar::create()
+            ->productIdentifier('Kutac.cz')
+            ->event(function (Events $event) {
+                $event->name("Uptick Lesson")
+                    ->attendee($emailStude)
+                    ->startsAt(Carbon::parse($starttime))
+                    ->endsAt(Carbon::parse($endtime))
+                    ->address('Online - Zoom Class with '.$teacherDt->name);
+            });
+        $calendar->appendProperty(TextProperty::create('METHOD', 'REQUEST'));
+        // $link = Link::create('Uptick Lesson', $starttime, $endtime)
+        //         ->description('with '.$teacherDt->name);
         // $link->ics();
         //dd($link->ics());
         $insertArr = [ 'focusarea_id' => $request->focusarea_id,
@@ -319,7 +332,7 @@ class StudentController extends Controller
             'first_name'=> $student->name, 
             'zoom_link' => $teacherDt->zoom_link,
             'teacher'   => $teacherDt->name,
-            'icslink'   => $link->ics()
+            'icslink'   => $calendar->get()
         ];
         Mail::to($emailStude)->send(new NotifyMail($emailData, 'eventbook'));
         // $emailData = [
