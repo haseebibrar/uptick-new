@@ -35,7 +35,7 @@ class NotifyMail extends Mailable
     public function build()
     {
         if(isset($this->data['icslink'])){
-            $filename = "invite.ics";
+            $filename = asset('images/users/invite.ics');
             $meeting_duration = (3600); // 1 hour
             $meetingstamp = strtotime( '2022-06-20 08:00:00' . " UTC");
             $dtstart = gmdate('Ymd\THis\Z', $meetingstamp);
