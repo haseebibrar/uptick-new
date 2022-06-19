@@ -308,7 +308,7 @@ class StudentController extends Controller
             ->productIdentifier('Kutac.cz')
             ->event(function (Events $event) {
                 $event->name("Uptick Lesson")
-                    ->attendee($emailStude)
+                    ->attendee(Auth::user()->email)
                     ->startsAt(Carbon::parse($starttime))
                     ->endsAt(Carbon::parse($endtime))
                     ->address('Online - Zoom Class with '.$teacherDt->name);
