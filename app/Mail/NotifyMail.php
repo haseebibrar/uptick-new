@@ -39,7 +39,7 @@ class NotifyMail extends Mailable
             // $dataMail = implode('\r\n', $this->data['icslink']);
             // dd($dataMail);
             header("text/calendar");
-            file_put_contents('invite.ics', '\xEF\xBB\xBF'.  $this->data['icslink']);
+            file_put_contents(asset('invite.ics'), '\xEF\xBB\xBF'.  $this->data['icslink']);
             return $this->view('emails.'.$this->filename)->with('data', $this->data)->attach('invite.ics', ['mime' => 'text/calendar; charset=UTF-8; method=REQUEST']);
         }else
             return $this->view('emails.'.$this->filename)->with('data', $this->data);
