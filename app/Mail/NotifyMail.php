@@ -52,7 +52,7 @@ class NotifyMail extends Mailable
             $mail[1] = "PRODID:-//Google Inc//Google Calendar 70.9054//EN";
             $mail[2] = "VERSION:2.0";
             $mail[3] = "CALSCALE:GREGORIAN";
-            $mail[4] = "METHOD:REQUEST";
+            $mail[4] = "METHOD:PUBLISH";
             $mail[5] = "BEGIN:VEVENT";
             $mail[6] = "DTSTART;TZID=America/Sao_Paulo:" . $dtstart;
             $mail[7] = "DTEND;TZID=America/Sao_Paulo:" . $dtend;
@@ -71,10 +71,18 @@ class NotifyMail extends Mailable
             $mail[20] = "END:VCALENDAR";
 
             $mail = implode('\r\n', $mail);
-            header("text/calendar");
+            // dd($mail);
+            // header("");
+            // header("");
+            // header("");
+            // header("");
+            // $headers = 'Content-Disposition: attachment;filename=invite.ics' . "\r\n" .
+            //             'Content-class: urn:content-classes:calendarmessage' . "\r\n" .
+            //             'Content-Type: text/calendar;name=invite.ics; component=VEVENT' . "\r\n" .
+            //             'Content-Transfer-Encoding: 7bit';
             file_put_contents($filename, $mail);
 
-            return $this->view('emails.'.$this->filename)->with('data', $this->data)->attach($filename, array('mime' => "text/calendar"));
+            return $this->view('emails.'.$this->filename)->with('data', $this->data)->attach($filename, array('Content-Disposition' => "attachment;filename=invite.ics", 'Content-class' => 'Content-class: urn:content-classes:calendarmessage', 'Content-Type' => 'text/calendar;name=invite.ics; component=VEVENT', 'Content-Transfer-Encoding' => '7bit'));
         }else
             return $this->view('emails.'.$this->filename)->with('data', $this->data);
         // $this->data['icslink'];
